@@ -47,12 +47,6 @@
       margin-bottom: 10px; font-size: 14px;
       height: 36px; border: none; border-radius: 6px;
     }
-#buyBnbAmount,
-#preBnbAmount {
-  max-width: 240px;
-  margin: 0 auto 10px;
-  display: block;
-}
     .wallet-button {
       position: fixed; top: 16px; right: 16px;
       background: #ffd700; color: #000;
@@ -117,11 +111,8 @@
       The IPO of companies will grow and the GDP will grow. We will work to make it happen.<br>
       The plan is already in place.
     </p>
-  </header>  <div class="swap-box">
-    <h3>스왑하기</h3>
-    <input type="number" id="bnbAmount" placeholder="BNB 입력">
-    <div id="stctResult">예상 STCT: 0</div>
-    <button id="swapButton">스왑까지 남은 시간: 계산 중...</button>
+  </header><button id="swapButton">스왑까지 남은 시간: 계산 중...</button>
+
   </div>  <div class="buy-box">
     <h3>STCT 직접 구매</h3>
     <input type="number" id="buyBnbAmount" placeholder="구매할 BNB 수량 입력">
@@ -155,19 +146,7 @@
     <div class="token-row"><span class="label">Q4</span><span class="value">글로벌 파트너십 및 커뮤니티 확장</span></div>
   </div>
 </div><script>
-  const swapButton = document.getElementById('swapButton');
-  const buyButton = document.getElementById('buyButton');
-  const bnbInput = document.getElementById('bnbAmount');
-  const stctOutput = document.getElementById('stctResult');
-  const buyInput = document.getElementById('buyBnbAmount');
-  const buyOutput = document.getElementById('buyStctResult');
-
-  bnbInput.addEventListener('input', () => {
-    const bnb = parseFloat(bnbInput.value) || 0;
-    const stct = bnb * 100000000;
-    stctOutput.textContent = `예상 STCT: ${stct.toLocaleString()} STCT`;
-  });
-  buyInput.addEventListener('input', () => {
+    buyInput.addEventListener('input', () => {
     const bnb = parseFloat(buyInput.value) || 0;
     const stct = bnb * 100000000;
     buyOutput.textContent = `예상 STCT: ${stct.toLocaleString()} STCT`;
@@ -194,18 +173,10 @@
   }
 
   setInterval(() => {
-    updateCountdown(swapButton, swapTarget, '스왑 실행');
-    updateCountdown(buyButton, buyTarget, '토큰 구매');
+        updateCountdown(buyButton, buyTarget, '토큰 구매');
   }, 1000);
 
-  swapButton.addEventListener('click', () => {
-    if (updateCountdown(swapButton, swapTarget, '스왑 실행')) {
-      alert('스왑 기능은 추후 연동 예정입니다.');
-    } else {
-      alert('지금은 구매할 수 없습니다');
-    }
-  });
-  buyButton.addEventListener('click', () => {
+    buyButton.addEventListener('click', () => {
     if (updateCountdown(buyButton, buyTarget, '토큰 구매')) {
       alert('토큰 구매 기능은 추후 연동 예정입니다.');
     } else {
