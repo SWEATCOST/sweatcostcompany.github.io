@@ -225,7 +225,69 @@ nsition: color 0.2s ease; }
   border-left: 4px solid #ffd700;
   padding-left: 10px;
 }
-    
+
+    .roadmap-timeline {
+  margin: 60px auto;
+  padding: 20px;
+  max-width: 600px;
+  border-left: 3px solid #ffd700;
+  position: relative;
+}
+
+.timeline-item {
+  padding: 12px 20px;
+  position: relative;
+}
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  left: -9px;
+  width: 14px;
+  height: 14px;
+  background: #ffd700;
+  border-radius: 50%;
+  border: 2px solid #111;
+  box-shadow: 0 0 6px rgba(255, 215, 0, 0.5);
+}
+
+.timeline-date {
+  font-weight: bold;
+  color: #ffd700;
+  margin-bottom: 6px;
+}
+
+.timeline-content {
+  color: #fff;
+  font-size: 15px;
+}
+    .timeline-item::before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  left: -9px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid #111;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.1);
+}
+
+.timeline-item[data-status="done"]::before {
+  background: #4CAF50;
+  box-shadow: 0 0 6px rgba(76, 175, 80, 0.6);
+}
+
+.timeline-item[data-status="current"]::before {
+  background: #FFD700;
+  box-shadow: 0 0 6px rgba(255, 215, 0, 0.8);
+}
+
+.timeline-item[data-status="upcoming"]::before {
+  background: #555555;
+  box-shadow: 0 0 6px rgba(100, 100, 100, 0.3);
+}
     
   </style>
 </head>
@@ -299,7 +361,39 @@ nsition: color 0.2s ease; }
     <div class="token-row"><span class="label">Q2 - 2026</span><span class="value">CEX 상장 및 플랫폼 통합</span></div>
         <div class="token-row"><span class="label">Q3 - 2026</span><span class="value">소각 및 콘텐츠추가개발</span></div>
   </div>
-</div><script>
+</div>
+  <div class="roadmap-timeline">
+  <div class="timeline-item">
+    <div class="timeline-date" data-status="done">Q1 2025</div>
+    <div class="timeline-content">팀 구성 및 토큰 기획</div>
+  </div>
+  <div class="timeline-item" data-status="done">
+    <div class="timeline-date">Q2 2025</div>
+    <div class="timeline-content">홈페이지 오픈, 지갑 연결</div>
+  </div>
+  <div class="timeline-item" data-status="current">
+    <div class="timeline-date">Q3 2025</div>
+    <div class="timeline-content">DEX 상장, 락업 시스템 도입</div>
+  </div>
+  <div class="timeline-item" data-status="upcoming">
+    <div class="timeline-date">Q4 2025</div>
+    <div class="timeline-content">글로벌 파트너십 및 커뮤니티 확장</div>
+  </div>
+  <div class="timeline-item" data-status="upcoming">
+    <div class="timeline-date">Q1 2026</div>
+    <div class="timeline-content">모바일 앱 출시, 사용자 확대</div>
+  </div>
+  <div class="timeline-item" data-status="upcoming">
+    <div class="timeline-date">Q2 2026</div>
+    <div class="timeline-content">CEX 상장 및 플랫폼 통합</div>
+  </div>
+      <div class="timeline-item" data-status="upcoming">
+    <div class="timeline-date">Q3 2026</div>
+    <div class="timeline-content">소각 및 콘텐츠추가개발</div>
+  </div>
+</div>
+  
+  <script>
   const buyInput = document.getElementById('buyBnbAmount');
 const buyOutput = document.getElementById('buyStctResult');
 const buyButton = document.getElementById('buyButton');
