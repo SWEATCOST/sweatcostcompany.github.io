@@ -156,8 +156,38 @@
     .value {
       color: #fff;
       font-weight: bold;
-    }
-  </style>
+    }@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .slogan {
+    font-size: 16px;
+  }
+  .swap-box, .buy-box {
+    width: 95%;
+    padding: 16px;
+  }
+  .token-info-box {
+    padding: 10px;
+  }
+  .token-info-box h2 {
+    font-size: 24px;
+  }
+  .token-row {
+    font-size: 14px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  #swapButton, #buyButton {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+
+$1
+
 </head>
 <body>
   <nav class="navbar">
