@@ -1,9 +1,9 @@
-<!DOCTYPE html>
-<html lang="ko">
+<!DOCTYPE html><html lang="ko">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SweatCostToken (STCT)</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
     body {
       margin: 0;
@@ -11,90 +11,125 @@
       color: #fff;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       text-align: center;
-    }
-    header {
-      padding: 40px 20px 20px;
-    }
-    .logo {
-      width: 200px;
-      height: auto;
-      margin-bottom: 20px;
-    }
-    h1 {
-      font-size: 48px;
-      margin-bottom: 10px;
-      color: #ffd700;
-    }
-    p {
-      font-size: 20px;
-      color: #ccc;
-    }
-    .btn {
-      margin: 15px 10px;
-      padding: 12px 28px;
-      font-size: 18px;
-      border: none;
-      border-radius: 8px;
-      background: #ffd700;
-      color: #000;
-      cursor: pointer;
-    }
-    .section {
-      margin-top: 80px;
-    }
-    .tokenomics, .roadmap, .usage, .community, .footer {
-      padding: 20px;
-    }
-    h2 {
-      color: #ffd700;
-    }
-    .footer {
-      background: #111;
-      font-size: 14px;
-      color: #777;
-      margin-top: 60px;
-    }
+    }header {
+  padding: 40px 20px 20px;
+}
+
+.logo {
+  width: 200px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 48px;
+  margin-bottom: 10px;
+  color: #ffd700;
+}
+
+p {
+  font-size: 20px;
+  color: #ccc;
+}
+
+.wallet-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #ffd700;
+  color: #000;
+  font-size: 24px;
+  padding: 14px;
+  border-radius: 50%;
+  text-decoration: none;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+  z-index: 9999;
+  transition: transform 0.2s ease;
+}
+
+.wallet-button:hover {
+  transform: scale(1.1);
+  background-color: #ffcc00;
+}
+
+.section {
+  margin-top: 80px;
+}
+
+.tokenomics, .roadmap, .usage, .community, .footer {
+  padding: 20px;
+}
+
+h2 {
+  color: #ffd700;
+}
+
+.footer {
+  background: #111;
+  font-size: 14px;
+  color: #777;
+  margin-top: 60px;
+}
+
+#walletAddress {
+  margin-top: 20px;
+  font-size: 16px;
+  color: #ffd700;
+}
+
   </style>
 </head>
 <body>
-  <header>
+  <!-- 고정 지갑 연결 버튼 -->
+  <a href="#" class="wallet-button" id="connectWalletBtn" title="지갑 연결">
+    <i class="fas fa-wallet"></i>
+  </a>  <header>
     <img class="logo" src="logo.png" alt="STCT 로고" />
     <h1>SweatCostToken</h1>
     <p>노동의 가치를 STCT로 보상받는 Web3 혁신</p>
-    <button class="btn">지갑 연결</button>
-    <button class="btn">토큰 구매하기</button>
-    <button class="btn">백서 다운로드</button>
-  </header>
-
-  <div class="section tokenomics">
+  </header>  <p id="walletAddress"></p>  <div class="section tokenomics">
     <h2>토큰 정보</h2>
     <p>총 공급량: 1,000,000,000,000,000 STCT</p>
     <p>소각, 스테이킹, 출석 보상 시스템 탑재</p>
-  </div>
-
-  <div class="section roadmap">
+  </div>  <div class="section roadmap">
     <h2>로드맵</h2>
     <p>Q2: 홈페이지 오픈, 지갑 연결</p>
     <p>Q3: DEX 상장, QR 출석 시스템 런칭</p>
     <p>Q4: 글로벌 파트너십 및 커뮤니티 확장</p>
-  </div>
-
-  <div class="section usage">
+  </div>  <div class="section usage">
     <h2>STCT 사용처</h2>
     <p>근무 출석 보상</p>
     <p>파트너 플랫폼 결제</p>
     <p>스테이킹 & 이자 수익</p>
-  </div>
-
-  <div class="section community">
+  </div>  <div class="section community">
     <h2>커뮤니티</h2>
-    <p><a href="https://t.me/yourchannel" target="_blank">텔레그램</a> | 
-       <a href="https://twitter.com/yourprofile" target="_blank">트위터</a> | 
-       <a href="https://discord.gg/yourinvite" target="_blank">디스코드</a></p>
-  </div>
-
-  <div class="footer">
+    <p>
+      <a href="https://t.me/yourchannel" target="_blank">텔레그램</a> |
+      <a href="https://twitter.com/yourprofile" target="_blank">트위터</a> |
+      <a href="https://discord.gg/yourinvite" target="_blank">디스코드</a>
+    </p>
+  </div>  <div class="footer">
     &copy; 2025 SweatCostCompany. All rights reserved.
-  </div>
-</body>
+  </div>  <script>
+    const connectBtn = document.getElementById('connectWalletBtn');
+    const addressDisplay = document.getElementById('walletAddress');
+
+    connectBtn.addEventListener('click', async (event) => {
+      event.preventDefault();
+
+      if (typeof window.ethereum === 'undefined') {
+        alert("MetaMask가 설치되어 있지 않습니다. 설치 후 다시 시도해주세요.");
+        return;
+      }
+
+      try {
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const userAddress = accounts[0];
+        addressDisplay.textContent = `연결된 지갑: ${userAddress}`;
+      } catch (err) {
+        console.error(err);
+        alert("지갑 연결이 거부되었습니다.");
+      }
+    });
+  </script></body>
 </html>
