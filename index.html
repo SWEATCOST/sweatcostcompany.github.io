@@ -43,13 +43,9 @@
     }
     .swap-box h3, .buy-box h3 { color: #ffd700; margin-bottom: 15px; }
     .swap-box input, .buy-box input {
-      width: 100%;
-      padding: 8px 10px;
-      margin-bottom: 10px;
-      font-size: 14px;
-      height: 36px;
-      border: none;
-      border-radius: 6px;
+      width: 100%; padding: 8px 10px;
+      margin-bottom: 10px; font-size: 14px;
+      height: 36px; border: none; border-radius: 6px;
     }
     .wallet-button {
       position: fixed; top: 16px; right: 16px;
@@ -84,41 +80,15 @@
     .label { color: #aaa; font-weight: 500; }
     .value { color: #fff; font-weight: bold; }
     @media (max-width: 768px) {
-      .swap-box input, .buy-box input {
-        padding: 6px 8px;
-        font-size: 13px;
-        height: 32px;
-      }
       .navbar { flex-direction: column; gap: 12px; }
       .slogan { font-size: 16px; }
+      .swap-box input, .buy-box input { padding: 6px 8px; font-size: 13px; height: 32px; }
       .swap-box, .buy-box { width: 95%; padding: 16px; }
       .token-info-box { padding: 10px; }
       .token-info-box h2 { font-size: 24px; }
       .token-row { font-size: 14px; flex-direction: column; align-items: center; text-align: center; }
-    }#swapButton, #buyButton, #preBuyButton {
-  background: linear-gradient(135deg, #ffd700, #ffcc00);
-  color: #000;
-  padding: 14px 24px;
-  border: none;
-  border-radius: 8px;
-  font-weight: 700;
-  font-size: 15px;
-  letter-spacing: 0.5px;
-  cursor: pointer;
-  width: 100%;
-  transition: all 0.2s ease-in-out;
-  box-shadow: 0 4px 10px rgba(255, 215, 0, 0.25);
-}
-
-#swapButton:hover,
-#buyButton:hover,
-#preBuyButton:hover {
-  transform: scale(1.03);
-  box-shadow: 0 6px 15px rgba(255, 215, 0, 0.5);
-}
-
-$1
-
+    }
+  </style>
 </head>
 <body>
   <nav class="navbar">
@@ -141,14 +111,12 @@ $1
     <input type="number" id="bnbAmount" placeholder="BNB 입력">
     <div id="stctResult">예상 STCT: 0</div>
     <button id="swapButton">스왑까지 남은 시간: 계산 중...</button>
-  </div>
-  <div class="buy-box">
+  </div>  <div class="buy-box">
     <h3>STCT 직접 구매</h3>
     <input type="number" id="buyBnbAmount" placeholder="구매할 BNB 수량 입력">
     <div id="buyStctResult">예상 STCT: 0</div>
     <button id="buyButton">구매까지 남은 시간: 계산 중...</button>
-  </div>
-  <div class="buy-box">
+  </div>  <div class="buy-box">
     <h3>STCT 사전구매</h3>
     <p style="font-size: 14px; color: #aaa;">* 사전구매 총 판매량은 1000 BNB로 제한됩니다.</p>
     <div id="presaleSummary" style="font-size: 14px; color: #ffd700; margin: 5px 0;">총 판매량: 0 / 1000 BNB</div>
@@ -159,126 +127,126 @@ $1
     <div id="preStctResult">예상 STCT: 0</div>
     <button id="preBuyButton">사전구매 실행</button>
   </div>
-  <div class="token-info-box" id="tokenomics">
-    <h2>토큰 정보</h2>
-    <div class="token-card">
-      <div class="token-row"><span class="label">총 공급량</span><span class="value">1,000,000,000,000,000 STCT</span></div>
-      <div class="token-row"><span class="label">심볼</span><span class="value">STCT</span></div>
-      <div class="token-row"><span class="label">기능</span><span class="value">소각, 스테이킹, 출석 보상</span></div>
-      <div class="token-row"><span class="label">네트워크</span><span class="value">BSC (Binance Smart Chain)</span></div>
-    </div>
+  <!-- 이하 생략된 body 내부는 원하실 경우 바로 이어서 복원해드릴 수 있습니다. -->
+<div class="token-info-box" id="tokenomics">
+  <h2>토큰 정보</h2>
+  <div class="token-card">
+    <div class="token-row"><span class="label">총 공급량</span><span class="value">1,000,000,000,000,000 STCT</span></div>
+    <div class="token-row"><span class="label">심볼</span><span class="value">STCT</span></div>
+    <div class="token-row"><span class="label">기능</span><span class="value">소각, 스테이킹, 출석 보상</span></div>
+    <div class="token-row"><span class="label">네트워크</span><span class="value">BSC (Binance Smart Chain)</span></div>
   </div>
-  <div class="token-info-box" id="roadmap">
-    <h2>로드맵</h2>
-    <div class="token-card">
-      <div class="token-row"><span class="label">Q2</span><span class="value">홈페이지 오픈, 지갑 연결</span></div>
-      <div class="token-row"><span class="label">Q3</span><span class="value">DEX 상장, QR 출석 시스템 런칭</span></div>
-      <div class="token-row"><span class="label">Q4</span><span class="value">글로벌 파트너십 및 커뮤니티 확장</span></div>
-    </div>
+</div><div class="token-info-box" id="roadmap">
+  <h2>로드맵</h2>
+  <div class="token-card">
+    <div class="token-row"><span class="label">Q2</span><span class="value">홈페이지 오픈, 지갑 연결</span></div>
+    <div class="token-row"><span class="label">Q3</span><span class="value">DEX 상장, QR 출석 시스템 런칭</span></div>
+    <div class="token-row"><span class="label">Q4</span><span class="value">글로벌 파트너십 및 커뮤니티 확장</span></div>
   </div>
-  <script>
-    const swapButton = document.getElementById('swapButton');
-    const buyButton = document.getElementById('buyButton');
-    const bnbInput = document.getElementById('bnbAmount');
-    const stctOutput = document.getElementById('stctResult');
-    const buyInput = document.getElementById('buyBnbAmount');
-    const buyOutput = document.getElementById('buyStctResult');bnbInput.addEventListener('input', () => {
-  const bnb = parseFloat(bnbInput.value) || 0;
-  const stct = bnb * 100000000;
-  stctOutput.textContent = `예상 STCT: ${stct.toLocaleString()} STCT`;
-});
-buyInput.addEventListener('input', () => {
-  const bnb = parseFloat(buyInput.value) || 0;
-  const stct = bnb * 100000000;
-  buyOutput.textContent = `예상 STCT: ${stct.toLocaleString()} STCT`;
-});
+</div><script>
+  const swapButton = document.getElementById('swapButton');
+  const buyButton = document.getElementById('buyButton');
+  const bnbInput = document.getElementById('bnbAmount');
+  const stctOutput = document.getElementById('stctResult');
+  const buyInput = document.getElementById('buyBnbAmount');
+  const buyOutput = document.getElementById('buyStctResult');
 
-const swapTarget = new Date();
-swapTarget.setDate(swapTarget.getDate() + 30);
-const buyTarget = new Date(swapTarget);
+  bnbInput.addEventListener('input', () => {
+    const bnb = parseFloat(bnbInput.value) || 0;
+    const stct = bnb * 100000000;
+    stctOutput.textContent = `예상 STCT: ${stct.toLocaleString()} STCT`;
+  });
+  buyInput.addEventListener('input', () => {
+    const bnb = parseFloat(buyInput.value) || 0;
+    const stct = bnb * 100000000;
+    buyOutput.textContent = `예상 STCT: ${stct.toLocaleString()} STCT`;
+  });
 
-function updateCountdown(button, targetDate, label) {
-  const now = new Date();
-  const diff = targetDate - now;
-  if (diff <= 0) {
-    button.textContent = label;
-    return true;
-  } else {
-    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    const m = Math.floor((diff / (1000 * 60)) % 60);
-    const s = Math.floor((diff / 1000) % 60);
-    button.textContent = `${label}까지 남은 시간: ${d}일 ${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-    return false;
+  const swapTarget = new Date();
+  swapTarget.setDate(swapTarget.getDate() + 30);
+  const buyTarget = new Date(swapTarget);
+
+  function updateCountdown(button, targetDate, label) {
+    const now = new Date();
+    const diff = targetDate - now;
+    if (diff <= 0) {
+      button.textContent = label;
+      return true;
+    } else {
+      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const m = Math.floor((diff / (1000 * 60)) % 60);
+      const s = Math.floor((diff / 1000) % 60);
+      button.textContent = `${label}까지 남은 시간: ${d}일 ${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+      return false;
+    }
   }
-}
 
-setInterval(() => {
-  updateCountdown(swapButton, swapTarget, '스왑 실행');
-  updateCountdown(buyButton, buyTarget, '토큰 구매');
-}, 1000);
+  setInterval(() => {
+    updateCountdown(swapButton, swapTarget, '스왑 실행');
+    updateCountdown(buyButton, buyTarget, '토큰 구매');
+  }, 1000);
 
-swapButton.addEventListener('click', () => {
-  if (updateCountdown(swapButton, swapTarget, '스왑 실행')) {
-    alert('스왑 기능은 추후 연동 예정입니다.');
-  } else {
-    alert('지금은 구매할 수 없습니다');
+  swapButton.addEventListener('click', () => {
+    if (updateCountdown(swapButton, swapTarget, '스왑 실행')) {
+      alert('스왑 기능은 추후 연동 예정입니다.');
+    } else {
+      alert('지금은 구매할 수 없습니다');
+    }
+  });
+  buyButton.addEventListener('click', () => {
+    if (updateCountdown(buyButton, buyTarget, '토큰 구매')) {
+      alert('토큰 구매 기능은 추후 연동 예정입니다.');
+    } else {
+      alert('지금은 구매할 수 없습니다');
+    }
+  });
+
+  // 사전구매
+  const preInput = document.getElementById('preBnbAmount');
+  const preOutput = document.getElementById('preStctResult');
+  const preButton = document.getElementById('preBuyButton');
+  const maxPresaleTotal = 1000;
+  let prePurchased = parseFloat(localStorage.getItem("preBuyTotal") || "0");
+  let totalPresale = parseFloat(localStorage.getItem("preBuyTotalGlobal") || "0");
+
+  function updatePresaleUI() {
+    const percent = (totalPresale / maxPresaleTotal) * 100;
+    document.getElementById("presaleSummary").textContent = `총 판매량: ${totalPresale.toFixed(2)} / ${maxPresaleTotal} BNB`;
+    document.getElementById("presaleBar").style.width = `${Math.min(percent, 100)}%`;
   }
-});
-buyButton.addEventListener('click', () => {
-  if (updateCountdown(buyButton, buyTarget, '토큰 구매')) {
-    alert('토큰 구매 기능은 추후 연동 예정입니다.');
-  } else {
-    alert('지금은 구매할 수 없습니다');
-  }
-});
 
-// 사전구매
-const preInput = document.getElementById('preBnbAmount');
-const preOutput = document.getElementById('preStctResult');
-const preButton = document.getElementById('preBuyButton');
-const maxPresaleTotal = 1000;
-let prePurchased = parseFloat(localStorage.getItem("preBuyTotal") || "0");
-let totalPresale = parseFloat(localStorage.getItem("preBuyTotalGlobal") || "0");
+  preInput.addEventListener('input', () => {
+    const bnb = parseFloat(preInput.value) || 0;
+    const available = maxPresaleTotal - totalPresale;
+    if (bnb > 2 || prePurchased + bnb > 2 || bnb > available) {
+      preOutput.textContent = `개인 한도 또는 전체 한도를 초과했습니다. 남은 전체 한도: ${available.toFixed(2)} BNB`;
+      preButton.disabled = true;
+      return;
+    }
+    const stct = bnb * 100000000;
+    preOutput.textContent = `예상 STCT: ${stct.toLocaleString()} STCT`;
+    preButton.disabled = false;
+  });
 
-function updatePresaleUI() {
-  const percent = (totalPresale / maxPresaleTotal) * 100;
-  document.getElementById("presaleSummary").textContent = `총 판매량: ${totalPresale.toFixed(2)} / ${maxPresaleTotal} BNB`;
-  document.getElementById("presaleBar").style.width = `${Math.min(percent, 100)}%`;
-}
+  preButton.addEventListener('click', () => {
+    const bnb = parseFloat(preInput.value) || 0;
+    const available = maxPresaleTotal - totalPresale;
+    if (bnb <= 0 || prePurchased + bnb > 2 || bnb > available) {
+      alert('사전구매 한도를 초과했습니다.');
+      return;
+    }
+    prePurchased += bnb;
+    totalPresale += bnb;
+    localStorage.setItem("preBuyTotal", prePurchased.toString());
+    localStorage.setItem("preBuyTotalGlobal", totalPresale.toString());
+    alert(`사전구매 완료! 개인 누적 ${prePurchased.toFixed(2)} BNB / 총 판매 ${totalPresale.toFixed(2)} BNB`);
+    preInput.value = '';
+    preOutput.textContent = '';
+    preButton.disabled = prePurchased >= 2 || totalPresale >= maxPresaleTotal;
+    updatePresaleUI();
+  });
 
-preInput.addEventListener('input', () => {
-  const bnb = parseFloat(preInput.value) || 0;
-  const available = maxPresaleTotal - totalPresale;
-  if (bnb > 2 || prePurchased + bnb > 2 || bnb > available) {
-    preOutput.textContent = `개인 한도 또는 전체 한도를 초과했습니다. 남은 전체 한도: ${available.toFixed(2)} BNB`;
-    preButton.disabled = true;
-    return;
-  }
-  const stct = bnb * 100000000;
-  preOutput.textContent = `예상 STCT: ${stct.toLocaleString()} STCT`;
-  preButton.disabled = false;
-});
-
-preButton.addEventListener('click', () => {
-  const bnb = parseFloat(preInput.value) || 0;
-  const available = maxPresaleTotal - totalPresale;
-  if (bnb <= 0 || prePurchased + bnb > 2 || bnb > available) {
-    alert('사전구매 한도를 초과했습니다.');
-    return;
-  }
-  prePurchased += bnb;
-  totalPresale += bnb;
-  localStorage.setItem("preBuyTotal", prePurchased.toString());
-  localStorage.setItem("preBuyTotalGlobal", totalPresale.toString());
-  alert(`사전구매 완료! 개인 누적 ${prePurchased.toFixed(2)} BNB / 총 판매 ${totalPresale.toFixed(2)} BNB`);
-  preInput.value = '';
-  preOutput.textContent = '';
-  preButton.disabled = prePurchased >= 2 || totalPresale >= maxPresaleTotal;
   updatePresaleUI();
-});
-
-updatePresaleUI();
-
-  </script></body>
+</script></body>
 </html>
