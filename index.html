@@ -88,20 +88,6 @@
       margin-bottom: 15px;
       color: #ccc;
     }
-    #swapButton, #buyButton {
-      background: #ffd700;
-      color: #000;
-      padding: 12px 20px;
-      border: none;
-      font-weight: bold;
-      font-size: 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      width: 100%;
-    }
-    #swapButton:hover, #buyButton:hover {
-      background: #ffcc00;
-    }
     .wallet-button {
       position: fixed;
       top: 16px;
@@ -119,45 +105,46 @@
     .wallet-button:hover {
       transform: scale(1.1);
       background-color: #ffcc00;
-    }
-    .token-info-box {
-      margin: 60px auto;
-      padding: 20px;
-      max-width: 600px;
-    }
-    .token-info-box h2 {
-      color: #ffd700;
-      font-size: 32px;
-      margin-bottom: 20px;
-      border-bottom: 2px solid rgba(255, 215, 0, 0.3);
-      display: inline-block;
-      padding-bottom: 5px;
-    }
-    .token-card {
-      background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
-      border: 1px solid #333;
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
-    }
-    .token-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 12px 0;
-      border-bottom: 1px solid #333;
-    }
-    .token-row:last-child {
-      border-bottom: none;
-    }
-    .label {
-      color: #aaa;
-      font-weight: 500;
-    }
-    .value {
-      color: #fff;
-      font-weight: bold;
-    }
-  </style>
+    }.token-info-box {
+  margin: 60px auto;
+  padding: 20px;
+  max-width: 600px;
+}
+.token-info-box h2 {
+  color: #ffd700;
+  font-size: 32px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+  display: inline-block;
+  padding-bottom: 5px;
+}
+.token-card {
+  background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
+  border: 1px solid #333;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
+}
+.token-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #333;
+}
+.token-row:last-child {
+  border-bottom: none;
+}
+.label {
+  color: #aaa;
+  font-weight: 500;
+}
+.value {
+  color: #fff;
+  font-weight: bold;
+}
+
+$1
+
 </head>
 <body>
   <nav class="navbar">
@@ -179,15 +166,14 @@
       <h3>스왑하기</h3>
       <input type="number" id="bnbAmount" placeholder="BNB 입력" />
       <div id="stctResult">예상 STCT: 0</div>
-      <button id="swapButton">스왑 실행</button>
+      <button id="swapButton">스왑까지 남은 시간: 계산 중...</button>
     </div>
     <div class="buy-box">
       <h3>STCT 직접 구매</h3>
       <input type="number" id="buyBnbAmount" placeholder="구매할 BNB 수량 입력" />
       <div id="buyStctResult">예상 STCT: 0</div>
-      <button id="buyButton">토큰 구매</button>
-    </div>
-  </header>  <div class="token-info-box" id="tokenomics">
+      <button id="buyButton">구매까지 남은 시간: 계산 중...</button>
+    </div>  <div class="token-info-box" id="tokenomics">
     <h2>토큰 정보</h2>
     <div class="token-card">
       <div class="token-row"><span class="label">총 공급량</span><span class="value">1,000,000,000,000,000 STCT</span></div>
@@ -202,10 +188,15 @@
       <div class="token-row"><span class="label">Q3</span><span class="value">DEX 상장, QR 출석 시스템 런칭</span></div>
       <div class="token-row"><span class="label">Q4</span><span class="value">글로벌 파트너십 및 커뮤니티 확장</span></div>
     </div>
-  </div>  <script>
+  </div>$1
+
+  <script>
     const bnbInput = document.getElementById('bnbAmount');
     const stctOutput = document.getElementById('stctResult');
+    const buyInput = document.getElementById('buyBnbAmount');
+    const buyOutput = document.getElementById('buyStctResult');
     const swapButton = document.getElementById('swapButton');
+    const buyButton = document.getElementById('buyButton');
 
     bnbInput.addEventListener('input', () => {
       const bnb = parseFloat(bnbInput.value) || 0;
@@ -214,14 +205,6 @@
       stctOutput.textContent = `예상 STCT: ${stct.toLocaleString()} STCT`;
     });
 
-    swapButton.addEventListener('click', () => {
-      alert("스왑 기능은 추후 연동 예정입니다.");
-    });
-
-    const buyInput = document.getElementById('buyBnbAmount');
-    const buyOutput = document.getElementById('buyStctResult');
-    const buyButton = document.getElementById('buyButton');
-
     buyInput.addEventListener('input', () => {
       const bnb = parseFloat(buyInput.value) || 0;
       const rate = 100000000;
@@ -229,8 +212,45 @@
       buyOutput.textContent = `예상 STCT: ${stct.toLocaleString()} STCT`;
     });
 
+    const swapTarget = new Date();
+    swapTarget.setDate(swapTarget.getDate() + 30);
+    const buyTarget = new Date(swapTarget); // 동일한 30일 후 기준
+
+    function updateCountdown(button, targetDate, label) {
+      const now = new Date();
+      const diff = targetDate - now;
+      if (diff <= 0) {
+        button.textContent = label;
+        return true;
+      } else {
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const m = Math.floor((diff / (1000 * 60)) % 60);
+        const s = Math.floor((diff / 1000) % 60);
+        button.textContent = `${label}까지 남은 시간: ${d}일 ${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        return false;
+      }
+    }
+
+    setInterval(() => {
+      updateCountdown(swapButton, swapTarget, "스왑 실행");
+      updateCountdown(buyButton, buyTarget, "토큰 구매");
+    }, 1000);
+
+    swapButton.addEventListener('click', () => {
+      if (updateCountdown(swapButton, swapTarget, "스왑 실행")) {
+        alert("스왑 기능은 추후 연동 예정입니다.");
+      } else {
+        alert("지금은 구매할 수 없습니다");
+      }
+    });
+
     buyButton.addEventListener('click', () => {
-      alert("토큰 구매 기능은 추후 연동 예정입니다.");
+      if (updateCountdown(buyButton, buyTarget, "토큰 구매")) {
+        alert("토큰 구매 기능은 추후 연동 예정입니다.");
+      } else {
+        alert("지금은 구매할 수 없습니다");
+      }
     });
   </script></body>
 </html>
