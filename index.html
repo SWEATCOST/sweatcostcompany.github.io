@@ -177,6 +177,10 @@ nsition: color 0.2s ease; }
     <div class="token-row"><span class="label">Q4</span><span class="value">글로벌 파트너십 및 커뮤니티 확장</span></div>
   </div>
 </div><script>
+  const buyInput = document.getElementById('buyBnbAmount');
+const buyOutput = document.getElementById('buyStctResult');
+const buyButton = document.getElementById('buyButton');
+  
     buyInput.addEventListener('input', () => {
     const bnb = parseFloat(buyInput.value) || 0;
     const stct = bnb * 100000000;
