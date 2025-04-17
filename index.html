@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="ko">
+<!DOCTYPE html><html lang="ko">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,262 +6,145 @@
   <style>
     html {
       scroll-behavior: smooth;
-    }
+    }body {
+  margin: 0;
+  background: #0f0f0f;
+  color: #fff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+  margin-left: 100px;
+}
 
-    body {
-      margin: 0;
-      background: #0f0f0f;
-      color: #fff;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      text-align: center;
-      margin-left: 140px; /* 왼쪽 사이드바 넓이 */
-    }
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100px;
+  background: rgba(0, 0, 0, 0.6);
+  padding-top: 80px;
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(6px);
+  z-index: 9998;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
 
-    .navbar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100vh;
-      width: 140px;
-      background: rgba(0, 0, 0, 0.7);
-      padding-top: 80px;
-      padding-left: 12px;
-      box-shadow: 2px 0 6px rgba(0, 0, 0, 0.3);
-      backdrop-filter: blur(4px);
-      z-index: 9998;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      align-items: flex-start;
-      transition: background-color 0.3s ease;
-    }
+.navbar.scrolled {
+  background-color: #222;
+}
 
-    .navbar.scrolled {
-      background-color: #222;
-    }
+.navbar a {
+  color: #ffd700;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
 
-    .navbar a {
-      color: #ffd700;
-      font-size: 16px;
-      font-weight: 500;
-      text-decoration: none;
-      transition: color 0.2s ease;
-    }
+.navbar a.active {
+  font-weight: 700;
+}
 
-    .navbar a.active {
-      font-weight: 700;
-    }
+.navbar a:hover {
+  color: #ffffff;
+}
 
-    .navbar a:hover {
-      color: #ffffff;
-    }
+header {
+  margin-top: 60px;
+  padding: 100px 20px 20px;
+}
 
-    header {
-      margin-top: 60px;
-      padding: 100px 20px 20px;
-    }
+.logo {
+  width: 240px;
+  height: auto;
+  margin-bottom: 20px;
+  transition: transform 0.3s ease;
+}
 
-    .logo {
-      width: 240px;
-      height: auto;
-      margin-bottom: 20px;
-      transition: transform 0.3s ease;
-    }
+.logo:hover {
+  transform: scale(1.05);
+}
 
-    .logo:hover {
-      transform: scale(1.05);
-    }
+.slogan {
+  font-size: 3.2vw;
+  color: #ccc;
+  padding: 0 20px;
+  line-height: 1.8;
+  font-weight: 300;
+  font-style: italic;
+  text-shadow: 0 0 3px rgba(255, 255, 255, 0.05);
+}
 
-    .slogan {
-      font-size: 3.2vw;
-      color: #ccc;
-      padding: 0 20px;
-      line-height: 1.8;
-      font-weight: 300;
-      font-style: italic;
-      text-shadow: 0 0 3px rgba(255, 255, 255, 0.05);
-    }
+.swap-box, .buy-box {
+  background: #1c1c1c;
+  margin: 30px auto;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.1);
+  color: #fff;
+}
 
-    .wallet-button {
-      position: fixed;
-      top: 16px;
-      right: 16px;
-      background-color: #ffd700;
-      color: #000;
-      font-size: 20px;
-      padding: 12px;
-      border-radius: 50%;
-      text-decoration: none;
-      box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
-      z-index: 9999;
-      transition: transform 0.2s ease;
-    }
+.swap-box h3, .buy-box h3 {
+  color: #ffd700;
+  margin-bottom: 15px;
+}
 
-    .wallet-button:hover {
-      transform: scale(1.1);
-      background-color: #ffcc00;
-    }
+.swap-box input, .buy-box input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+}
 
-    .section {
-      margin-top: 60px;
-      padding: 0 16px;
-    }
+#stctResult, #buyStctResult {
+  font-size: 16px;
+  margin-bottom: 15px;
+  color: #ccc;
+}
 
-    .tokenomics, .roadmap, .usage, .community, .footer {
-      padding: 20px 10px;
-    }
+#swapButton, #buyButton {
+  background: #ffd700;
+  color: #000;
+  padding: 12px 20px;
+  border: none;
+  font-weight: bold;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+}
 
-    h2 {
-      color: #ffd700;
-      font-size: 5vw;
-    }
+#swapButton:hover, #buyButton:hover {
+  background: #ffcc00;
+}
 
-    .footer {
-      background: #111;
-      font-size: 3vw;
-      color: #777;
-      margin-top: 60px;
-      padding-bottom: 40px;
-    }
+.wallet-button {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  background-color: #ffd700;
+  color: #000;
+  font-size: 20px;
+  padding: 12px;
+  border-radius: 50%;
+  text-decoration: none;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+  z-index: 9999;
+  transition: transform 0.2s ease;
+}
 
-    #walletAddress {
-      margin-top: 20px;
-      font-size: 4vw;
-      color: #ffd700;
-      word-break: break-word;
-      padding: 0 10px;
-    }
+.wallet-button:hover {
+  transform: scale(1.1);
+  background-color: #ffcc00;
+}
 
-    @media(min-width: 768px) {
-      h1 { font-size: 48px; }
-      p, #walletAddress { font-size: 18px; }
-      h2 { font-size: 32px; }
-      .footer { font-size: 14px; }
-      .logo { width: 200px; }
-      .slogan { font-size: 15px; }
-    }
   </style>
 </head>
-<body>
-  <!-- 왼쪽 고정 메뉴 -->
-  <nav class="navbar">
-    <a href="#tokenomics">토큰정보</a>
-    <a href="#roadmap">로드맵</a>
-    <a href="#usage">사용처</a>
-    <a href="#community">커뮤니티</a>
-  </nav>
-
-  <!-- 지갑 연결 버튼 -->
-  <a href="#" class="wallet-button" id="connectWalletBtn" title="지갑 연결">
-    <i class="fas fa-wallet"></i>
-  </a>
-
-  <header>
-    <img class="logo" src="logo_1.png" alt="STCT 로고" />
-    <p class="slogan">
-      All workers around the world should be compensated for their labor. SCT will be there to compensate them. <br>
-      We will pay this to all workers around the world. And we will work harder. <br>
-      The IPO of companies will grow and the GDP will grow. We will work to make it happen. <br>
-      The plan is already in place.
-    </p>
-  </header>
-
-  <p id="walletAddress"></p>
-
-  <div class="section tokenomics" id="tokenomics">
-    <h2>토큰 정보</h2>
-    <p>총 공급량: 1,000,000,000,000,000 STCT</p>
-    <p>소각, 스테이킹, 출석 보상 시스템 탑재</p>
-  </div>
-
-  <div class="section roadmap" id="roadmap">
-    <h2>로드맵</h2>
-    <p>Q2: 홈페이지 오픈, 지갑 연결</p>
-    <p>Q3: DEX 상장, QR 출석 시스템 런칭</p>
-    <p>Q4: 글로벌 파트너십 및 커뮤니티 확장</p>
-  </div>
-
-  <div class="section usage" id="usage">
-    <h2>STCT 사용처</h2>
-    <p>근무 출석 보상</p>
-    <p>파트너 플랫폼 결제</p>
-    <p>스테이킹 & 이자 수익</p>
-  </div>
-
-  <div class="section community" id="community">
-    <h2>커뮤니티</h2>
-    <p>
-      <a href="https://t.me/yourchannel" target="_blank">텔레그램</a> |
-      <a href="https://twitter.com/yourprofile" target="_blank">트위터</a> |
-      <a href="https://discord.gg/yourinvite" target="_blank">디스코드</a>
-    </p>
-  </div>
-
-  <div class="footer">
-    &copy; 2025 SweatCostCompany. All rights reserved.
-  </div>
-
-  <script>
-    const connectBtn = document.getElementById('connectWalletBtn');
-    const addressDisplay = document.getElementById('walletAddress');
-    const navbar = document.querySelector('.navbar');
-
-    async function connectWallet() {
-      if (typeof window.ethereum === 'undefined') {
-        alert("MetaMask가 설치되어 있지 않습니다. 설치 후 다시 시도해주세요.");
-        return;
-      }
-
-      try {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        const userAddress = accounts[0];
-        const maskedAddress = `${userAddress.slice(0, 6)}...${userAddress.slice(-4)}`;
-        addressDisplay.textContent = `연결된 지갑: ${maskedAddress}`;
-        localStorage.setItem('connectedWallet', userAddress);
-      } catch (err) {
-        console.error(err);
-        alert("지갑 연결이 거부되었습니다.");
-      }
-    }
-
-    connectBtn.addEventListener('click', async (event) => {
-      event.preventDefault();
-      await connectWallet();
-    });
-
-    window.addEventListener('DOMContentLoaded', () => {
-      const savedAddress = localStorage.getItem('connectedWallet');
-      if (savedAddress) {
-        const maskedAddress = `${savedAddress.slice(0, 6)}...${savedAddress.slice(-4)}`;
-        addressDisplay.textContent = `연결된 지갑: ${maskedAddress}`;
-      }
-    });
-
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-      } else {
-        navbar.classList.remove('scrolled');
-      }
-
-      const sections = document.querySelectorAll("section, .section");
-      const navLinks = document.querySelectorAll(".navbar a");
-      let current = "";
-
-      sections.forEach(section => {
-        const sectionTop = section.offsetTop - 100;
-        if (scrollY >= sectionTop) {
-          current = section.getAttribute("id");
-        }
-      });
-
-      navLinks.forEach(link => {
-        link.classList.remove("active");
-        if (link.getAttribute("href") === `#${current}`) {
-          link.classList.add("active");
-        }
-      });
-    });
-  </script>
-</body>
-</html>
