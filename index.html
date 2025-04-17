@@ -141,6 +141,26 @@ nsition: color 0.2s ease; }
   box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
   transform: scale(1.05);
 }
+
+    .stylish-button {
+  background: linear-gradient(145deg, #ffd700, #ffb700);
+  color: #000;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.stylish-button:hover {
+  background: linear-gradient(145deg, #ffcc00, #ffaa00);
+  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
+  transform: scale(1.05);
+}
+    
     
   </style>
 </head>
@@ -167,7 +187,7 @@ nsition: color 0.2s ease; }
     <h3>STCT 직접 구매</h3>
     <input type="number" id="buyBnbAmount" placeholder="구매할 BNB 수량 입력">
     <div id="buyStctResult">예상 STCT: 0</div>
-    <button id="buyButton">구매까지 남은 시간: 계산 중...</button>
+    <button id="buyButton" class="stylish-button">구매까지 남은 시간: 계산 중...</button>
   </div>  <div class="buy-box">
     <h3>STCT 사전구매</h3>
     <p style="font-size: 14px; color: #aaa;">* 사전구매 총 판매량은 1000 BNB로 제한됩니다.</p>
@@ -177,7 +197,7 @@ nsition: color 0.2s ease; }
     </div>
     <input type="number" id="preBnbAmount" placeholder="사전구매 BNB 수량 입력 (최대 2)">
     <div id="preStctResult">예상 STCT: 0</div>
-    <button id="preBuyButton">사전구매 실행</button>
+  <button id="preBuyButton" class="stylish-button">사전구매 실행</button>
   </div>
   <!-- 이하 생략된 body 내부는 원하실 경우 바로 이어서 복원해드릴 수 있습니다. -->
 <div class="token-info-box" id="tokenomics">
