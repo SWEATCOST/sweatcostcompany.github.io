@@ -120,42 +120,16 @@
       transform: scale(1.1);
       background-color: #ffcc00;
     }
-    .token-info-box {
-      margin: 60px auto;
-      padding: 20px;
-      max-width: 600px;
-    }
-    .token-info-box h2 {
+    .countdown-box {
+      margin: 20px auto;
+      padding: 16px;
+      background: #1a1a1a;
       color: #ffd700;
-      font-size: 32px;
-      margin-bottom: 20px;
-      border-bottom: 2px solid rgba(255, 215, 0, 0.3);
-      display: inline-block;
-      padding-bottom: 5px;
-    }
-    .token-card {
-      background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
-      border: 1px solid #333;
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
-    }
-    .token-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 12px 0;
-      border-bottom: 1px solid #333;
-    }
-    .token-row:last-child {
-      border-bottom: none;
-    }
-    .label {
-      color: #aaa;
-      font-weight: 500;
-    }
-    .value {
-      color: #fff;
+      font-size: 16px;
       font-weight: bold;
+      border-radius: 10px;
+      width: fit-content;
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
     }
   </style>
 </head>
@@ -165,110 +139,49 @@
     <a href="#roadmap">로드맵</a>
     <a href="#usage">사용처</a>
     <a href="#community">커뮤니티</a>
-  </nav>
-  <a href="#" class="wallet-button" id="connectWalletBtn" title="지갑 연결">
+  </nav>  <a href="#" class="wallet-button" id="connectWalletBtn" title="지갑 연결">
     <i class="fas fa-wallet"></i>
-  </a>
-  <header>
+  </a>  <header>
     <img class="logo" src="logo_1.png" alt="STCT 로고" />
     <p class="slogan">
       All workers around the world should be compensated for their labor. SCT will be there to compensate them.<br>
       We will pay this to all workers around the world. And we will work harder.<br>
       The IPO of companies will grow and the GDP will grow. We will work to make it happen.<br>
       The plan is already in place.
-    </p>
-    <div class="swap-box">
-      <h3>스왑하기</h3>
-      <input type="number" id="bnbAmount" placeholder="BNB 입력" />
-      <div id="stctResult">예상 STCT: 0</div>
-      <button id="swapButton">스왑 실행</button>
-    </div>
-    <div class="buy-box">
-      <h3>STCT 직접 구매</h3>
-      <input type="number" id="buyBnbAmount" placeholder="구매할 BNB 수량 입력" />
-      <div id="buyStctResult">예상 STCT: 0</div>
-      <button id="buyButton">토큰 구매</button>
-    </div>
-    <div class="token-info-box" id="tokenomics">
-      <h2>토큰 정보</h2>
-      <div class="token-card">
-        <div class="token-row"><span class="label">총 공급량</span><span class="value">1,000,000,000,000,000 STCT</span></div>
-        <div class="token-row"><span class="label">심볼</span><span class="value">STCT</span></div>
-        <div class="token-row"><span class="label">기능</span><span class="value">소각, 스테이킹, 출석 보상</span></div>
-        <div class="token-row"><span class="label">네트워크</span><span class="value">BSC (Binance Smart Chain)</span></div>
-      </div>
-    </div>
-    <div class="token-info-box" id="roadmap">
-      <h2>로드맵</h2>
-      <div class="token-card">
-        <div class="token-row"><span class="label">Q2</span><span class="value">홈페이지 오픈, 지갑 연결</span></div>
-        <div class="token-row"><span class="label">Q3</span><span class="value">DEX 상장, QR 출석 시스템 런칭</span></div>
-        <div class="token-row"><span class="label">Q4</span><span class="value">글로벌 파트너십 및 커뮤니티 확장</span></div>
-      </div>
-      <canvas id="roadmapChart" width="400" height="250" style="margin-top: 30px;"></canvas>
-    </div>
-  </header>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-    const bnbInput = document.getElementById('bnbAmount');
-    const stctOutput = document.getElementById('stctResult');
-    const swapButton = document.getElementById('swapButton');
-    bnbInput.addEventListener('input', () => {
-      const bnb = parseFloat(bnbInput.value) || 0;
-      const rate = 100000000;
-      const stct = bnb * rate;
-      stctOutput.textContent = `예상 STCT: ${stct.toLocaleString()} STCT`;
-    });
-    swapButton.addEventListener('click', () => {
-      alert("스왑 기능은 추후 연동 예정입니다.");
-    });
-    const buyInput = document.getElementById('buyBnbAmount');
-    const buyOutput = document.getElementById('buyStctResult');
-    const buyButton = document.getElementById('buyButton');
-    buyInput.addEventListener('input', () => {
-      const bnb = parseFloat(buyInput.value) || 0;
-      const rate = 100000000;
-      const stct = bnb * rate;
-      buyOutput.textContent = `예상 STCT: ${stct.toLocaleString()} STCT`;
-    });
-    buyButton.addEventListener('click', () => {
-      alert("토큰 구매 기능은 추후 연동 예정입니다.");
-    });
-    const ctx = document.getElementById('roadmapChart').getContext('2d');
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['Q2', 'Q3', 'Q4'],
-        datasets: [{
-          label: '로드맵 달성률 (%)',
-          data: [100, 70, 30],
-          backgroundColor: ['#ffd700', '#ffcc00', '#aaa']
-        }]
-      },
-      options: {
-        plugins: { legend: { display: false } },
-        scales: {
-          y: { beginAtZero: true, max: 100 }
+    </p><div class="countdown-box" id="swapCountdown">스왑 가능까지: 계산 중...</div>
+<div class="countdown-box" id="buyCountdown">구매 가능까지: 계산 중...</div>
+
+  </header>  <script>
+    function start30DayCountdown(targetDate, displayId, label) {
+      const display = document.getElementById(displayId);
+      const timer = setInterval(() => {
+        const now = new Date();
+        const distance = targetDate - now;
+
+        if (distance <= 0) {
+          clearInterval(timer);
+          display.textContent = `${label} 가능`;
+          display.style.background = '#28a745';
+          display.style.color = '#fff';
+          return;
         }
-      }
-    });
-    const sections = document.querySelectorAll(".token-info-box");
-    const navLinks = document.querySelectorAll(".navbar a");
-    window.addEventListener("scroll", () => {
-      let current = "";
-      sections.forEach(section => {
-        const sectionTop = section.offsetTop - 140;
-        if (scrollY >= sectionTop) {
-          current = section.getAttribute("id");
-        }
-      });
-      navLinks.forEach(link => {
-        link.classList.remove("active");
-        if (link.getAttribute("href") === `#${current}`) {
-          link.classList.add("active");
-        }
-      });
-    });
-  </script>
-</body>
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((distance / (1000 * 60)) % 60);
+        const seconds = Math.floor((distance / 1000) % 60);
+
+        display.textContent = `${label} ${days}일 ${hours}시간 ${minutes}분 ${seconds}초`;
+      }, 1000);
+    }
+
+    const swapTarget = new Date();
+    swapTarget.setDate(swapTarget.getDate() + 30);
+
+    const buyTarget = new Date();
+    buyTarget.setDate(buyTarget.getDate() + 30);
+
+    start30DayCountdown(swapTarget, 'swapCountdown', '스왑 가능까지:');
+    start30DayCountdown(buyTarget, 'buyCountdown', '구매 가능까지:');
+  </script></body>
 </html>
