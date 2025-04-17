@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
       background: #0f0f0f;
@@ -13,8 +17,41 @@
       text-align: center;
     }
 
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 12px 0;
+      z-index: 9998;
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      box-shadow: 0 2px 5px rgba(255, 215, 0, 0.15);
+      backdrop-filter: blur(4px);
+      transition: background-color 0.3s ease;
+    }
+
+    .navbar.scrolled {
+      background-color: #222;
+    }
+
+    .navbar a {
+      color: #ffd700;
+      font-size: 16px;
+      text-decoration: none;
+      font-weight: 500;
+      text-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
+      transition: color 0.2s ease;
+    }
+
+    .navbar a:hover {
+      color: #ffffff;
+    }
+
     header {
-      padding: 40px 20px 20px;
+      margin-top: 60px;
+      padding: 100px 20px 20px;
     }
 
     .logo {
@@ -26,12 +63,6 @@
 
     .logo:hover {
       transform: scale(1.05);
-    }
-
-    h1 {
-      font-size: 6vw;
-      margin-bottom: 10px;
-      color: #ffd700;
     }
 
     .slogan {
@@ -105,7 +136,15 @@
   </style>
 </head>
 <body>
-  <!-- 고정 지갑 연결 버튼 -->
+  <!-- 상단 고정 네비게이션 -->
+  <nav class="navbar">
+    <a href="#tokenomics">토큰정보</a>
+    <a href="#roadmap">로드맵</a>
+    <a href="#usage">사용처</a>
+    <a href="#community">커뮤니티</a>
+  </nav>
+
+  <!-- 지갑 연결 버튼 -->
   <a href="#" class="wallet-button" id="connectWalletBtn" title="지갑 연결">
     <i class="fas fa-wallet"></i>
   </a>
@@ -122,27 +161,27 @@
 
   <p id="walletAddress"></p>
 
-  <div class="section tokenomics">
+  <div class="section tokenomics" id="tokenomics">
     <h2>토큰 정보</h2>
     <p>총 공급량: 1,000,000,000,000,000 STCT</p>
     <p>소각, 스테이킹, 출석 보상 시스템 탑재</p>
   </div>
 
-  <div class="section roadmap">
+  <div class="section roadmap" id="roadmap">
     <h2>로드맵</h2>
     <p>Q2: 홈페이지 오픈, 지갑 연결</p>
     <p>Q3: DEX 상장, QR 출석 시스템 런칭</p>
     <p>Q4: 글로벌 파트너십 및 커뮤니티 확장</p>
   </div>
 
-  <div class="section usage">
+  <div class="section usage" id="usage">
     <h2>STCT 사용처</h2>
     <p>근무 출석 보상</p>
     <p>파트너 플랫폼 결제</p>
     <p>스테이킹 & 이자 수익</p>
   </div>
 
-  <div class="section community">
+  <div class="section community" id="community">
     <h2>커뮤니티</h2>
     <p>
       <a href="https://t.me/yourchannel" target="_blank">텔레그램</a> |
@@ -158,6 +197,7 @@
   <script>
     const connectBtn = document.getElementById('connectWalletBtn');
     const addressDisplay = document.getElementById('walletAddress');
+    const navbar = document.querySelector('.navbar');
 
     async function connectWallet() {
       if (typeof window.ethereum === 'undefined') {
@@ -187,6 +227,14 @@
       if (savedAddress) {
         const maskedAddress = `${savedAddress.slice(0, 6)}...${savedAddress.slice(-4)}`;
         addressDisplay.textContent = `연결된 지갑: ${maskedAddress}`;
+      }
+    });
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
       }
     });
   </script>
