@@ -120,6 +120,43 @@
       transform: scale(1.1);
       background-color: #ffcc00;
     }
+    .token-info-box {
+      margin: 60px auto;
+      padding: 20px;
+      max-width: 600px;
+    }
+    .token-info-box h2 {
+      color: #ffd700;
+      font-size: 32px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+      display: inline-block;
+      padding-bottom: 5px;
+    }
+    .token-card {
+      background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
+      border: 1px solid #333;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
+    }
+    .token-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #333;
+    }
+    .token-row:last-child {
+      border-bottom: none;
+    }
+    .label {
+      color: #aaa;
+      font-weight: 500;
+    }
+    .value {
+      color: #fff;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -128,11 +165,9 @@
     <a href="#roadmap">로드맵</a>
     <a href="#usage">사용처</a>
     <a href="#community">커뮤니티</a>
-  </nav>
-  <a href="#" class="wallet-button" id="connectWalletBtn" title="지갑 연결">
+  </nav>  <a href="#" class="wallet-button" id="connectWalletBtn" title="지갑 연결">
     <i class="fas fa-wallet"></i>
-  </a>
-  <header>
+  </a>  <header>
     <img class="logo" src="logo_1.png" alt="STCT 로고" />
     <p class="slogan">
       All workers around the world should be compensated for their labor. SCT will be there to compensate them.<br>
@@ -152,36 +187,50 @@
       <div id="buyStctResult">예상 STCT: 0</div>
       <button id="buyButton">토큰 구매</button>
     </div>
-  </header>
-  <script>
+  </header>  <div class="token-info-box" id="tokenomics">
+    <h2>토큰 정보</h2>
+    <div class="token-card">
+      <div class="token-row"><span class="label">총 공급량</span><span class="value">1,000,000,000,000,000 STCT</span></div>
+      <div class="token-row"><span class="label">심볼</span><span class="value">STCT</span></div>
+      <div class="token-row"><span class="label">기능</span><span class="value">소각, 스테이킹, 출석 보상</span></div>
+      <div class="token-row"><span class="label">네트워크</span><span class="value">BSC (Binance Smart Chain)</span></div>
+    </div>
+  </div>  <div class="token-info-box" id="roadmap">
+    <h2>로드맵</h2>
+    <div class="token-card">
+      <div class="token-row"><span class="label">Q2</span><span class="value">홈페이지 오픈, 지갑 연결</span></div>
+      <div class="token-row"><span class="label">Q3</span><span class="value">DEX 상장, QR 출석 시스템 런칭</span></div>
+      <div class="token-row"><span class="label">Q4</span><span class="value">글로벌 파트너십 및 커뮤니티 확장</span></div>
+    </div>
+  </div>  <script>
     const bnbInput = document.getElementById('bnbAmount');
     const stctOutput = document.getElementById('stctResult');
-    const swapButton = document.getElementById('swapButton');bnbInput.addEventListener('input', () => {
-  const bnb = parseFloat(bnbInput.value) || 0;
-  const rate = 100000000;
-  const stct = bnb * rate;
-  stctOutput.textContent = `예상 STCT: ${stct.toLocaleString()} STCT`;
-});
+    const swapButton = document.getElementById('swapButton');
 
-swapButton.addEventListener('click', () => {
-  alert("스왑 기능은 추후 연동 예정입니다.");
-});
+    bnbInput.addEventListener('input', () => {
+      const bnb = parseFloat(bnbInput.value) || 0;
+      const rate = 100000000;
+      const stct = bnb * rate;
+      stctOutput.textContent = `예상 STCT: ${stct.toLocaleString()} STCT`;
+    });
 
-const buyInput = document.getElementById('buyBnbAmount');
-const buyOutput = document.getElementById('buyStctResult');
-const buyButton = document.getElementById('buyButton');
+    swapButton.addEventListener('click', () => {
+      alert("스왑 기능은 추후 연동 예정입니다.");
+    });
 
-buyInput.addEventListener('input', () => {
-  const bnb = parseFloat(buyInput.value) || 0;
-  const rate = 100000000;
-  const stct = bnb * rate;
-  buyOutput.textContent = `예상 STCT: ${stct.toLocaleString()} STCT`;
-});
+    const buyInput = document.getElementById('buyBnbAmount');
+    const buyOutput = document.getElementById('buyStctResult');
+    const buyButton = document.getElementById('buyButton');
 
-buyButton.addEventListener('click', () => {
-  alert("토큰 구매 기능은 추후 연동 예정입니다.");
-});
+    buyInput.addEventListener('input', () => {
+      const bnb = parseFloat(buyInput.value) || 0;
+      const rate = 100000000;
+      const stct = bnb * rate;
+      buyOutput.textContent = `예상 STCT: ${stct.toLocaleString()} STCT`;
+    });
 
-  </script>
-</body>
+    buyButton.addEventListener('click', () => {
+      alert("토큰 구매 기능은 추후 연동 예정입니다.");
+    });
+  </script></body>
 </html>
