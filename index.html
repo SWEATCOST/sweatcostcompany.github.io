@@ -108,7 +108,56 @@ nsition: color 0.2s ease; }
     .token-row:last-child { border-bottom: none; }
     .label { color: #aaa; font-weight: 500; }
     .value { color: #fff; font-weight: bold; }
-    @media (max-width: 768px) {
+
+  .presale-banner {
+    margin-top: 100px;
+    text-align: center;
+    padding: 40px 20px;
+  }
+
+  .presale-badge {
+    color: gold;
+    font-weight: 600;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+
+  .presale-headline {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #f0c420;
+  }
+
+  .presale-tagline {
+    font-size: 1rem;
+    color: #ccc;
+    margin-bottom: 20px;
+  }
+
+  .presale-countdown {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #00ffc8;
+    background-color: #222;
+    padding: 10px 20px;
+    border-radius: 10px;
+    display: inline-block;
+    margin-top: 10px;
+  }
+
+   {
+    .presale-headline { font-size: 1.8rem; }
+    .presale-countdown { font-size: 1.2rem; }
+  }
+
+    @media (max-width: 768px)
+{
+    .presale-headline { font-size: 1.8rem; }
+    .presale-countdown { font-size: 1.2rem; }
+  }
+ {
       header { padding-top: 180px; }
         
       .slogan { font-size: 15px; }
@@ -315,7 +364,17 @@ nsition: color 0.2s ease; }
     <input type="number" id="buyBnbAmount" placeholder="구매할 BNB 수량 입력">
     <div id="buyStctResult">예상 STCT: 0</div>
     <button id="buyButton" class="stylish-button">구매까지 남은 시간: 계산 중...</button>
-  </div>  <div class="buy-box">
+  </div> 
+
+<div class="presale-banner">
+  <div class="presale-badge">LIMITED PRE-SALE OFFER</div>
+  <div class="presale-headline">1 BNB = 10,000,000 STCT</div>
+  <div class="presale-tagline">Seize the moment. The future of labor value begins <strong>now</strong>.</div>
+  <div class="presale-countdown" id="presaleCountdown">Loading...</div>
+</div>
+
+
+ <div class="buy-box">
     <h3>STCT 사전구매</h3>
     <p style="font-size: 14px; color: #aaa;">* 사전구매 총 판매량은 1000 BNB로 제한됩니다.</p>
         <p style="font-size: 14px; color: #aaa;">* 1인 최대구매금액은 2 BNB로 제한됩니다.</p>
@@ -474,5 +533,29 @@ const buyButton = document.getElementById('buyButton');
   });
 
   updatePresaleUI();
+
+  const presaleCountdownEl = document.getElementById("presaleCountdown");
+  const presaleEndTime = new Date("2025-05-17T00:00:00Z").getTime();  // 마감일 수정 가능
+
+  function updatePresaleCountdown() {
+    const now = new Date().getTime();
+    const diff = presaleEndTime - now;
+
+    if (diff <= 0) {
+      presaleCountdownEl.innerText = "SALE ENDED";
+      return;
+    }
+
+    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const m = Math.floor((diff / (1000 * 60)) % 60);
+    const s = Math.floor((diff / 1000) % 60);
+
+    presaleCountdownEl.innerText = `${d}일 ${h}시간 ${m}분 ${s}초`;
+  }
+
+  setInterval(updatePresaleCountdown, 1000);
+  updatePresaleCountdown();
+
 </script></body>
 </html>
