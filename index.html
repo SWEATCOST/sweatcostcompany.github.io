@@ -120,17 +120,6 @@
       transform: scale(1.1);
       background-color: #ffcc00;
     }
-    .countdown-box {
-      margin: 20px auto;
-      padding: 16px;
-      background: #1a1a1a;
-      color: #ffd700;
-      font-size: 16px;
-      font-weight: bold;
-      border-radius: 10px;
-      width: fit-content;
-      box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
-    }
   </style>
 </head>
 <body>
@@ -139,49 +128,60 @@
     <a href="#roadmap">로드맵</a>
     <a href="#usage">사용처</a>
     <a href="#community">커뮤니티</a>
-  </nav>  <a href="#" class="wallet-button" id="connectWalletBtn" title="지갑 연결">
+  </nav>
+  <a href="#" class="wallet-button" id="connectWalletBtn" title="지갑 연결">
     <i class="fas fa-wallet"></i>
-  </a>  <header>
+  </a>
+  <header>
     <img class="logo" src="logo_1.png" alt="STCT 로고" />
     <p class="slogan">
       All workers around the world should be compensated for their labor. SCT will be there to compensate them.<br>
       We will pay this to all workers around the world. And we will work harder.<br>
       The IPO of companies will grow and the GDP will grow. We will work to make it happen.<br>
       The plan is already in place.
-    </p><div class="countdown-box" id="swapCountdown">스왑 가능까지: 계산 중...</div>
-<div class="countdown-box" id="buyCountdown">구매 가능까지: 계산 중...</div>
+    </p>
+    <div class="swap-box">
+      <h3>스왑하기</h3>
+      <input type="number" id="bnbAmount" placeholder="BNB 입력" />
+      <div id="stctResult">예상 STCT: 0</div>
+      <button id="swapButton">스왑 실행</button>
+    </div>
+    <div class="buy-box">
+      <h3>STCT 직접 구매</h3>
+      <input type="number" id="buyBnbAmount" placeholder="구매할 BNB 수량 입력" />
+      <div id="buyStctResult">예상 STCT: 0</div>
+      <button id="buyButton">토큰 구매</button>
+    </div>
+  </header>
+  <script>
+    const bnbInput = document.getElementById('bnbAmount');
+    const stctOutput = document.getElementById('stctResult');
+    const swapButton = document.getElementById('swapButton');bnbInput.addEventListener('input', () => {
+  const bnb = parseFloat(bnbInput.value) || 0;
+  const rate = 100000000;
+  const stct = bnb * rate;
+  stctOutput.textContent = `예상 STCT: ${stct.toLocaleString()} STCT`;
+});
 
-  </header>  <script>
-    function start30DayCountdown(targetDate, displayId, label) {
-      const display = document.getElementById(displayId);
-      const timer = setInterval(() => {
-        const now = new Date();
-        const distance = targetDate - now;
+swapButton.addEventListener('click', () => {
+  alert("스왑 기능은 추후 연동 예정입니다.");
+});
 
-        if (distance <= 0) {
-          clearInterval(timer);
-          display.textContent = `${label} 가능`;
-          display.style.background = '#28a745';
-          display.style.color = '#fff';
-          return;
-        }
+const buyInput = document.getElementById('buyBnbAmount');
+const buyOutput = document.getElementById('buyStctResult');
+const buyButton = document.getElementById('buyButton');
 
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
-        const minutes = Math.floor((distance / (1000 * 60)) % 60);
-        const seconds = Math.floor((distance / 1000) % 60);
+buyInput.addEventListener('input', () => {
+  const bnb = parseFloat(buyInput.value) || 0;
+  const rate = 100000000;
+  const stct = bnb * rate;
+  buyOutput.textContent = `예상 STCT: ${stct.toLocaleString()} STCT`;
+});
 
-        display.textContent = `${label} ${days}일 ${hours}시간 ${minutes}분 ${seconds}초`;
-      }, 1000);
-    }
+buyButton.addEventListener('click', () => {
+  alert("토큰 구매 기능은 추후 연동 예정입니다.");
+});
 
-    const swapTarget = new Date();
-    swapTarget.setDate(swapTarget.getDate() + 30);
-
-    const buyTarget = new Date();
-    buyTarget.setDate(buyTarget.getDate() + 30);
-
-    start30DayCountdown(swapTarget, 'swapCountdown', '스왑 가능까지:');
-    start30DayCountdown(buyTarget, 'buyCountdown', '구매 가능까지:');
-  </script></body>
+  </script>
+</body>
 </html>
