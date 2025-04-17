@@ -2,7 +2,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SweatCostToken (STCT)</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
     body {
@@ -16,30 +15,30 @@
 }
 
 .logo {
-  width: 200px;
+  width: 180px;
   height: auto;
   margin-bottom: 20px;
 }
 
 h1 {
-  font-size: 48px;
+  font-size: 6vw;
   margin-bottom: 10px;
   color: #ffd700;
 }
 
 p {
-  font-size: 20px;
+  font-size: 4vw;
   color: #ccc;
 }
 
 .wallet-button {
   position: fixed;
-  top: 20px;
-  right: 20px;
+  top: 16px;
+  right: 16px;
   background-color: #ffd700;
   color: #000;
-  font-size: 24px;
-  padding: 14px;
+  font-size: 20px;
+  padding: 12px;
   border-radius: 50%;
   text-decoration: none;
   box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
@@ -53,28 +52,41 @@ p {
 }
 
 .section {
-  margin-top: 80px;
+  margin-top: 60px;
+  padding: 0 16px;
 }
 
 .tokenomics, .roadmap, .usage, .community, .footer {
-  padding: 20px;
+  padding: 20px 10px;
 }
 
 h2 {
   color: #ffd700;
+  font-size: 5vw;
 }
 
 .footer {
   background: #111;
-  font-size: 14px;
+  font-size: 3vw;
   color: #777;
   margin-top: 60px;
+  padding-bottom: 40px;
 }
 
 #walletAddress {
   margin-top: 20px;
-  font-size: 16px;
+  font-size: 4vw;
   color: #ffd700;
+  word-break: break-word;
+  padding: 0 10px;
+}
+
+@media(min-width: 768px) {
+  h1 { font-size: 48px; }
+  p, #walletAddress { font-size: 18px; }
+  h2 { font-size: 32px; }
+  .footer { font-size: 14px; }
+  .logo { width: 200px; }
 }
 
   </style>
@@ -85,8 +97,12 @@ h2 {
     <i class="fas fa-wallet"></i>
   </a>  <header>
     <img class="logo" src="logo.png" alt="STCT 로고" />
-    <h1>SweatCostToken</h1>
-    <p>노동의 가치를 STCT로 보상받는 Web3 혁신</p>
+        <p style="margin-top: 10px; font-size: 3.5vw; color: #eee; padding: 0 20px;">
+      All workers around the world should be compensated for their labor. SCT will be there to compensate them. <br>
+      We will pay this to all workers around the world. And we will work harder. <br>
+      The IPO of companies will grow and the GDP will grow. We will work to make it happen. <br>
+      The plan is already in place.
+    </p>
   </header>  <p id="walletAddress"></p>  <div class="section tokenomics">
     <h2>토큰 정보</h2>
     <p>총 공급량: 1,000,000,000,000,000 STCT</p>
@@ -114,9 +130,7 @@ h2 {
     const connectBtn = document.getElementById('connectWalletBtn');
     const addressDisplay = document.getElementById('walletAddress');
 
-    connectBtn.addEventListener('click', async (event) => {
-      event.preventDefault();
-
+    async function connectWallet() {
       if (typeof window.ethereum === 'undefined') {
         alert("MetaMask가 설치되어 있지 않습니다. 설치 후 다시 시도해주세요.");
         return;
@@ -125,10 +139,25 @@ h2 {
       try {
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
         const userAddress = accounts[0];
-        addressDisplay.textContent = `연결된 지갑: ${userAddress}`;
+        const maskedAddress = `${userAddress.slice(0, 6)}...${userAddress.slice(-4)}`;
+        addressDisplay.textContent = `연결된 지갑: ${maskedAddress}`;
+        localStorage.setItem('connectedWallet', userAddress);
       } catch (err) {
         console.error(err);
         alert("지갑 연결이 거부되었습니다.");
+      }
+    }
+
+    connectBtn.addEventListener('click', async (event) => {
+      event.preventDefault();
+      await connectWallet();
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedAddress = localStorage.getItem('connectedWallet');
+      if (savedAddress) {
+        const maskedAddress = `${savedAddress.slice(0, 6)}...${savedAddress.slice(-4)}`;
+        addressDisplay.textContent = `연결된 지갑: ${maskedAddress}`;
       }
     });
   </script></body>
