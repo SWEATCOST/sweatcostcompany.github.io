@@ -211,10 +211,12 @@ $1
       <div id="stctResult">예상 STCT: 0</div>
       <button id="swapButton">스왑까지 남은 시간: 계산 중...</button>
     </div>
-    <div class="buy-box">
-      <h3>STCT 직접 구매</h3>
-      <input type="number" id="buyBnbAmount" placeholder="구매할 BNB 수량 입력">
-      <div id="buyStctResult">예상 STCT: 0</div>
+    $1<div class="buy-box">
+  <h3>STCT 사전구매</h3>
+  <input type="number" id="preBnbAmount" placeholder="사전구매 BNB 수량 입력 (최대 2)">
+  <div id="preStctResult">예상 STCT: 0</div>
+  <button id="preBuyButton">사전구매 실행</button>
+</div>
       <button id="buyButton">구매까지 남은 시간: 계산 중...</button>
     </div>
   </header>  <div class="token-info-box" id="tokenomics">
@@ -290,5 +292,38 @@ $1
         alert('지금은 구매할 수 없습니다');
       }
     });
-  </script></body>
+  
+    // 사전구매 로직
+    const preInput = document.getElementById('preBnbAmount');
+    const preOutput = document.getElementById('preStctResult');
+    const preButton = document.getElementById('preBuyButton');
+    let prePurchased = parseFloat(localStorage.getItem("preBuyTotal") || "0");
+
+    preInput.addEventListener('input', () => {
+      const bnb = parseFloat(preInput.value) || 0;
+      if (bnb + prePurchased > 2) {
+        preOutput.textContent = `총 2 BNB까지 구매 가능. 현재 남은 한도: ${(2 - prePurchased).toFixed(2)} BNB`;
+        preButton.disabled = true;
+      } else {
+        const stct = bnb * 100000000;
+        preOutput.textContent = `예상 STCT: ${stct.toLocaleString()} STCT`;
+        preButton.disabled = false;
+      }
+    });
+
+    preButton.addEventListener('click', () => {
+      const bnb = parseFloat(preInput.value) || 0;
+      if (bnb <= 0 || prePurchased + bnb > 2) {
+        alert('최대 2 BNB까지만 사전구매할 수 있습니다.');
+        return;
+      }
+      prePurchased += bnb;
+      localStorage.setItem("preBuyTotal", prePurchased.toString());
+      alert(`사전구매 완료: 누적 ${prePurchased.toFixed(2)} BNB`);
+      preInput.value = '';
+      preOutput.textContent = '';
+      preButton.disabled = prePurchased >= 2;
+    });
+  $1
+</body>
 </html>
