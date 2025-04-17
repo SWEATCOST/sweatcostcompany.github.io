@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="ko">
+<!DOCTYPE html>
+<html lang="ko">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,123 +11,140 @@
       color: #fff;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       text-align: center;
-    }header {
-  padding: 40px 20px 20px;
-}
+    }
 
-.logo {
-  width: 180px;
-  height: auto;
-  margin-bottom: 20px;
-}
+    header {
+      padding: 40px 20px 20px;
+    }
 
-h1 {
-  font-size: 6vw;
-  margin-bottom: 10px;
-  color: #ffd700;
-}
+    .logo {
+      width: 280px;
+      height: auto;
+      margin-bottom: 20px;
+    }
 
-p {
-  font-size: 4vw;
-  color: #ccc;
-}
+    h1 {
+      font-size: 6vw;
+      margin-bottom: 10px;
+      color: #ffd700;
+    }
 
-.wallet-button {
-  position: fixed;
-  top: 16px;
-  right: 16px;
-  background-color: #ffd700;
-  color: #000;
-  font-size: 20px;
-  padding: 12px;
-  border-radius: 50%;
-  text-decoration: none;
-  box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
-  z-index: 9999;
-  transition: transform 0.2s ease;
-}
+    p {
+      font-size: 4vw;
+      color: #ccc;
+    }
 
-.wallet-button:hover {
-  transform: scale(1.1);
-  background-color: #ffcc00;
-}
+    .wallet-button {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      background-color: #ffd700;
+      color: #000;
+      font-size: 20px;
+      padding: 12px;
+      border-radius: 50%;
+      text-decoration: none;
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+      z-index: 9999;
+      transition: transform 0.2s ease;
+    }
 
-.section {
-  margin-top: 60px;
-  padding: 0 16px;
-}
+    .wallet-button:hover {
+      transform: scale(1.1);
+      background-color: #ffcc00;
+    }
 
-.tokenomics, .roadmap, .usage, .community, .footer {
-  padding: 20px 10px;
-}
+    .section {
+      margin-top: 60px;
+      padding: 0 16px;
+    }
 
-h2 {
-  color: #ffd700;
-  font-size: 5vw;
-}
+    .tokenomics, .roadmap, .usage, .community, .footer {
+      padding: 20px 10px;
+    }
 
-.footer {
-  background: #111;
-  font-size: 3vw;
-  color: #777;
-  margin-top: 60px;
-  padding-bottom: 40px;
-}
+    h2 {
+      color: #ffd700;
+      font-size: 5vw;
+    }
 
-#walletAddress {
-  margin-top: 20px;
-  font-size: 4vw;
-  color: #ffd700;
-  word-break: break-word;
-  padding: 0 10px;
-}
+    .footer {
+      background: #111;
+      font-size: 3vw;
+      color: #777;
+      margin-top: 60px;
+      padding-bottom: 40px;
+    }
 
-@media(min-width: 768px) {
-  h1 { font-size: 48px; }
-  p, #walletAddress { font-size: 18px; }
-  h2 { font-size: 32px; }
-  .footer { font-size: 14px; }
-  .logo { width: 200px; }
-}
+    #walletAddress {
+      margin-top: 20px;
+      font-size: 4vw;
+      color: #ffd700;
+      word-break: break-word;
+      padding: 0 10px;
+    }
 
+    @media(min-width: 768px) {
+      h1 { font-size: 48px; }
+      p, #walletAddress { font-size: 18px; }
+      h2 { font-size: 32px; }
+      .footer { font-size: 14px; }
+      .logo { width: 320px; }
+    }
   </style>
 </head>
 <body>
   <!-- 고정 지갑 연결 버튼 -->
   <a href="#" class="wallet-button" id="connectWalletBtn" title="지갑 연결">
     <i class="fas fa-wallet"></i>
-  </a>  <header>
-    <img class="logo" src="logo.png" alt="STCT 로고" />
-        <p style="margin-top: 10px; font-size: 3.5vw; color: #eee; padding: 0 20px;">
+  </a>
+
+  <header>
+    <img class="logo" src="logo.png" alt="STCT 로고" style="background: transparent;" />
+    <p style="margin-top: 10px; font-size: 3.5vw; color: #eee; padding: 0 20px;">
       All workers around the world should be compensated for their labor. SCT will be there to compensate them. <br>
       We will pay this to all workers around the world. And we will work harder. <br>
       The IPO of companies will grow and the GDP will grow. We will work to make it happen. <br>
       The plan is already in place.
     </p>
-  </header>  <p id="walletAddress"></p>  <div class="section tokenomics">
+  </header>
+
+  <p id="walletAddress"></p>
+
+  <div class="section tokenomics">
     <h2>토큰 정보</h2>
     <p>총 공급량: 1,000,000,000,000,000 STCT</p>
     <p>소각, 스테이킹, 출석 보상 시스템 탑재</p>
-  </div>  <div class="section roadmap">
+  </div>
+
+  <div class="section roadmap">
     <h2>로드맵</h2>
     <p>Q2: 홈페이지 오픈, 지갑 연결</p>
     <p>Q3: DEX 상장, QR 출석 시스템 런칭</p>
     <p>Q4: 글로벌 파트너십 및 커뮤니티 확장</p>
-  </div>  <div class="section usage">
+  </div>
+
+  <div class="section usage">
     <h2>STCT 사용처</h2>
     <p>근무 출석 보상</p>
     <p>파트너 플랫폼 결제</p>
     <p>스테이킹 & 이자 수익</p>
-  </div>  <div class="section community">
+  </div>
+
+  <div class="section community">
     <h2>커뮤니티</h2>
     <p>
       <a href="https://t.me/yourchannel" target="_blank">텔레그램</a> |
       <a href="https://twitter.com/yourprofile" target="_blank">트위터</a> |
       <a href="https://discord.gg/yourinvite" target="_blank">디스코드</a>
     </p>
-  </div>  <div class="footer">
+  </div>
+
+  <div class="footer">
     &copy; 2025 SweatCostCompany. All rights reserved.
-  </div>  <script>
+  </div>
+
+  <script>
     const connectBtn = document.getElementById('connectWalletBtn');
     const addressDisplay = document.getElementById('walletAddress');
 
@@ -160,5 +178,6 @@ h2 {
         addressDisplay.textContent = `연결된 지갑: ${maskedAddress}`;
       }
     });
-  </script></body>
+  </script>
+</body>
 </html>
