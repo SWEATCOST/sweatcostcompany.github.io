@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="ko">
+<!DOCTYPE html>
+<html lang="ko">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -6,145 +7,217 @@
   <style>
     html {
       scroll-behavior: smooth;
-    }body {
-  margin: 0;
-  background: #0f0f0f;
-  color: #fff;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  text-align: center;
-  margin-left: 100px;
-}
+    }
 
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 100px;
-  background: rgba(0, 0, 0, 0.6);
-  padding-top: 80px;
-  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(6px);
-  z-index: 9998;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  align-items: center;
-  transition: background-color 0.3s ease;
-}
+    body {
+      margin: 0;
+      background: #0f0f0f;
+      color: #fff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center;
+      margin-left: 100px;
+    }
 
-.navbar.scrolled {
-  background-color: #222;
-}
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 100px;
+      background: rgba(0, 0, 0, 0.6);
+      padding-top: 80px;
+      box-shadow: 2px 0 6px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(6px);
+      z-index: 9998;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+      transition: background-color 0.3s ease;
+    }
 
-.navbar a {
-  color: #ffd700;
-  font-size: 14px;
-  font-weight: 500;
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
+    .navbar.scrolled {
+      background-color: #222;
+    }
 
-.navbar a.active {
-  font-weight: 700;
-}
+    .navbar a {
+      color: #ffd700;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
 
-.navbar a:hover {
-  color: #ffffff;
-}
+    .navbar a.active {
+      font-weight: 700;
+    }
 
-header {
-  margin-top: 60px;
-  padding: 100px 20px 20px;
-}
+    .navbar a:hover {
+      color: #ffffff;
+    }
 
-.logo {
-  width: 240px;
-  height: auto;
-  margin-bottom: 20px;
-  transition: transform 0.3s ease;
-}
+    header {
+      margin-top: 60px;
+      padding: 100px 20px 20px;
+    }
 
-.logo:hover {
-  transform: scale(1.05);
-}
+    .logo {
+      width: 240px;
+      height: auto;
+      margin-bottom: 20px;
+      transition: transform 0.3s ease;
+    }
 
-.slogan {
-  font-size: 3.2vw;
-  color: #ccc;
-  padding: 0 20px;
-  line-height: 1.8;
-  font-weight: 300;
-  font-style: italic;
-  text-shadow: 0 0 3px rgba(255, 255, 255, 0.05);
-}
+    .logo:hover {
+      transform: scale(1.05);
+    }
 
-.swap-box, .buy-box {
-  background: #1c1c1c;
-  margin: 30px auto;
-  padding: 20px;
-  width: 90%;
-  max-width: 400px;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(255, 215, 0, 0.1);
-  color: #fff;
-}
+    .slogan {
+      font-size: 3.2vw;
+      color: #ccc;
+      padding: 0 20px;
+      line-height: 1.8;
+      font-weight: 300;
+      font-style: italic;
+      text-shadow: 0 0 3px rgba(255, 255, 255, 0.05);
+    }
 
-.swap-box h3, .buy-box h3 {
-  color: #ffd700;
-  margin-bottom: 15px;
-}
+    .swap-box, .buy-box {
+      background: #1c1c1c;
+      margin: 30px auto;
+      padding: 20px;
+      width: 90%;
+      max-width: 400px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.1);
+      color: #fff;
+    }
 
-.swap-box input, .buy-box input {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 10px;
-  font-size: 16px;
-  border: none;
-  border-radius: 8px;
-}
+    .swap-box h3, .buy-box h3 {
+      color: #ffd700;
+      margin-bottom: 15px;
+    }
 
-#stctResult, #buyStctResult {
-  font-size: 16px;
-  margin-bottom: 15px;
-  color: #ccc;
-}
+    .swap-box input, .buy-box input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+    }
 
-#swapButton, #buyButton {
-  background: #ffd700;
-  color: #000;
-  padding: 12px 20px;
-  border: none;
-  font-weight: bold;
-  font-size: 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  width: 100%;
-}
+    #stctResult, #buyStctResult {
+      font-size: 16px;
+      margin-bottom: 15px;
+      color: #ccc;
+    }
 
-#swapButton:hover, #buyButton:hover {
-  background: #ffcc00;
-}
+    #swapButton, #buyButton {
+      background: #ffd700;
+      color: #000;
+      padding: 12px 20px;
+      border: none;
+      font-weight: bold;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+    }
 
-.wallet-button {
-  position: fixed;
-  top: 16px;
-  right: 16px;
-  background-color: #ffd700;
-  color: #000;
-  font-size: 20px;
-  padding: 12px;
-  border-radius: 50%;
-  text-decoration: none;
-  box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
-  z-index: 9999;
-  transition: transform 0.2s ease;
-}
+    #swapButton:hover, #buyButton:hover {
+      background: #ffcc00;
+    }
 
-.wallet-button:hover {
-  transform: scale(1.1);
-  background-color: #ffcc00;
-}
+    .wallet-button {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      background-color: #ffd700;
+      color: #000;
+      font-size: 20px;
+      padding: 12px;
+      border-radius: 50%;
+      text-decoration: none;
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+      z-index: 9999;
+      transition: transform 0.2s ease;
+    }
 
+    .wallet-button:hover {
+      transform: scale(1.1);
+      background-color: #ffcc00;
+    }
   </style>
 </head>
+<body>
+  <!-- 왼쪽 고정 메뉴 -->
+  <nav class="navbar">
+    <a href="#tokenomics">토큰정보</a>
+    <a href="#roadmap">로드맵</a>
+    <a href="#usage">사용처</a>
+    <a href="#community">커뮤니티</a>
+  </nav>
+
+  <!-- 지갑 연결 버튼 -->
+  <a href="#" class="wallet-button" id="connectWalletBtn" title="지갑 연결">
+    <i class="fas fa-wallet"></i>
+  </a>
+
+  <header>
+    <img class="logo" src="logo_1.png" alt="STCT 로고" />
+    <p class="slogan">
+      All workers around the world should be compensated for their labor. SCT will be there to compensate them. <br>
+      We will pay this to all workers around the world. And we will work harder. <br>
+      The IPO of companies will grow and the GDP will grow. We will work to make it happen. <br>
+      The plan is already in place.
+    </p>
+
+    <div class="swap-box">
+      <h3>스왑하기</h3>
+      <input type="number" id="bnbAmount" placeholder="BNB 입력" />
+      <div id="stctResult">예상 STCT: 0</div>
+      <button id="swapButton">스왑 실행</button>
+    </div>
+
+    <div class="buy-box">
+      <h3>STCT 직접 구매</h3>
+      <input type="number" id="buyBnbAmount" placeholder="구매할 BNB 수량 입력" />
+      <div id="buyStctResult">예상 STCT: 0</div>
+      <button id="buyButton">토큰 구매</button>
+    </div>
+  </header>
+
+  <script>
+    const bnbInput = document.getElementById('bnbAmount');
+    const stctOutput = document.getElementById('stctResult');
+    const swapButton = document.getElementById('swapButton');
+
+    bnbInput.addEventListener('input', () => {
+      const bnb = parseFloat(bnbInput.value) || 0;
+      const rate = 100000000;
+      const stct = bnb * rate;
+      stctOutput.textContent = `예상 STCT: ${stct.toLocaleString()} STCT`;
+    });
+
+    swapButton.addEventListener('click', () => {
+      alert("스왑 기능은 추후 연동 예정입니다.");
+    });
+
+    const buyInput = document.getElementById('buyBnbAmount');
+    const buyOutput = document.getElementById('buyStctResult');
+    const buyButton = document.getElementById('buyButton');
+
+    buyInput.addEventListener('input', () => {
+      const bnb = parseFloat(buyInput.value) || 0;
+      const rate = 100000000;
+      const stct = bnb * rate;
+      buyOutput.textContent = `예상 STCT: ${stct.toLocaleString()} STCT`;
+    });
+
+    buyButton.addEventListener('click', () => {
+      alert("토큰 구매 기능은 추후 연동 예정입니다.");
+    });
+  </script>
+</body>
+</html>
