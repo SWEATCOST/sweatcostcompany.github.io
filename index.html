@@ -18,9 +18,14 @@
     }
 
     .logo {
-      width: 500px;
+      width: 240px;
       height: auto;
       margin-bottom: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
     }
 
     h1 {
@@ -29,9 +34,14 @@
       color: #ffd700;
     }
 
-    p {
-      font-size: 4vw;
+    .slogan {
+      font-size: 3.2vw;
       color: #ccc;
+      padding: 0 20px;
+      line-height: 1.8;
+      font-weight: 300;
+      font-style: italic;
+      text-shadow: 0 0 3px rgba(255, 255, 255, 0.05);
     }
 
     .wallet-button {
@@ -89,7 +99,8 @@
       p, #walletAddress { font-size: 18px; }
       h2 { font-size: 32px; }
       .footer { font-size: 14px; }
-      .logo { width: 320px; }
+      .logo { width: 200px; }
+      .slogan { font-size: 15px; }
     }
   </style>
 </head>
@@ -100,8 +111,8 @@
   </a>
 
   <header>
-    <img class="logo" src="logo_1.png" alt="STCT 로고" style="background: transparent;" />
-    <p style="margin-top: 7px; font-size: 3.5vw; color: #eee; padding: 0 20px;">
+    <img class="logo" src="logo_1.png" alt="STCT 로고" />
+    <p class="slogan">
       All workers around the world should be compensated for their labor. SCT will be there to compensate them. <br>
       We will pay this to all workers around the world. And we will work harder. <br>
       The IPO of companies will grow and the GDP will grow. We will work to make it happen. <br>
