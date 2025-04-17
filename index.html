@@ -38,12 +38,24 @@ nsition: color 0.2s ease; }
     header { padding: 140px 20px 20px; }
     .logo { width: 250px; margin-bottom: 20px; transition: transform 0.3s ease; }
     .logo:hover { transform: scale(1.05); }
-    .slogan {
-      font-size: 3.2vw; color: #ccc;
-      padding: 0 20px; line-height: 1.8;
-      font-weight: 300; font-style: italic;
-      text-shadow: 0 0 3px rgba(255, 255, 255, 0.05);
-    }
+    
+   .slogan {
+  font-size: 2.2vw;
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.8;
+  color: #ffd700;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+  padding: 0 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  animation: fadeInUp 1.5s ease-out both;
+}
+    @keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+    
 #buyBnbAmount,
 #preBnbAmount {
   max-width: 240px;
@@ -124,11 +136,12 @@ nsition: color 0.2s ease; }
   </a>  <header>
     <img class="logo" src="logo_1.png" alt="STCT 로고">
     <p class="slogan">
-      All workers around the world should be compensated for their labor. SCT will be there to compensate them.<br>
-      We will pay this to all workers around the world. And we will work harder.<br>
-      The IPO of companies will grow and the GDP will grow. We will work to make it happen.<br>
-      The plan is already in place.
-    </p>
+  All workers around the world should be compensated for their labor. <br>
+  <strong style="color: #fff;">STCT will be there to compensate them.</strong><br><br>
+  We will pay this to all workers around the world. And we will work harder.<br><br>
+  The IPO of companies will grow and the GDP will grow. We will work to make it happen.<br>
+  <strong style="color: #ffcc00;">The plan is already in place.</strong>
+</p>
   </header>
 
   </div>  <div class="buy-box">
