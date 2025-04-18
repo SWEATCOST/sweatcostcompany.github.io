@@ -25,7 +25,10 @@
     min-height: 100vh;
   }
 
-  
+  #connectWalletBtn:hover {
+  transform: scale(1.15);
+}
+
 
 
 .navbar {
@@ -777,6 +780,10 @@ function updatePurchaseTable() {
       const account = accounts[0];
       const shortened = account.slice(0, 6) + '...' + account.slice(-4);
       connectWalletBtn.title = "Connected: " + shortened;
+
+       connectWalletBtn.style.background = '#00ffc8';
+      connectWalletBtn.style.boxShadow = '0 0 12px rgba(0, 255, 200, 0.4)';
+      
     } catch (err) {
       console.error('지갑 연결 실패:', err);
       alert('지갑 연결이 취소되었거나 실패했습니다.');
