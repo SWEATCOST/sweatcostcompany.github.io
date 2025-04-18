@@ -491,6 +491,21 @@ nsition: color 0.2s ease; }
 </button>
 </div>
 
+<h3 style="color: gold;">최근 구매자 (최신 10건)</h3>
+<table style="width: 100%; color: white; font-size: 14px; border-collapse: collapse;">
+  <thead>
+    <tr style="color: gold; border-bottom: 1px solid #444;">
+      <th>주소</th>
+      <th>금액 (BNB)</th>
+      <th>예상 STCT</th>
+      <th>시간</th>
+    </tr>
+  </thead>
+  <tbody id="purchaseTableBody">
+    <!-- JavaScript로 자동 표시 -->
+  </tbody>
+</table>
+
 <div style="text-align:center; margin-top: 40px;">
   <img src="lockup_visual2.png" alt="STCT 락업 비율 시각화"
     style="width: 480px; max-width: 90%; height: auto; border-radius: 16px; box-shadow: 0 0 30px rgba(255, 215, 0, 0.1);">
@@ -704,6 +719,52 @@ const buyButton = document.getElementById('buyButton');
     }
   });
 
+let purchaseLog = JSON.parse(localStorage.getItem("purchaseLog") || "[]");
+const TOKEN_RATE = 10000000; // 1 BNB = 10,000,000 STCT
+
+function handlePresalePurchase() {
+  const buyer = currentAccount;
+  const amount = parseFloat(document.getElementById("preBnbAmount").value);
+  const timestamp = new Date().toLocaleTimeString();
+
+  if (!buyer || amount <= 0) return;
+
+  const stctAmount = Math.floor(amount * TOKEN_RATE);
+
+  // 새 구매 기록 추가
+  purchaseLog.unshift({
+    address: buyer,
+    amount: amount.toFixed(2),
+    stct: stctAmount.toLocaleString(),
+    time: timestamp
+  });
+
+  // 최대 10개까지만 유지
+  purchaseLog = purchaseLog.slice(0, 10);
+
+  // 저장 및 표시
+  localStorage.setItem("purchaseLog", JSON.stringify(purchaseLog));
+  updatePurchaseTable();
+}
+
+function formatAddress(address) {
+  return address.slice(0, 6) + "..." + address.slice(-4);
+}
+
+function updatePurchaseTable() {
+  const tableBody = document.getElementById("purchaseTableBody");
+  tableBody.innerHTML = "";
+
+  purchaseLog.forEach(log => {
+    const row = `<tr>
+      <td>${formatAddress(log.address)}</td>
+      <td>${log.amount} BNB</td>
+      <td>${log.stct} STCT</td>
+      <td>${log.time}</td>
+    </tr>`;
+    tableBody.innerHTML += row;
+  });
+}
 
   
 </script></body>
