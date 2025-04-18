@@ -25,16 +25,7 @@
     min-height: 100vh;
   }
 
-  .wallet-animated {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: all 0.6s ease-out;
-}
-
-.wallet-animated.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+  
 
 
 .navbar {
@@ -459,18 +450,6 @@ nsition: color 0.2s ease; }
     <div id="buyStctResult">예상 STCT: 0</div>
     <button id="buyButton" class="stylish-button">구매까지 남은 시간: 계산 중...</button>
   </div> 
-
-<!-- 🦊 MetaMask Connect 버튼 -->
-<div style="text-align:center; margin-top: 20px;">
-  <a href="#" class="wallet-button wallet-animated" id="connectWalletBtn" title="Connect with MetaMask">
-
-    <img src="metamask2.png" alt="MetaMask Logo"
-         style="width: 24px; height: 24px; margin-right: 10px;">
-    <span id="walletAddress">Connect Wallet</span>
-  </a>
-</div>
-
-
   
 <div class="presale-banner">
   <div class="presale-badge">LIMITED PRE-SALE OFFER</div>
@@ -772,44 +751,6 @@ function updatePurchaseTable() {
     tableBody.innerHTML += row;
   });
 }
-
-
-  const connectWalletBtn = document.getElementById('connectWalletBtn');
-  const walletAddressEl = document.getElementById('walletAddress');
-
-  async function connectWallet() {
-    if (typeof window.ethereum === 'undefined') {
-      alert('MetaMask가 설치되어 있지 않습니다.');
-      return;
-    }
-
-    try {
-      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-      const account = accounts[0];
-      const formatted = `${account.slice(0, 6)}...${account.slice(-4)}`;
-      walletAddressEl.textContent = formatted;
-      connectWalletBtn.title = `Connected: ${account}`;
-    } catch (err) {
-      console.error('지갑 연결 실패:', err);
-      alert('지갑 연결에 실패했습니다.');
-    }
-  }
-
-  connectWalletBtn.addEventListener('click', connectWallet);
-
-
-  function animateWalletOnScroll() {
-    const wallet = document.getElementById('connectWalletBtn');
-    const trigger = window.innerHeight * 0.85;
-    const walletTop = wallet.getBoundingClientRect().top;
-
-    if (walletTop < trigger) {
-      wallet.classList.add('visible');
-    }
-  }
-
-  window.addEventListener('scroll', animateWalletOnScroll);
-  window.addEventListener('load', animateWalletOnScroll);
 
   
 </script></body>
