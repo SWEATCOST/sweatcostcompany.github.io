@@ -23,10 +23,15 @@
     min-height: 100vh;
   }
 
-    .navbar {
-  background-color: #000;
+  .navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; /* 다른 요소 위에 보이도록 */
+  background-color: #000; /* 검정 배경 유지 */
   padding: 16px 32px;
-  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.1); /* 금색 포인트 효과 */
 }
 
     .navbar a { color: #ffd700; font-size: 14px; font-weight: 500; text-decoration: none; tra#buyBnbAmount,
