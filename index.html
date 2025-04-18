@@ -464,7 +464,7 @@ const buyButton = document.getElementById('buyButton');
   
     buyInput.addEventListener('input', () => {
     const bnb = parseFloat(buyInput.value) || 0;
-    const stct = bnb * 1000000;
+    const stct = bnb * 2000000;
     buyOutput.textContent = `예상 STCT: ${stct.toLocaleString()} STCT`;
   });
 
