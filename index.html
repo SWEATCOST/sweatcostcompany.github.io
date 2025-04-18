@@ -564,5 +564,38 @@ const buyButton = document.getElementById('buyButton');
   setInterval(updatePresaleCountdown, 1000);
   updatePresaleCountdown();
 
+    <script>
+  const connectWalletBtn = document.getElementById('connectWalletBtn');
+  let currentAccount = null;
+
+  async function connectWallet() {
+    if (typeof window.ethereum === 'undefined') {
+      alert('MetaMask를 설치해주세요.');
+      return;
+    }
+
+    try {
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      currentAccount = accounts[0];
+      connectWalletBtn.innerHTML = `<i class="fas fa-wallet"></i>` + currentAccount.slice(0, 6) + '...' + currentAccount.slice(-4);
+      connectWalletBtn.title = "연결됨: " + currentAccount;
+    } catch (error) {
+      console.error('지갑 연결 에러:', error);
+      alert('지갑 연결이 취소되었거나 오류가 발생했습니다.');
+    }
+  }
+
+  connectWalletBtn.addEventListener('click', connectWallet);
+
+  window.addEventListener('load', async () => {
+    if (window.ethereum && window.ethereum.selectedAddress) {
+      currentAccount = window.ethereum.selectedAddress;
+      connectWalletBtn.innerHTML = `<i class="fas fa-wallet"></i>` + currentAccount.slice(0, 6) + '...' + currentAccount.slice(-4);
+      connectWalletBtn.title = "연결됨: " + currentAccount;
+    }
+  });
+</script>
+
+  
 </script></body>
 </html>
