@@ -81,18 +81,28 @@ nsition: color 0.2s ease; }
       margin-bottom: 10px; font-size: 14px;
       height: 36px; border: none; border-radius: 6px;
     }
-    .wallet-button {
-      position: fixed; top: 16px; right: 16px;
-      background: #ffd700; color: #000;
-      font-size: 20px; padding: 12px;
-      border-radius: 50%; text-decoration: none;
-      box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
-      z-index: 9999; transition: transform 0.2s ease;
-    }
+
+.wallet-button {
+  position: absolute;
+  top: 80px;         /* 상단에서 얼마나 떨어질지 */
+  right: 20px;       /* 오른쪽 여백 */
+  background: #ffd700;
+  color: #000;
+  font-size: 20px;
+  padding: 12px;
+  border-radius: 50%;
+  text-decoration: none;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+  z-index: 1000;
+  transition: transform 0.2s ease;
+}
+
+
     .wallet-button:hover { transform: scale(1.1); background: #ffcc00; }
     .token-info-box {
       margin: 60px auto; padding: 20px; max-width: 600px;
     }
+
     .token-info-box h2 {
       color: #ffd700; font-size: 32px;
       margin-bottom: 20px;
