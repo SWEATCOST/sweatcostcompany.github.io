@@ -25,7 +25,17 @@
     min-height: 100vh;
   }
 
-  
+  .wallet-animated {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease-out;
+}
+
+.wallet-animated.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 
 .navbar {
   position: fixed;
@@ -452,7 +462,7 @@ nsition: color 0.2s ease; }
 
 <!-- 🦊 MetaMask Connect 버튼 -->
 <div style="text-align:center; margin-top: 20px;">
-  <a href="#" id="connectWalletBtn" title="Connect with MetaMask"
+  <a href="#"class="wallet-animated"  id="connectWalletBtn" title="Connect with MetaMask"
      style="display: inline-flex; align-items: center; background: linear-gradient(145deg, #ffd700, #ffb700);
             color: #000; font-weight: bold; padding: 10px 20px; border-radius: 30px;
             text-decoration: none; box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4); transition: all 0.3s ease;">
@@ -788,6 +798,20 @@ function updatePurchaseTable() {
   }
 
   connectWalletBtn.addEventListener('click', connectWallet);
+
+
+  function animateWalletOnScroll() {
+    const wallet = document.getElementById('connectWalletBtn');
+    const trigger = window.innerHeight * 0.85;
+    const walletTop = wallet.getBoundingClientRect().top;
+
+    if (walletTop < trigger) {
+      wallet.classList.add('visible');
+    }
+  }
+
+  window.addEventListener('scroll', animateWalletOnScroll);
+  window.addEventListener('load', animateWalletOnScroll);
 
   
 </script></body>
