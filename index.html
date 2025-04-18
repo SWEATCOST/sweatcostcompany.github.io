@@ -770,34 +770,34 @@ function updatePurchaseTable() {
     connectWallet();
   });
 
+const connectWalletBtn = document.getElementById('connectWalletBtn');
+let currentAccount = null;
 
-  const connectWalletBtn = document.getElementById('connectWalletBtn');
-
-  async function connectWallet() {
-    if (!window.ethereum) {
-      alert('MetaMask가 설치되어 있지 않습니다.');
-      return;
-    }
-
-    try {
-      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-      const account = accounts[0];
-      const shortened = account.slice(0, 6) + '...' + account.slice(-4);
-      connectWalletBtn.title = "Connected: " + shortened;
-
-      // 버튼 색 변경
-      connectWalletBtn.style.background = '#00ffc8';
-      connectWalletBtn.style.boxShadow = '0 0 12px rgba(0, 255, 200, 0.4)';
-    } catch (error) {
-      console.error(error);
-      alert('지갑 연결을 거부하셨거나 오류가 발생했습니다.');
-    }
+async function connectWallet() {
+  if (!window.ethereum) {
+    alert('MetaMask가 설치되어 있지 않습니다.');
+    return;
   }
 
-  connectWalletBtn.addEventListener('click', (e) => {
-    e.preventDefault(); // 링크 기본 동작 막기
-    connectWallet();
-  });
+  try {
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    const account = accounts[0];
+    currentAccount = account; // ✅ 여기 저장
+    const shortened = account.slice(0, 6) + '...' + account.slice(-4);
+    connectWalletBtn.title = "Connected: " + shortened;
+
+    connectWalletBtn.style.background = '#00ffc8';
+    connectWalletBtn.style.boxShadow = '0 0 12px rgba(0, 255, 200, 0.4)';
+  } catch (error) {
+    console.error(error);
+    alert('지갑 연결을 거부하셨거나 오류가 발생했습니다.');
+  }
+}
+
+connectWalletBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  connectWallet();
+});
 
 
   
