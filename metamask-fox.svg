@@ -1,0 +1,8 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 318.6 318.6">
+  <!-- 간단한 대체용 마스코트 로고 (원본 아님, 예시용) -->
+  <circle cx="159.3" cy="159.3" r="159.3" fill="#f6851b"/>
+  <polygon points="100,100 150,150 100,200" fill="#e2761b"/>
+  <polygon points="218,100 168,150 218,200" fill="#e2761b"/>
+  <polygon points="100,200 150,170 218,200 150,250" fill="#c04b16"/>
+</svg>
