@@ -169,8 +169,15 @@ nsition: color 0.2s ease; }
       .navbar { flex-direction: column; gap: 12px; }
       .slogan { font-size: 16px; }
       .swap-box input, .buy-box input { padding: 6px 8px; font-size: 13px; height: 32px; }
-      .swap-box, .buy-box { width: 95%; padding: 16px; }
-      
+      .swap-box, .buy-box  {
+  background: #1c1c1c;
+  margin: 30px auto;
+  padding: 20px;
+  width: 90%; max-width: 400px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.1);
+  border: 2px solid #ffd700; /* ← 이 줄을 추가하세요 */
+}
      .token-info-box {
   margin: 80px auto;
   padding: 20px;
@@ -380,7 +387,7 @@ nsition: color 0.2s ease; }
 </div>
 
 
- <div class="buy-box">
+ <div class="buy-box" style="border: 2px solid #ffd700;">
     <h3>STCT 사전구매</h3>
     <p style="font-size: 14px; color: #aaa;">* 사전구매 총 판매량은 1000 BNB로 제한됩니다.</p>
         <p style="font-size: 14px; color: #aaa;">* 1인 최대구매금액은 2 BNB로 제한됩니다.</p>
