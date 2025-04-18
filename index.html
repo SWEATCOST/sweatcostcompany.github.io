@@ -39,6 +39,19 @@ nsition: color 0.2s ease; }
     .logo { width: 250px; margin-bottom: 20px; transition: transform 0.3s ease; }
     .logo:hover { transform: scale(1.05); }
     
+.wallet-button {
+  color: gold;
+  background-color: black;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 24px;
+  text-decoration: none;
+}
+.wallet-button:hover {
+  background-color: #222;
+}
+
+
    .slogan {
   font-size: 5vw;
   font-weight: 300;
@@ -346,9 +359,13 @@ nsition: color 0.2s ease; }
     <a href="#roadmap">로드맵</a>
     <a href="#usage">사용처</a>
     <a href="#community">커뮤니티</a>
-  </nav>  <a href="#" class="wallet-button" id="connectWalletBtn" title="지갑 연결">
+  </nav>  
+
+<a href="#" class="wallet-button" id="connectWalletBtn" title="지갑 연결">
     <i class="fas fa-wallet"></i>
-  </a>  <header>
+  </a>  
+
+<header>
     <img class="logo" src="logo_1.png" alt="STCT 로고">
     <p class="slogan">
   All workers around the world should be compensated for their labor. <br>
@@ -596,28 +613,29 @@ const buyButton = document.getElementById('buyButton');
   });
 </script>
 
+
 <script>
   const connectWalletBtn = document.getElementById("connectWalletBtn");
-  const walletAddressDisplay = document.getElementById("walletAddress");
 
   async function connectWallet() {
     if (window.ethereum) {
       try {
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
         const walletAddress = accounts[0];
-        walletAddressDisplay.textContent = `지갑 주소: ${walletAddress}`;
+        alert("지갑 주소: " + walletAddress);
       } catch (error) {
-        console.error("지갑 연결 오류:", error);
-        alert("지갑 연결에 실패했습니다.");
+        alert("지갑 연결 실패");
       }
     } else {
-      alert("메타마스크가 설치되어 있지 않습니다. 설치해주세요.");
+      alert("메타마스크를 설치해주세요.");
     }
   }
 
-  connectWalletBtn.addEventListener("click", connectWallet);
+  connectWalletBtn.addEventListener("click", function(event) {
+    event.preventDefault(); // 링크 기본 동작 방지
+    connectWallet();
+  });
 </script>
-
   
 </script></body>
 </html>
