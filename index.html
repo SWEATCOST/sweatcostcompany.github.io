@@ -83,7 +83,7 @@ nsition: color 0.2s ease; }
     }
 
 .wallet-button {
-  position: absolute;
+  position: fixed;
   top: 80px;         /* 상단에서 얼마나 떨어질지 */
   right: 20px;       /* 오른쪽 여백 */
   background: #ffd700;
@@ -93,7 +93,7 @@ nsition: color 0.2s ease; }
   border-radius: 50%;
   text-decoration: none;
   box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
-  z-index: 1000;
+  z-index: 9999;
   transition: transform 0.2s ease;
 }
 
@@ -434,6 +434,7 @@ nsition: color 0.2s ease; }
     <li><a href="#contact">CONTACT</a></li>
   </ul>
 </nav>
+
 <a href="#" class="wallet-button" id="connectWalletBtn" title="지갑 연결">
     <i class="fas fa-wallet"></i>
   </a>  
