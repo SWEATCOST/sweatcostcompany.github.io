@@ -21,6 +21,7 @@
     width: 100%;
     min-height: 100vh;
   }
+
     .navbar {
       position: fixed;
       top: 0; left: 0; width: 100%;
@@ -346,16 +347,78 @@ nsition: color 0.2s ease; }
   background: #555555;
   box-shadow: 0 0 6px rgba(100, 100, 100, 0.3);
 }
+
+
+
+    .navbar {
+      background-color: #000;
+      padding: 16px 32px;
+      box-shadow: 0 2px 8px rgba(255, 215, 0, 0.1);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-menu {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      margin: 0;
+      padding: 0;
+      gap: 24px;
+    }
+
+    .nav-menu li a {
+      color: gold;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 15px;
+      letter-spacing: 1px;
+      position: relative;
+      transition: color 0.3s ease-in-out;
+    }
+
+    .nav-menu li a::after {
+      content: '';
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      background: gold;
+      left: 0;
+      bottom: -5px;
+      transition: 0.3s ease;
+    }
+
+    .nav-menu li a:hover {
+      color: #ffd700;
+    }
+
+    .nav-menu li a:hover::after {
+      width: 100%;
+    }
+
+    @media screen and (max-width: 768px) {
+      .nav-menu {
+        flex-wrap: wrap;
+        gap: 16px;
+        padding: 8px;
+      }
+    }
     
   </style>
 </head>
 <body>
-  <nav class="navbar">
-    <a href="#tokenomics">토큰정보</a>
-    <a href="#roadmap">로드맵</a>
-    <a href="#usage">사용처</a>
-    <a href="#community">커뮤니티</a>
-  </nav>  
+  <ul class="nav-menu">
+  <li><a href="#presale">PRESALE</a></li>
+  <li><a href="#token">TOKEN INFO</a></li>
+  <li><a href="#roadmap">ROADMAP</a></li>
+  <li><a href="#utility">UTILITY</a></li>
+  <li><a href="#rareairdrop">RARE AIRDROP</a></li>
+  <li><a href="#community">COMMUNITY</a></li>
+  <li><a href="#dev">DEVELOPER INFO</a></li>
+  <li><a href="#contact">CONTACT</a></li>
+</ul>
 
 <a href="#" class="wallet-button" id="connectWalletBtn" title="지갑 연결">
     <i class="fas fa-wallet"></i>
