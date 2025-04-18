@@ -603,28 +603,6 @@ const buyButton = document.getElementById('buyButton');
 </script>
 
 
-<script>
-  const connectWalletBtn = document.getElementById("connectWalletBtn");
-
-  async function connectWallet() {
-    if (window.ethereum) {
-      try {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        const walletAddress = accounts[0];
-        alert("지갑 주소: " + walletAddress);
-      } catch (error) {
-        alert("지갑 연결 실패");
-      }
-    } else {
-      alert("메타마스크를 설치해주세요.");
-    }
-  }
-
-  connectWalletBtn.addEventListener("click", function(event) {
-    event.preventDefault(); // 링크 기본 동작 방지
-    connectWallet();
-  });
-</script>
   
 </script></body>
 </html>
