@@ -456,12 +456,13 @@ nsition: color 0.2s ease; }
 
   <!-- 🦊 원형 MetaMask 버튼 -->
 <div style="text-align:center; margin-top: 30px;">
-  <a href="#" id="connectWalletBtn" title="Connect Wallet"
-     style="display: inline-block; width: 48px; height: 48px; border-radius: 50%;
-            background: #ffd700; box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
-            padding: 10px; transition: transform 0.3s ease;">
-    <img src="metamask2.png" alt="MetaMask" style="width: 100%; height: 100%; border-radius: 50%;">
-  </a>
+ <a href="#" id="connectWalletBtn" title="Connect Wallet"
+   style="display: inline-block; width: 48px; height: 48px; border-radius: 50%;
+          background: #ffffff; box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+          padding: 10px; transition: transform 0.3s ease, background 0.3s ease;">
+  <img src="metamask2.png" alt="MetaMask" style="width: 100%; height: 100%; border-radius: 50%;">
+</a>
+
 </div>
 
   
@@ -767,10 +768,11 @@ function updatePurchaseTable() {
 }
 
   
+
   const connectWalletBtn = document.getElementById('connectWalletBtn');
 
   async function connectWallet() {
-    if (typeof window.ethereum === 'undefined') {
+    if (!window.ethereum) {
       alert('MetaMask가 설치되어 있지 않습니다.');
       return;
     }
@@ -781,16 +783,20 @@ function updatePurchaseTable() {
       const shortened = account.slice(0, 6) + '...' + account.slice(-4);
       connectWalletBtn.title = "Connected: " + shortened;
 
-       connectWalletBtn.style.background = '#00ffc8';
+      // 버튼 색 변경
+      connectWalletBtn.style.background = '#00ffc8';
       connectWalletBtn.style.boxShadow = '0 0 12px rgba(0, 255, 200, 0.4)';
-      
-    } catch (err) {
-      console.error('지갑 연결 실패:', err);
-      alert('지갑 연결이 취소되었거나 실패했습니다.');
+    } catch (error) {
+      console.error(error);
+      alert('지갑 연결을 거부하셨거나 오류가 발생했습니다.');
     }
   }
 
-  connectWalletBtn.addEventListener('click', connectWallet);
+  connectWalletBtn.addEventListener('click', (e) => {
+    e.preventDefault(); // 링크 기본 동작 막기
+    connectWallet();
+  });
+
 
   
 </script></body>
