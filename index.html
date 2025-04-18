@@ -410,15 +410,16 @@ nsition: color 0.2s ease; }
       width: 100%;
     }
 
-   @media screen and (max-width: 768px) {
+  @media screen and (max-width: 768px) {
   .nav-menu {
-    flex-wrap: wrap;         /* 항목들을 자동 줄바꿈 */
-    justify-content: center; /* 가운데 정렬 */
-    gap: 12px;               /* 항목 간 여백 */
-    padding: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;   /* 중앙 정렬 */
+    gap: 12px;                 /* 항목 간 여백 */
+    padding: 12px 16px;
+    text-align: center;
   }
 }
-    
   </style>
 </head>
 
