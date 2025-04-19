@@ -788,6 +788,7 @@ async function connectWallet() {
     connectWalletBtn.title = "Connected: " + shortened;
     connectWalletBtn.style.background = '#00ffc8';
     connectWalletBtn.style.boxShadow = '0 0 12px rgba(0, 255, 200, 0.4)';
+       displayWalletAddress(account);
   } catch (err) {
     console.error(err);
     alert('지갑 연결 실패 또는 거부됨');
