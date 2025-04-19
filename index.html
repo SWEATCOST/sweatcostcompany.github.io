@@ -655,7 +655,7 @@ const buyButton = document.getElementById('buyButton');
 
   function updatePresaleUI() {
     const percent = (totalPresale / maxPresaleTotal) * 100;
-    document.getElementById("presaleSummary").textContent = `총 판매량: ${totalPresale.toFixed(2)} / ${maxPresaleTotal} BNB`;
+    document.getElementById("presaleSummary").textContent = `총 판매량: ${totalPresale.toFixed(6)} / ${maxPresaleTotal} BNB`;
     document.getElementById("presaleBar").style.width = `${Math.min(percent, 100)}%`;
   }
 
