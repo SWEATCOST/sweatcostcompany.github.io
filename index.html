@@ -841,7 +841,24 @@ connectWalletBtn.addEventListener('click', connectWallet);
 function displayWalletAddress(address) {
   const short = address.slice(0, 6) + '...' + address.slice(-4);
   document.getElementById('walletAddressDisplay').innerText = '🧾 지갑 주소: ' + short;
+
+  // 연결 상태 안내 문구
+  document.getElementById('walletStatus').innerText = '✅ 지갑 연결됨';
+  document.getElementById('walletStatus').style.color = '#00ffc8';
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  updatePurchaseTable();
+
+  if (window.ethereum && window.ethereum.selectedAddress) {
+    currentAccount = window.ethereum.selectedAddress;
+    displayWalletAddress(currentAccount);
+  } else {
+    document.getElementById('walletStatus').innerText = '🦊 메타마스크 지갑을 연결해주세요';
+    document.getElementById('walletStatus').style.color = '#ff7070';
+  }
+});
+
 
       
 
