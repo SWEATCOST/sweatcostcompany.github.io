@@ -672,7 +672,7 @@ const buyButton = document.getElementById('buyButton');
     const bnb = parseFloat(preInput.value) || 0;
     const available = maxPresaleTotal - totalPresale;
     if (bnb > 2 || prePurchased + bnb > 2 || bnb > available) {
-      preOutput.textContent = `개인 한도 또는 전체 한도를 초과했습니다. 남은 전체 한도: ${available.toFixed(2)} BNB`;
+      preOutput.textContent = `개인 한도 또는 전체 한도를 초과했습니다. 남은 전체 한도: ${available.toFixed(6)} BNB`;
       preButton.disabled = true;
       return;
     }
@@ -769,7 +769,7 @@ fetch("https://script.google.com/macros/s/AKfycbydH2KE4bbSqZ2ScKd78TNOhB8bKeJcw4
     totalPresale += bnb;
     localStorage.setItem("preBuyTotal", prePurchased.toString());
     localStorage.setItem("preBuyTotalGlobal", totalPresale.toString());
-    alert(`사전구매 완료! 개인 누적 ${prePurchased.toFixed(2)} BNB / 총 판매 ${totalPresale.toFixed(2)} BNB`);
+    alert(`사전구매 완료! 개인 누적 ${prePurchased.toFixed(6)} BNB / 총 판매 ${totalPresale.toFixed(6)} BNB`);
     preInput.value = '';
     preOutput.textContent = '';
     preButton.disabled = prePurchased >= 2 || totalPresale >= maxPresaleTotal;
