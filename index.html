@@ -681,85 +681,70 @@ const buyButton = document.getElementById('buyButton');
     preButton.disabled = false;
   });
 
-  preButton.addEventListener('click', async () => {
-    const bnb = parseFloat(preInput.value) || 0;
-    const available = maxPresaleTotal - totalPresale;
-      if (!currentAccount) {
+preButton.addEventListener('click', async () => {
+  const bnb = parseFloat(preInput.value) || 0;
+  const available = maxPresaleTotal - totalPresale;
+
+  if (!currentAccount) {
     alert("지갑을 먼저 연결하세요.");
     return;
   }
-   if (bnb <= 0) {
-  alert("BNB 수량을 입력해주세요.");
-  return;
-}
-if (bnb > available) {
-  alert(`사전구매 가능 수량을 초과했습니다. 남은 수량: ${available.toFixed(6)} BNB`);
-  return;
-}
-if (prePurchased + bnb > 2) {
-  alert("1인 최대 구매 한도인 2 BNB를 초과했습니다.");
-  return;
-}
+  if (bnb <= 0) {
+    alert("BNB 수량을 입력해주세요.");
+    return;
+  }
+  if (bnb > available) {
+    alert(`사전구매 가능 수량을 초과했습니다. 남은 수량: ${available.toFixed(6)} BNB`);
+    return;
+  }
+  if (prePurchased + bnb > 2) {
+    alert("1인 최대 구매 한도인 2 BNB를 초과했습니다.");
+    return;
+  }
 
-      // ✅ 실제 결제 트랜잭션 전송
   try {
+    // ✅ 실제 결제
     const tx = await window.ethereum.request({
       method: 'eth_sendTransaction',
       params: [{
         from: currentAccount,
-        to: '0x09C32FBb84773288C21a79B3A7666bDE4C93A01E',  // 예: 너의 지갑 주소
-        value: '0x' + (bnb * 1e18).toString(16),  // BNB -> Wei 변환
+        to: '0x09C32FBb84773288C21a79B3A7666bDE4C93A01E',
+        value: '0x' + (bnb * 1e18).toString(16),
       }],
     });
 
     alert('사전구매 트랜잭션 전송 성공! TX: ' + tx);
 
+    // ✅ 시트 전송 데이터 구성
     const totalStct = bnb * 10000000;
-const lockup = {
-  immediate: Math.floor(totalStct * 0.3),
-  after2m: Math.floor(totalStct * 0.2),
-  after4m: Math.floor(totalStct * 0.2),
-  after6m: totalStct - Math.floor(totalStct * 0.3) - Math.floor(totalStct * 0.2) * 2
-};
+    const lockup = {
+      immediate: Math.floor(totalStct * 0.3),
+      after2m: Math.floor(totalStct * 0.2),
+      after4m: Math.floor(totalStct * 0.2),
+      after6m: totalStct - Math.floor(totalStct * 0.3) - Math.floor(totalStct * 0.2) * 2
+    };
 
-fetch("https://script.google.com/macros/s/AKfycbydH2KE4bbSqZ2ScKd78TNOhB8bKeJcw4vlXjTQnCaCmJuoiFSQTtOpX4Ytdp3rpF3S/exec", {
-  method: "POST",
-  body: JSON.stringify({
-    address: currentAccount,
-    bnb: bnb,
-    stct: totalStct,
-    timestamp: new Date().toLocaleString(),
-    immediate: lockup.immediate,
-    after2m: lockup.after2m,
-    after4m: lockup.after4m,
-    after6m: lockup.after6m
-  }),
-  headers: {
-    "Content-Type": "application/json"
-  }
-})
-  .then(res => res.text())
-  .then(result => console.log("✅ Google Sheet 기록 성공:", result))
-  .catch(err => console.error("❌ Google Sheet 기록 오류:", err));
-
-
-     fetch("https://script.google.com/macros/s/AKfycbydH2KE4bbSqZ2ScKd78TNOhB8bKeJcw4vlXjTQnCaCmJuoiFSQTtOpX4Ytdp3rpF3S/exec", {
+    // ✅ Google Sheet에 기록 (중복 X)
+    await fetch("https://script.google.com/macros/s/AKfycbydH2KE4bbSqZ2ScKd78TNOhB8bKeJcw4vlXjTQnCaCmJuoiFSQTtOpX4Ytdp3rpF3S/exec", {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify({
         address: currentAccount,
         bnb: bnb,
-        stct: bnb * 10000000,
-        timestamp: new Date().toLocaleString()
-      }),
-      headers: {
-        "Content-Type": "application/json"
-      }
+        stct: totalStct,
+        timestamp: new Date().toLocaleString(),
+        immediate: lockup.immediate,
+        after2m: lockup.after2m,
+        after4m: lockup.after4m,
+        after6m: lockup.after6m
+      })
     }).then(res => res.text())
-      .then(result => console.log("📄 구글시트 기록:", result))
-      .catch(err => console.error("❌ 구글시트 기록 오류:", err));
+      .then(result => console.log("✅ Google Sheet 기록 성공:", result))
+      .catch(err => console.error("❌ Google Sheet 기록 실패:", err));
 
-    
-    // 구매 기록 저장 (로컬 UI)
+    // ✅ UI 처리
     prePurchased += bnb;
     totalPresale += bnb;
     localStorage.setItem("preBuyTotal", prePurchased.toString());
@@ -767,13 +752,19 @@ fetch("https://script.google.com/macros/s/AKfycbydH2KE4bbSqZ2ScKd78TNOhB8bKeJcw4
     preInput.value = '';
     preOutput.textContent = '';
     preButton.disabled = prePurchased >= 2 || totalPresale >= maxPresaleTotal;
+
     updatePresaleUI();
-    handlePresalePurchase(); // 구매자 기록 테이블 추가
+    handlePresalePurchase();   // 최근 구매자 목록 반영
+    updateTotalPresale();     // 총 판매량 fetch 갱신
+
+    alert(`사전구매 완료! 개인 누적 ${prePurchased.toFixed(6)} BNB / 총 판매 ${totalPresale.toFixed(6)} BNB`);
 
   } catch (error) {
     console.error(error);
     alert('트랜잭션이 취소되었거나 실패했습니다.');
   }
+});
+
     prePurchased += bnb;
     totalPresale += bnb;
     localStorage.setItem("preBuyTotal", prePurchased.toString());
