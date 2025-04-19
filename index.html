@@ -841,14 +841,8 @@ function displayWalletAddress(address) {
     // 최근 구매자 테이블 복원
     updatePurchaseTable();
 
-    // 입력창 값 복원 + 예상 STCT 계산
-    const saved = localStorage.getItem("preInputValue");
-    if (saved) {
-      const preInput = document.getElementById("preBnbAmount");
-      preInput.value = saved;
-      preInput.dispatchEvent(new Event('input'));  // 예상 STCT 자동 계산
-    }
-  });
+   
+  }
 </script>
 
   
