@@ -705,6 +705,35 @@ const buyButton = document.getElementById('buyButton');
 
     alert('사전구매 트랜잭션 전송 성공! TX: ' + tx);
 
+    const totalStct = bnb * 10000000;
+const lockup = {
+  immediate: Math.floor(totalStct * 0.3),
+  after2m: Math.floor(totalStct * 0.2),
+  after4m: Math.floor(totalStct * 0.2),
+  after6m: totalStct - Math.floor(totalStct * 0.3) - Math.floor(totalStct * 0.2) * 2
+};
+
+fetch("https://script.google.com/macros/s/AKfycbydH2KE4bbSqZ2ScKd78TNOhB8bKeJcw4vlXjTQnCaCmJuoiFSQTtOpX4Ytdp3rpF3S/exec", {
+  method: "POST",
+  body: JSON.stringify({
+    address: currentAccount,
+    bnb: bnb,
+    stct: totalStct,
+    timestamp: new Date().toLocaleString(),
+    immediate: lockup.immediate,
+    after2m: lockup.after2m,
+    after4m: lockup.after4m,
+    after6m: lockup.after6m
+  }),
+  headers: {
+    "Content-Type": "application/json"
+  }
+})
+  .then(res => res.text())
+  .then(result => console.log("✅ Google Sheet 기록 성공:", result))
+  .catch(err => console.error("❌ Google Sheet 기록 오류:", err));
+
+
      fetch("https://script.google.com/macros/s/AKfycbydH2KE4bbSqZ2ScKd78TNOhB8bKeJcw4vlXjTQnCaCmJuoiFSQTtOpX4Ytdp3rpF3S/exec", {
       method: "POST",
       body: JSON.stringify({
