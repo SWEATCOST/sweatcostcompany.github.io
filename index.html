@@ -672,7 +672,7 @@ const buyButton = document.getElementById('buyButton');
     preButton.disabled = false;
   });
 
-  preButton.addEventListener('click', () => {
+  preButton.addEventListener('click', async () => {
     const bnb = parseFloat(preInput.value) || 0;
     const available = maxPresaleTotal - totalPresale;
       if (!currentAccount) {
