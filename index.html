@@ -675,10 +675,42 @@ const buyButton = document.getElementById('buyButton');
   preButton.addEventListener('click', () => {
     const bnb = parseFloat(preInput.value) || 0;
     const available = maxPresaleTotal - totalPresale;
+      if (!currentAccount) {
+    alert("지갑을 먼저 연결하세요.");
+    return;
+  }
     if (bnb <= 0 || prePurchased + bnb > 2 || bnb > available) {
       alert('사전구매 한도를 초과했습니다.');
       return;
     }
+      // ✅ 실제 결제 트랜잭션 전송
+  try {
+    const tx = await window.ethereum.request({
+      method: 'eth_sendTransaction',
+      params: [{
+        from: currentAccount,
+        to: '0x여기에_받을_주소_입력',  // 예: 너의 지갑 주소
+        value: '0x' + (bnb * 1e18).toString(16),  // BNB -> Wei 변환
+      }],
+    });
+
+    alert('사전구매 트랜잭션 전송 성공! TX: ' + tx);
+
+    // 구매 기록 저장 (로컬 UI)
+    prePurchased += bnb;
+    totalPresale += bnb;
+    localStorage.setItem("preBuyTotal", prePurchased.toString());
+    localStorage.setItem("preBuyTotalGlobal", totalPresale.toString());
+    preInput.value = '';
+    preOutput.textContent = '';
+    preButton.disabled = prePurchased >= 2 || totalPresale >= maxPresaleTotal;
+    updatePresaleUI();
+    handlePresalePurchase(); // 구매자 기록 테이블 추가
+
+  } catch (error) {
+    console.error(error);
+    alert('트랜잭션이 취소되었거나 실패했습니다.');
+  }
     prePurchased += bnb;
     totalPresale += bnb;
     localStorage.setItem("preBuyTotal", prePurchased.toString());
