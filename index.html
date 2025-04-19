@@ -894,7 +894,7 @@ connectWalletBtn.addEventListener('click', connectWallet);
 
 function displayWalletAddress(address) {
   const short = address.slice(0, 6) + '...' + address.slice(-4);
-  document.getElementById('walletAddressDisplay').innerText = '🧾 지갑 주소: ' + short;
+  document.getElementById('walletAddressDisplay').innerText = ' ' + short;
 
   // 연결 상태 안내 문구
   document.getElementById('walletStatus').innerText = '✅ 지갑 연결됨';
