@@ -525,8 +525,8 @@ nsition: color 0.2s ease; }
   <thead>
     <tr style="color: gold; border-bottom: 1px solid #444;">
       <th>주소</th>
-      <th>금액 (BNB)</th>
-      <th>예상 STCT</th>
+      <th>BNB</th>
+      <th>STCT</th>
       <th>시간</th>
     </tr>
   </thead>
@@ -725,7 +725,7 @@ const buyButton = document.getElementById('buyButton');
   updatePresaleUI();
 
   const presaleCountdownEl = document.getElementById("presaleCountdown");
-  const presaleEndTime = new Date("2025-04-22T00:00:00Z").getTime();  // 마감일 수정 가능
+  const presaleEndTime = new Date("2025-05-22T00:00:00Z").getTime();  // 마감일 수정 가능
 
   function updatePresaleCountdown() {
     const now = new Date().getTime();
@@ -792,8 +792,8 @@ function updatePurchaseTable() {
   purchaseLog.forEach(log => {
     const row = `<tr>
       <td>${formatAddress(log.address)}</td>
-      <td>${log.amount} BNB</td>
-      <td>${log.stct} STCT</td>
+      <td>${log.amount}</td>
+      <td>${log.stct}</td>
       <td>${log.time}</td>
     </tr>`;
     tableBody.innerHTML += row;
