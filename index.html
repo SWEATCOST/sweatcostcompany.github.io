@@ -904,6 +904,25 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
+      async function updateTotalPresale() {
+  try {
+    const res = await fetch("https://script.google.com/macros/s/AKfycbydH2KE4bbSqZ2ScKd78TNOhB8bKeJcw4vlXjTQnCaCmJuoiFSQTtOpX4Ytdp3rpF3S/exec");
+    const json = await res.json();
+
+    const total = parseFloat(json.total || 0);
+    totalPresale = total;
+
+    document.getElementById("presaleSummary").textContent = `총 판매량: ${total.toFixed(6)} / 1000 BNB`;
+
+    const percent = (total / maxPresaleTotal) * 100;
+    document.getElementById("presaleBar").style.width = `${Math.min(percent, 100)}%`;
+  } catch (err) {
+    console.error("누적 판매량 fetch 실패", err);
+  }
+}
+
+updateTotalPresale(); // 페이지 로드시 즉시 호출
+
   
 </script></body>
 </html>
