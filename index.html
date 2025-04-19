@@ -504,6 +504,20 @@ nsition: color 0.2s ease; }
   <i class="fas fa-lock" id="lockIcon" style="margin-right: 8px;"></i>
   사전구매 실행
 </button>
+
+   <!-- 사전구매 버튼 아래에 위치 -->
+<div id="walletAddressDisplay" style="
+  margin-top: 10px;
+  font-size: 0.95rem;
+  color: gold;
+  background-color: rgba(255,255,255,0.05);
+  padding: 6px 12px;
+  border-radius: 8px;
+  display: inline-block;
+">
+  🧾 지갑 주소: Not Connected
+</div>
+
 </div>
 
 <h3 style="color: gold;">최근 구매자 (최신 10건)</h3>
@@ -782,7 +796,12 @@ async function connectWallet() {
 
 connectWalletBtn.addEventListener('click', connectWallet);
 
+function displayWalletAddress(address) {
+  const short = address.slice(0, 6) + '...' + address.slice(-4);
+  document.getElementById('walletAddressDisplay').innerText = '🧾 지갑 주소: ' + short;
+}
 
+      
   
 </script></body>
 </html>
