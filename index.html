@@ -725,7 +725,7 @@ preButton.addEventListener('click', async () => {
     };
 
     // ✅ Google Sheet에 기록 (중복 X)
-    await fetch("https://sweatcostcompany-github-io-ace7.vercel.app/api/send", {
+    await fetch("https://my-proxy-app-murex.vercel.app/api/send", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -895,7 +895,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       async function updateTotalPresale() {
   try {
-    const res = await fetch("https://sweatcostcompany-github-io-ace7.vercel.app/api/send");
+    const res = await fetch("https://my-proxy-app-murex.vercel.app/api/send");
     const json = await res.json();
 
     const total = parseFloat(json.total || 0);
