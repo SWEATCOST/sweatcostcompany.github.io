@@ -354,16 +354,7 @@ transition: color 0.2s ease; }
 
 
 
-    .navbar {
-      background-color: #000;
-      padding: 16px 16px;
-      box-shadow: 0 2px 8px rgba(255, 215, 0, 0.1);
-      position: fixed;
-      width: 100%;
-      top: 0;
-      z-index: 1000;
-    }
-
+  
 
 .nav-menu {
   display: flex;
@@ -416,16 +407,17 @@ transition: color 0.2s ease; }
 }
   </style>
 
-  
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
   
 </head>
+  
 <body>
   <nav class="navbar">
   <ul class="nav-menu">
     <li><a href="#presale">PRESALE</a></li>
     <li><a href="#token">TOKEN INFO</a></li>
     <li><a href="#roadmap">ROADMAP</a></li>
-    <li><a href="utility">UTILITY</a></li>
+    <li><a href="#utility">UTILITY</a></li>
     <li><a href="#rareairdrop">AIRDROP</a></li>
     <li><a href="#nft">NFT</a></li>
     <li><a href="#community">COMMUNITY</a></li>
@@ -745,7 +737,7 @@ preButton.addEventListener('click', async () => {
         address: currentAccount,
         bnb: bnb,
         stct: totalStct,
-        timestamp: new Date().toLocaleString(en-US),
+        timestamp: new Date().toLocaleString("en-US"),
         immediate: lockup.immediate,
         after2m: lockup.after2m,
         after4m: lockup.after4m,
