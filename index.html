@@ -415,6 +415,7 @@ transition: color 0.2s ease; }
   }
 }
 
+<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
 
   </style>
 </head>
@@ -521,6 +522,22 @@ transition: color 0.2s ease; }
 </div>
 </div>
 
+<!-- 기존 메타마스크 버튼 아래에 추가 -->
+<div style="text-align:center; margin-top: 10px;">
+  <div id="balanceDisplay" style="
+    font-size: 1rem;
+    color: #00ffc8;
+    background-color: rgba(255,255,255,0.05);
+    padding: 8px 16px;
+    border-radius: 10px;
+    display: inline-block;
+  ">
+    STCT Balance: Loading...
+  </div>
+</div>
+
+
+  
 <h3 style="color: gold;">Recent Purchasers (Latest 10)</h3>
 <table style="width: 100%; color: white; font-size: 14px; border-collapse: collapse;">
   <thead>
@@ -901,6 +918,62 @@ console.error("❌ Failed to load recent buyers:", err);
 document.addEventListener("DOMContentLoaded", fetchPurchaseLogFromSheet);
 
 updateTotalPresale(); // 페이지 로드시 즉시 호출
+
+
+      <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+<script>
+  const STCT_ADDRESS = "0x338a59DBFe304a05370164c23015F203B0a8b8A2";
+  const STCT_ABI = [
+    {
+      "constant": true,
+      "inputs": [{ "name": "owner", "type": "address" }],
+      "name": "balanceOf",
+      "outputs": [{ "name": "", "type": "uint256" }],
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "decimals",
+      "outputs": [{ "name": "", "type": "uint8" }],
+      "type": "function"
+    }
+  ];
+
+  async function loadSTCTBalance() {
+    if (!window.ethereum || !currentAccount) return;
+
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const contract = new ethers.Contract(STCT_ADDRESS, STCT_ABI, provider);
+
+    try {
+      const balanceRaw = await contract.balanceOf(currentAccount);
+      const decimals = await contract.decimals();
+      const balance = ethers.utils.formatUnits(balanceRaw, decimals);
+
+      document.getElementById("balanceDisplay").innerText = `STCT Balance: ${parseFloat(balance).toLocaleString()} STCT`;
+    } catch (err) {
+      console.error("Failed to load STCT balance", err);
+      document.getElementById("balanceDisplay").innerText = "STCT Balance: Error";
+    }
+  }
+
+  // 지갑 연결 이후 자동 호출
+  connectWalletBtn.addEventListener('click', async () => {
+    await connectWallet();
+    loadSTCTBalance();
+  });
+
+  // 페이지 로드시 자동 실행 (이미 연결된 경우)
+  document.addEventListener("DOMContentLoaded", () => {
+    if (window.ethereum && window.ethereum.selectedAddress) {
+      currentAccount = window.ethereum.selectedAddress;
+      displayWalletAddress(currentAccount);
+      loadSTCTBalance();
+    }
+  });
+</script>
+
 
   
 </script></body>
