@@ -542,12 +542,7 @@ transition: color 0.2s ease; }
   </button>
 </div>
 
-  <!-- 관리자용 출금 버튼 (처음엔 숨김 처리) -->
-<div id="adminControls" style="margin-top: 30px; display: none;">
-  <h3 style="color: gold;">💼 Admin Controls</h3>
-  <button onclick="withdrawBNB()" class="stylish-button">Withdraw BNB</button>
-  <button onclick="withdrawTokens()" class="stylish-button" style="margin-left: 10px;">Withdraw STCT</button>
-</div>
+ 
   
 <h3 style="color: gold;">Recent Purchasers (Latest 10)</h3>
 <table style="width: 100%; color: white; font-size: 14px; border-collapse: collapse;">
@@ -1147,47 +1142,14 @@ async function checkIfAdmin() {
   }
 }
 
-async function withdrawBNB() {
-  if (!window.ethereum || !currentAccount) return;
 
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const signer = provider.getSigner();
-  const contract = new ethers.Contract(SALE_AND_LOCK_ADDRESS, SALE_AND_LOCK_ABI, signer);
-
-  try {
-    const tx = await contract.withdrawBNB();
-    await tx.wait();
-    alert("✅ BNB 출금 완료!");
-  } catch (err) {
-    console.error("❌ 출금 실패", err);
-    alert("❌ 출금 실패 또는 취소됨.");
-  }
-}
-
-async function withdrawTokens() {
-  if (!window.ethereum || !currentAccount) return;
-
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const signer = provider.getSigner();
-  const contract = new ethers.Contract(SALE_AND_LOCK_ADDRESS, SALE_AND_LOCK_ABI, signer);
-
-  try {
-    const tx = await contract.withdrawTokens();
-    await tx.wait();
-    alert("✅ STCT 출금 완료!");
-  } catch (err) {
-    console.error("❌ 출금 실패", err);
-    alert("❌ 출금 실패 또는 취소됨.");
-  }
-}
-      
       
 document.addEventListener("DOMContentLoaded", () => {
   if (window.ethereum && window.ethereum.selectedAddress) {
     currentAccount = window.ethereum.selectedAddress;
     displayWalletAddress(currentAccount);
     loadSTCTBalance();
-    checkIfAdmin();
+   
     loadClaimableLockup();
   }
 
