@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html><html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -42,8 +42,8 @@
   box-shadow: 0 2px 8px rgba(255, 215, 0, 0.1);
 }
 
-    .navbar a { color: #ffd700; font-size: 14px; font-weight: 500; text-decoration: none; #buyBnbAmount,
-transition: color 0.2s ease; }
+    .navbar a { color: #ffd700; font-size: 14px; font-weight: 500; text-decoration: none; tra#buyBnbAmount,
+nsition: color 0.2s ease; }
     .navbar a:hover { color: #ffffff !important; }
     .navbar a.active { font-weight: 700; }
     header { padding: 140px 20px 20px; }
@@ -439,29 +439,30 @@ transition: color 0.2s ease; }
 
 
 <header>
-  <img class="logo" src="logo_1.png" alt="STCT Logo">
-  <p class="slogan">
-    All workers around the world should be compensated for their labor. <br>
-    <strong style="color: #fff;">STCT will be there to compensate them.</strong><br><br>
-    We will pay this to all workers around the world. And we will work harder.<br><br>
-    The IPO of companies will grow and the GDP will grow. We will work to make it happen.<br>
-    <strong style="color: #ffcc00;">The plan is already in place.</strong>
-  </p>
-</header>
+    <img class="logo" src="logo_1.png" alt="STCT 로고">
+    <p class="slogan">
+  All workers around the world should be compensated for their labor. <br>
+  <strong style="color: #fff;">STCT will be there to compensate them.</strong><br><br>
+  We will pay this to all workers around the world. And we will work harder.<br><br>
+  The IPO of companies will grow and the GDP will grow. We will work to make it happen.<br>
+  <strong style="color: #ffcc00;">The plan is already in place.</strong>
+</p>
+  </header>
 
-<div class="buy-box">
-  <h3>Buy STCT Directly [Before DEX Listing]</h3>
-  <input type="number" id="buyBnbAmount" placeholder="Enter BNB amount to purchase">
-  <div id="buyStctResult">Estimated STCT: 0</div>
-  <button id="buyButton" class="stylish-button">Time left until purchase: Calculating...</button>
-</div>
+  </div>  <div class="buy-box">
+    <h3>STCT 직접 구매[DEX상장전]</h3>
+    <input type="number" id="buyBnbAmount" placeholder="구매할 BNB 수량 입력">
+    <div id="buyStctResult">예상 STCT: 0</div>
+    <button id="buyButton" class="stylish-button">구매까지 남은 시간: 계산 중...</button>
+  </div> 
 
+  <!-- 🦊 원형 MetaMask 버튼 -->
 <div style="text-align:center; margin-top: 30px;">
 <a id="connectWalletBtn" title="Connect Wallet"
    style="
      position: fixed;
-     top: 100px;
-     right: 20px;
+     top: 100px;         /* 화면 상단에서 100px 아래 */
+     right: 20px;        /* 오른쪽 여백 */
      width: 48px;
      height: 48px;
      border-radius: 50%;
@@ -469,13 +470,16 @@ transition: color 0.2s ease; }
      box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
      padding: 10px;
      transition: transform 0.3s ease, background 0.3s ease;
-     z-index: 9999;
+     z-index: 9999;       /* 다른 요소 위에 보이게 */
    ">
   <img src="metamask2.png" alt="MetaMask"
        style="width: 100%; height: 100%; border-radius: 50%;">
 </a>
+
+
 </div>
 
+  
 <div class="presale-banner">
   <div class="presale-badge">LIMITED PRE-SALE OFFER</div>
   <div class="presale-headline">1 BNB = 10,000,000 STCT</div>
@@ -483,29 +487,34 @@ transition: color 0.2s ease; }
   <div class="presale-countdown" id="presaleCountdown">Loading...</div>
 </div>
 
-<div class="buy-box" style="border: 2px solid #ffd700;">
-  <h3>STCT Presale</h3>
-  <p style="font-size: 14px; color: #aaa;">* The total presale amount is limited to 1000 BNB.</p>
-  <p style="font-size: 14px; color: #aaa;">* The maximum purchase per person is 2 BNB.</p>
-  <div id="presaleSummary" style="font-size: 14px; color: #ffd700; margin: 5px 0;">Total Sold: 0 / 1000 BNB</div>
-  <div style="background: #333; border-radius: 8px; height: 10px; width: 100%; margin-bottom: 10px; overflow: hidden;">
-    <div id="presaleBar" style="height: 100%; width: 0%; background: #ffd700;"></div>
-  </div>
-  <input type="number" id="preBnbAmount" placeholder="Enter BNB amount (Max 2)">
-  <div id="preStctResult">Estimated STCT: 0</div>
 
+ <div class="buy-box" style="border: 2px solid #ffd700;">
+    <h3>STCT 사전구매</h3>
+    <p style="font-size: 14px; color: #aaa;">* 사전구매 총 판매량은 1000 BNB로 제한됩니다.</p>
+        <p style="font-size: 14px; color: #aaa;">* 1인 최대구매금액은 2 BNB로 제한됩니다.</p>
+    <div id="presaleSummary" style="font-size: 14px; color: #ffd700; margin: 5px 0;">총 판매량: 0 / 1000 BNB</div>
+    <div style="background: #333; border-radius: 8px; height: 10px; width: 100%; margin-bottom: 10px; overflow: hidden;">
+      <div id="presaleBar" style="height: 100%; width: 0%; background: #ffd700;"></div>
+    </div>
+    <input type="number" id="preBnbAmount" placeholder="사전구매 BNB 수량 입력 (최대 2)">
+    <div id="preStctResult">예상 STCT: 0</div>
+  
+<!-- 메타마스크 연결 상태 안내 -->
 <div id="walletStatus" style="
   margin-top: 6px;
   color: #ff7070;
   font-size: 0.9rem;
 ">
-  🦊 Please connect your MetaMask wallet
+  🦊 메타마스크 지갑을 연결해주세요
 </div>
 
-<button id="preBuyButton" class="stylish-button">
-  Execute Presale Purchase
+   
+<button id="preBuyButton" class="stylish-button" >
+
+  사전구매 실행
 </button>
 
+   <!-- 사전구매 버튼 아래에 위치 -->
 <div id="walletAddressDisplay" style="
   margin-top: 10px;
   font-size: 0.95rem;
@@ -515,21 +524,21 @@ transition: color 0.2s ease; }
   border-radius: 8px;
   display: inline-block;
 ">
-  Wallet Address
-</div>
+  주소
 </div>
 
-<h3 style="color: gold;">Recent Purchasers (Latest 10)</h3>
+</div>
+
+<h3 style="color: gold;">최근 구매자 (최신 10건)</h3>
 <table style="width: 100%; color: white; font-size: 14px; border-collapse: collapse;">
   <thead>
     <tr style="color: gold; border-bottom: 1px solid #444;">
-      <th>Address</th>
+      <th>주소</th>
       <th>BNB</th>
       <th>STCT</th>
-      <th>Time</th>
+      <th>시간</th>
     </tr>
   </thead>
-
   <tbody id="purchaseTableBody">
     <!-- JavaScript로 자동 표시 -->
   </tbody>
@@ -571,81 +580,79 @@ transition: color 0.2s ease; }
 <div class="token-info-box" id="roadmap">
   <h2>🚀 ROADMAP</h2>
 
-<div class="roadmap-timeline">
+  <div class="roadmap-timeline">
   <div class="timeline-item" data-status="done">
     <div class="timeline-date">Q1 2025</div>
-    <div class="timeline-content">Team Formation and Token Planning</div>
+    <div class="timeline-content">팀 구성 및 토큰 기획</div>
   </div>
   <div class="timeline-item" data-status="done">
     <div class="timeline-date">Q2 2025</div>
-    <div class="timeline-content">Website Launch, Wallet Integration</div>
+    <div class="timeline-content">홈페이지 오픈, 지갑 연결</div>
   </div>
   <div class="timeline-item" data-status="current">
     <div class="timeline-date">Q3 2025</div>
-    <div class="timeline-content">Presale, DEX Listing, Lock-up System Implementation, Airdrop Recruitment</div>
+    <div class="timeline-content">사전구매, DEX 상장, 락업 시스템 도입, 에어드랍인원 모집</div>
   </div>
   <div class="timeline-item" data-status="upcoming">
     <div class="timeline-date">Q4 2025</div>
-    <div class="timeline-content">First Token Burn, Global Partnerships & Community Expansion, Airdrop</div>
+    <div class="timeline-content">1차소각, 글로벌 파트너십 및 커뮤니티 확장, 에어드랍</div>
   </div>
   <div class="timeline-item" data-status="upcoming">
     <div class="timeline-date">Q1 2026</div>
-    <div class="timeline-content">Mobile App Launch, User Expansion, Corporate Consultant Execution</div>
+    <div class="timeline-content">모바일 앱 출시, 사용자 확대, 기업컨설턴트 실행</div>
   </div>
   <div class="timeline-item" data-status="upcoming">
     <div class="timeline-date">Q2 2026</div>
-    <div class="timeline-content">CEX Listing, Platform Integration, Global Expansion</div>
+    <div class="timeline-content">CEX 상장 및 플랫폼 통합, 글로벌확장</div>
   </div>
-  <div class="timeline-item" data-status="upcoming">
+      <div class="timeline-item" data-status="upcoming">
     <div class="timeline-date">Q3 2026</div>
-    <div class="timeline-content">Additional Burn & Content Development</div>
+    <div class="timeline-content">소각 및 콘텐츠추가개발</div>
   </div>
 </div>
-
   
   <script>
   const buyInput = document.getElementById('buyBnbAmount');
 const buyOutput = document.getElementById('buyStctResult');
 const buyButton = document.getElementById('buyButton');
   
-buyInput.addEventListener('input', () => {
-  const bnb = parseFloat(buyInput.value) || 0;
-  const stct = bnb * 2000000;
-  buyOutput.textContent = `Estimated STCT: ${stct.toLocaleString()} STCT`;
-});
+    buyInput.addEventListener('input', () => {
+    const bnb = parseFloat(buyInput.value) || 0;
+    const stct = bnb * 2000000;
+    buyOutput.textContent = 예상 STCT: ${stct.toLocaleString()} STCT;
+  });
 
-const swapTarget = new Date();
-swapTarget.setDate(swapTarget.getDate() + 30);
-const buyTarget = new Date(swapTarget);
+  const swapTarget = new Date();
+  swapTarget.setDate(swapTarget.getDate() + 30);
+  const buyTarget = new Date(swapTarget);
 
-function updateCountdown(button, targetDate, label) {
-  const now = new Date();
-  const diff = targetDate - now;
-  if (diff <= 0) {
-    button.textContent = label;
-    return true;
-  } else {
-    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    const m = Math.floor((diff / (1000 * 60)) % 60);
-    const s = Math.floor((diff / 1000) % 60);
-    button.textContent = `${label} starts in: ${d}d ${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-    return false;
+  function updateCountdown(button, targetDate, label) {
+    const now = new Date();
+    const diff = targetDate - now;
+    if (diff <= 0) {
+      button.textContent = label;
+      return true;
+    } else {
+      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const m = Math.floor((diff / (1000 * 60)) % 60);
+      const s = Math.floor((diff / 1000) % 60);
+      button.textContent = ${label}까지 남은 시간: ${d}일 ${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')};
+      return false;
+    }
   }
-}
 
-setInterval(() => {
-  updateCountdown(buyButton, buyTarget, 'Token Purchase');
-}, 1000);
+  setInterval(() => {
+        updateCountdown(buyButton, buyTarget, '토큰 구매');
+  }, 1000);
 
-buyButton.addEventListener('click', () => {
-  if (updateCountdown(buyButton, buyTarget, 'Token Purchase')) {
-    alert('Token purchase feature will be integrated soon.');
-  } else {
-    alert('Purchasing is currently unavailable.');
-  }
-});
-
+    buyButton.addEventListener('click', () => {
+    if (updateCountdown(buyButton, buyTarget, '토큰 구매')) {
+      alert('토큰 구매 기능은 추후 연동 예정입니다.');
+    } else {
+      alert('지금은 구매할 수 없습니다');
+    }
+  });
 
   // 사전구매
   const preInput = document.getElementById('preBnbAmount');
@@ -654,46 +661,45 @@ buyButton.addEventListener('click', () => {
   const maxPresaleTotal = 1000;
 
 
-function updatePresaleUI() {
-  const percent = (totalPresale / maxPresaleTotal) * 100;
-  document.getElementById("presaleSummary").textContent = `Total Sold: ${totalPresale.toFixed(6)} / ${maxPresaleTotal} BNB`;
-  document.getElementById("presaleBar").style.width = `${Math.min(percent, 100)}%`;
-}
-
-preInput.addEventListener('input', () => {
-  const bnb = parseFloat(preInput.value) || 0;
-  const available = maxPresaleTotal - totalPresale;
-  if (bnb > 2 || prePurchased + bnb > 2 || bnb > available) {
-    preOutput.textContent = `You have exceeded the individual or total limit. Remaining total limit: ${available.toFixed(6)} BNB`;
-    preButton.disabled = true;
-    return;
+  function updatePresaleUI() {
+    const percent = (totalPresale / maxPresaleTotal) * 100;
+    document.getElementById("presaleSummary").textContent = 총 판매량: ${totalPresale.toFixed(6)} / ${maxPresaleTotal} BNB;
+    document.getElementById("presaleBar").style.width = ${Math.min(percent, 100)}%;
   }
-  const stct = bnb * 10000000;
-  preOutput.textContent = `Estimated STCT: ${stct.toLocaleString()} STCT`;
-  preButton.disabled = false;
-});
+
+  preInput.addEventListener('input', () => {
+    const bnb = parseFloat(preInput.value) || 0;
+    const available = maxPresaleTotal - totalPresale;
+    if (bnb > 2 || prePurchased + bnb > 2 || bnb > available) {
+      preOutput.textContent = 개인 한도 또는 전체 한도를 초과했습니다. 남은 전체 한도: ${available.toFixed(6)} BNB;
+      preButton.disabled = true;
+      return;
+    }
+    const stct = bnb * 10000000;
+    preOutput.textContent = 예상 STCT: ${stct.toLocaleString()} STCT;
+    preButton.disabled = false;
+  });
 
 preButton.addEventListener('click', async () => {
   const bnb = parseFloat(preInput.value) || 0;
   const available = maxPresaleTotal - totalPresale;
 
   if (!currentAccount) {
-    alert("Please connect your wallet first.");
+    alert("지갑을 먼저 연결하세요.");
     return;
   }
   if (bnb <= 0) {
-    alert("Please enter the amount of BNB.");
+    alert("BNB 수량을 입력해주세요.");
     return;
   }
   if (bnb > available) {
-    alert(`Presale limit exceeded. Remaining amount: ${available.toFixed(6)} BNB`);
+    alert(사전구매 가능 수량을 초과했습니다. 남은 수량: ${available.toFixed(6)} BNB);
     return;
   }
   if (prePurchased + bnb > 2) {
-    alert("You have exceeded the individual purchase limit of 2 BNB.");
+    alert("1인 최대 구매 한도인 2 BNB를 초과했습니다.");
     return;
   }
-
 
   try {
     // ✅ 실제 결제
@@ -750,12 +756,11 @@ preButton.addEventListener('click', async () => {
     handlePresalePurchase();   // 최근 구매자 목록 반영
     updateTotalPresale();     // 총 판매량 fetch 갱신
 
-alert(`Presale completed! Your total: ${prePurchased.toFixed(6)} BNB / Total sold: ${totalPresale.toFixed(6)} BNB`);
-
+    alert(사전구매 완료! 개인 누적 ${prePurchased.toFixed(6)} BNB / 총 판매 ${totalPresale.toFixed(6)} BNB);
 
   } catch (error) {
     console.error(error);
-alert('The transaction was either cancelled or failed.');
+    alert('트랜잭션이 취소되었거나 실패했습니다.');
   }
 });
 
@@ -778,7 +783,7 @@ alert('The transaction was either cancelled or failed.');
     const m = Math.floor((diff / (1000 * 60)) % 60);
     const s = Math.floor((diff / 1000) % 60);
 
-presaleCountdownEl.innerText = `${d} days ${h} hours ${m} minutes ${s} seconds`;
+    presaleCountdownEl.innerText = ${d}일 ${h}시간 ${m}분 ${s}초;
   }
 
   setInterval(updatePresaleCountdown, 1000);
@@ -797,7 +802,7 @@ const connectWalletBtn = document.getElementById('connectWalletBtn');
 
 async function connectWallet() {
   if (!window.ethereum) {
-    alert('METAMASK is not installed.');
+    alert('MetaMask가 설치되어 있지 않습니다.');
     return;
   }
 
@@ -813,8 +818,7 @@ async function connectWallet() {
        displayWalletAddress(account);
   } catch (err) {
     console.error(err);
-alert('Wallet connection failed or was rejected');
-
+    alert('지갑 연결 실패 또는 거부됨');
   }
 }
 
@@ -825,7 +829,7 @@ function displayWalletAddress(address) {
   document.getElementById('walletAddressDisplay').innerText = ' ' + short;
 
   // 연결 상태 안내 문구
-  document.getElementById('walletStatus').innerText = '✅ Wallet connected';
+  document.getElementById('walletStatus').innerText = '✅ 지갑 연결됨';
   document.getElementById('walletStatus').style.color = '#00ffc8';
 }
 
@@ -836,7 +840,7 @@ document.addEventListener("DOMContentLoaded", function () {
     currentAccount = window.ethereum.selectedAddress;
     displayWalletAddress(currentAccount);
   } else {
-    document.getElementById('walletStatus').innerText = 'Please connect your METAMASK wallet.';
+    document.getElementById('walletStatus').innerText = '메타마스크 지갑을 연결해주세요';
     document.getElementById('walletStatus').style.color = '#ff7070';
   }
 });
@@ -849,15 +853,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const total = parseFloat(json.total || 0);
     totalPresale = total;
 
-   document.getElementById("presaleSummary").textContent = `Total Sold: ${total.toFixed(6)} / 1000 BNB`;
+    document.getElementById("presaleSummary").textContent = 총 판매량: ${total.toFixed(6)} / 1000 BNB;
 
-const percent = (total / maxPresaleTotal) * 100;
-document.getElementById("presaleBar").style.width = `${Math.min(percent, 100)}%`;
-} catch (err) {
-  console.error("Failed to fetch total presale amount", err);
-}
-
+    const percent = (total / maxPresaleTotal) * 100;
+    document.getElementById("presaleBar").style.width = ${Math.min(percent, 100)}%;
+  } catch (err) {
+    console.error("누적 판매량 fetch 실패", err);
   }
+}
       async function fetchPurchaseLogFromSheet() {
   try {
     const res = await fetch("https://my-proxy-app-murex.vercel.app/api/send");
@@ -869,17 +872,16 @@ document.getElementById("presaleBar").style.width = `${Math.min(percent, 100)}%`
     tableBody.innerHTML = "";
 
     json.records.slice(0, 10).reverse().forEach(log => {
-      const row = `<tr>
+      const row = <tr>
         <td>${log.address.slice(0, 6)}...${log.address.slice(-4)}</td>
         <td>${parseFloat(log.bnb).toFixed(2)}</td>
         <td>${parseInt(log.stct).toLocaleString()}</td>
         <td>${log.timestamp}</td>
-      </tr>`;
+      </tr>;
       tableBody.innerHTML += row;
     });
   } catch (err) {
-console.error("❌ Failed to load recent buyers:", err);
-
+    console.error("❌ 최근 구매자 로딩 실패:", err);
   }
 }
 
