@@ -1128,7 +1128,7 @@ async function claimLockedTokens() {
       
       
 updateTotalPresale(); // 페이지 로드시 즉시 호출
-  
+ document.addEventListener("DOMContentLoaded", updateTotalPresale);
 </script></body>
 </html>
 
