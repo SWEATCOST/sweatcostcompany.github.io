@@ -749,7 +749,7 @@ const buyTarget = new Date(swapTarget);
 
 function updateCountdown(button, targetDate, label) {
   const now = new Date();
-  const diff = targetDate.setDate(now.getDate() + 35); 
+  const diff = targetDate.setDate(now.getDate() + 30); 
   if (diff <= 0) {
     button.textContent = label;
     return true;
