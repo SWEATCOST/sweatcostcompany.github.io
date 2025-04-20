@@ -527,14 +527,16 @@ transition: color 0.2s ease; }
 
 <div class="buy-box" style="margin-top: 40px;">
   <h3>🔒 STCT Lock-up & Claim</h3>
-  
-  <div id="claimableInfo" style="margin-top: 10px; color: #00ffc8;">Loading your claimable STCT...</div>
-  
-  <button onclick="checkClaimable()" class="stylish-button">🔍 Check Claimable STCT</button>
-  
-  <button onclick="claimLockedTokens()" class="stylish-button">💸 Claim STCT</button>
 
-  <div id="claimableInfo" style="margin-top: 10px; color: #00ffc8;"></div>
+  <!-- 자동 표시되는 락업 정보 영역 -->
+  <div id="claimableInfo" style="margin-top: 10px; color: #00ffc8;">
+    Loading your lock-up data...
+  </div>
+
+  <!-- Claim 버튼은 유지 -->
+  <button onclick="claimLockedTokens()" class="stylish-button" style="margin-top: 16px;">
+    💸 Claim STCT
+  </button>
 </div>
   
 <h3 style="color: gold;">Recent Purchasers (Latest 10)</h3>
@@ -1048,48 +1050,83 @@ document.addEventListener("DOMContentLoaded", fetchPurchaseLogFromSheet);
 ]
 ;
 
-  let provider;
-  let signer;
-  let contract;
-  let userAddress;
+let currentAccount = null;
+const SALE_AND_LOCK_ADDRESS = "0x77FF3D96E93F8eEdA75260Bc8BbE6A1C4514aC68"; // 중간관리자 주소
+const SALE_AND_LOCK_ABI = [
+  {
+    "inputs": [{ "internalType": "address", "name": "user", "type": "address" }],
+    "name": "getClaimable",
+    "outputs": [
+      { "internalType": "uint256", "name": "claimableAmount", "type": "uint256" },
+      { "internalType": "uint256", "name": "nextUnlockTime", "type": "uint256" },
+      { "internalType": "uint256", "name": "totalRemaining", "type": "uint256" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "claim",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+];
 
- async function loadClaimInfo() {
-  if (!window.ethereum || !currentAccount) return;
+// 락업 정보 자동 로딩 함수
+async function loadClaimableLockup() {
+  if (!window.ethereum || !window.ethereum.selectedAddress) {
+    document.getElementById("claimableInfo").innerText = "🦊 Please connect your wallet first.";
+    return;
+  }
 
+  currentAccount = window.ethereum.selectedAddress;
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
   const contract = new ethers.Contract(SALE_AND_LOCK_ADDRESS, SALE_AND_LOCK_ABI, provider);
+
   try {
     const [amount, nextUnlock, remaining] = await contract.getClaimable(currentAccount);
 
+    const claimable = parseFloat(ethers.utils.formatUnits(amount, 18)).toFixed(2);
+    const remainingStct = parseFloat(ethers.utils.formatUnits(remaining, 18)).toFixed(2);
+    const unlockDate = nextUnlock > 0 ? new Date(nextUnlock * 1000).toLocaleString() : "✅ Unlocked";
+
     document.getElementById("claimableInfo").innerHTML = `
-      ✅ Claimable: ${ethers.utils.formatUnits(amount, 18)} STCT<br>
-      🔒 Remaining: ${ethers.utils.formatUnits(remaining, 18)} STCT<br>
-      ⏰ Next Unlock: ${nextUnlock > 0 ? new Date(nextUnlock * 1000).toLocaleString() : "Unlocked"}
+      ✅ Claimable: ${claimable} STCT<br>
+      ⏰ Next Unlock: ${unlockDate}<br>
+      🧾 Remaining: ${remainingStct} STCT
     `;
   } catch (err) {
-    console.error("❌ Claim info error:", err);
-    document.getElementById("claimableInfo").innerText = "Failed to load claim info.";
+    console.error("❌ Failed to load claimable info", err);
+    document.getElementById("claimableInfo").innerText = "❌ Failed to load lock-up data.";
   }
 }
 
-// 지갑 연결 후 자동으로 실행
-async function connectWallet() {
+async function claimLockedTokens() {
+  if (!window.ethereum || !window.ethereum.selectedAddress) {
+    alert("Please connect your wallet first.");
+    return;
+  }
+
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = provider.getSigner();
+  const contract = new ethers.Contract(SALE_AND_LOCK_ADDRESS, SALE_AND_LOCK_ABI, signer);
+
   try {
-    const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-    currentAccount = accounts[0];
-    displayWalletAddress(currentAccount);
-    await loadClaimInfo(); // 여기서 자동 호출
+    const tx = await contract.claim();
+    await tx.wait();
+    alert("✅ Claim successful!");
+
+    // 갱신
+    await loadClaimableLockup();
   } catch (err) {
-    console.error("Wallet connection error", err);
+    console.error("❌ Claim failed", err);
+    alert("❌ Claim failed or cancelled.");
   }
 }
 
-// 이미 연결된 지갑 있을 경우
-window.addEventListener("DOMContentLoaded", async () => {
-  if (window.ethereum && window.ethereum.selectedAddress) {
-    currentAccount = window.ethereum.selectedAddress;
-    await loadClaimInfo();
-  }
-});
+// 페이지 로드시 자동 실행
+window.addEventListener("DOMContentLoaded", loadClaimableLockup);
       
       
 updateTotalPresale(); // 페이지 로드시 즉시 호출
