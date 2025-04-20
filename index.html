@@ -609,43 +609,44 @@ nsition: color 0.2s ease; }
 const buyOutput = document.getElementById('buyStctResult');
 const buyButton = document.getElementById('buyButton');
   
-    buyInput.addEventListener('input', () => {
-    const bnb = parseFloat(buyInput.value) || 0;
-    const stct = bnb * 2000000;
-    buyOutput.textContent = `예상 STCT: ${stct.toLocaleString()} STCT`;
-  });
+buyInput.addEventListener('input', () => {
+  const bnb = parseFloat(buyInput.value) || 0;
+  const stct = bnb * 2000000;
+  buyOutput.textContent = `Estimated STCT: ${stct.toLocaleString()} STCT`;
+});
 
-  const swapTarget = new Date();
-  swapTarget.setDate(swapTarget.getDate() + 30);
-  const buyTarget = new Date(swapTarget);
+const swapTarget = new Date();
+swapTarget.setDate(swapTarget.getDate() + 30);
+const buyTarget = new Date(swapTarget);
 
-  function updateCountdown(button, targetDate, label) {
-    const now = new Date();
-    const diff = targetDate - now;
-    if (diff <= 0) {
-      button.textContent = label;
-      return true;
-    } else {
-      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const m = Math.floor((diff / (1000 * 60)) % 60);
-      const s = Math.floor((diff / 1000) % 60);
-      button.textContent = `${label}까지 남은 시간: ${d}일 ${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-      return false;
-    }
+function updateCountdown(button, targetDate, label) {
+  const now = new Date();
+  const diff = targetDate - now;
+  if (diff <= 0) {
+    button.textContent = label;
+    return true;
+  } else {
+    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const m = Math.floor((diff / (1000 * 60)) % 60);
+    const s = Math.floor((diff / 1000) % 60);
+    button.textContent = `${label} starts in: ${d}d ${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+    return false;
   }
+}
 
-  setInterval(() => {
-        updateCountdown(buyButton, buyTarget, '토큰 구매');
-  }, 1000);
+setInterval(() => {
+  updateCountdown(buyButton, buyTarget, 'Token Purchase');
+}, 1000);
 
-    buyButton.addEventListener('click', () => {
-    if (updateCountdown(buyButton, buyTarget, '토큰 구매')) {
-      alert('토큰 구매 기능은 추후 연동 예정입니다.');
-    } else {
-      alert('지금은 구매할 수 없습니다');
-    }
-  });
+buyButton.addEventListener('click', () => {
+  if (updateCountdown(buyButton, buyTarget, 'Token Purchase')) {
+    alert('Token purchase feature will be integrated soon.');
+  } else {
+    alert('Purchasing is currently unavailable.');
+  }
+});
+
 
   // 사전구매
   const preInput = document.getElementById('preBnbAmount');
