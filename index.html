@@ -528,12 +528,14 @@ transition: color 0.2s ease; }
 <div class="buy-box" style="margin-top: 40px;">
   <h3>🔒 STCT Lock-up & Claim</h3>
 
-  <!-- 자동 표시되는 락업 정보 영역 -->
+  <button onclick="loadClaimableLockup()" class="stylish-button" style="margin-top: 12px;">
+    🔍 Check Lock-up Amount
+  </button>
+
   <div id="claimableInfo" style="margin-top: 10px; color: #00ffc8;">
     Loading your lock-up data...
   </div>
 
-  <!-- Claim 버튼은 유지 -->
   <button onclick="claimLockedTokens()" class="stylish-button" style="margin-top: 16px;">
     💸 Claim STCT
   </button>
