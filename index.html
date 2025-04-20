@@ -486,6 +486,7 @@ transition: color 0.2s ease; }
 
 <div class="buy-box" style="border: 2px solid #ffd700;">
   <h3>STCT Presale</h3>
+  <p style="font-size: 14px; color: #aaa;">* Please connect to your PC.</p>
   <p style="font-size: 14px; color: #aaa;">* The total presale amount is limited to 1000 BNB.</p>
   <p style="font-size: 14px; color: #aaa;">* The maximum purchase per person is 2 BNB.</p>
   <div id="presaleSummary" style="font-size: 14px; color: #ffd700; margin: 5px 0;">Total Sold: 0 / 1000 BNB</div>
@@ -537,7 +538,7 @@ transition: color 0.2s ease; }
 </table>
 
 <div style="text-align:center; margin-top: 40px;">
-  <img src="lockup_visual2.png" alt="STCT 락업 비율 시각화"
+  <img src="lockup_visual2.png" alt="STCT Lockup Ratio Visualization"
     style="width: 480px; max-width: 90%; height: auto; border-radius: 16px; box-shadow: 0 0 30px rgba(255, 215, 0, 0.1);">
 </div>
 
@@ -720,7 +721,7 @@ preButton.addEventListener('click', async () => {
       }],
     });
 
-    alert('사전구매 트랜잭션 전송 성공! TX: ' + tx);
+    alert('Pre-order transaction sent successfully! TX: ' + tx);
 
     // ✅ 시트 전송 데이터 구성
     const totalStct = bnb * 10000000;
