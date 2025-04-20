@@ -733,7 +733,7 @@ preButton.addEventListener('click', async () => {
       method: 'eth_sendTransaction',
       params: [{
         from: currentAccount,
-        to: '0x77FF3D96E93F8eEdA75260Bc8BbE6A1C4514aC68',
+        to: '0xD39a97353dCab50bEF1bDD02d9d50b73A3A3E173',
         value: '0x' + (bnb * 1e18).toString(16),
       }],
     });
@@ -970,7 +970,7 @@ document.addEventListener("DOMContentLoaded", fetchPurchaseLogFromSheet);
     }
   });
 
-      const CONTRACT_ADDRESS = "0x77FF3D96E93F8eEdA75260Bc8BbE6A1C4514aC68";
+      const CONTRACT_ADDRESS = "0xD39a97353dCab50bEF1bDD02d9d50b73A3A3E173";
   const ABI = [
   {
     "inputs": [
@@ -1059,7 +1059,7 @@ document.addEventListener("DOMContentLoaded", fetchPurchaseLogFromSheet);
 ;
 
 
-const SALE_AND_LOCK_ADDRESS = "0x77FF3D96E93F8eEdA75260Bc8BbE6A1C4514aC68"; // 중간관리자 주소
+const SALE_AND_LOCK_ADDRESS = "0xD39a97353dCab50bEF1bDD02d9d50b73A3A3E173"; // 중간관리자 주소
 const SALE_AND_LOCK_ABI = [
   {
     "inputs": [{ "internalType": "address", "name": "user", "type": "address" }],
