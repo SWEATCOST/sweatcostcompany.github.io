@@ -528,7 +528,7 @@ transition: color 0.2s ease; }
 <div class="buy-box" style="margin-top: 40px;">
   <h3>🔒 STCT Lock-up & Claim</h3>
   
-  <button onclick="connectWalletAndContract()" class="stylish-button">🔗 Connect Wallet</button>
+  <div id="claimableInfo" style="margin-top: 10px; color: #00ffc8;">Loading your claimable STCT...</div>
   
   <button onclick="checkClaimable()" class="stylish-button">🔍 Check Claimable STCT</button>
   
@@ -1053,49 +1053,43 @@ document.addEventListener("DOMContentLoaded", fetchPurchaseLogFromSheet);
   let contract;
   let userAddress;
 
-  async function connectWalletAndContract() {
-    if (!window.ethereum) {
-      alert("Please install MetaMask.");
-      return;
-    }
+ async function loadClaimInfo() {
+  if (!window.ethereum || !currentAccount) return;
 
-    provider = new ethers.providers.Web3Provider(window.ethereum);
-    await provider.send("eth_requestAccounts", []);
-    signer = provider.getSigner();
-    userAddress = await signer.getAddress();
-    contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
-
-    console.log("✅ Wallet connected:", userAddress);
-    alert("Wallet connected: " + userAddress);
-  }
-
-  async function checkClaimable() {
-    if (!contract) return alert("Connect wallet first");
-
-    const result = await contract.getClaimable(userAddress);
-    const claimable = ethers.utils.formatUnits(result[0], 18);
-    const nextUnlockTime = new Date(result[1] * 1000);
-    const remaining = ethers.utils.formatUnits(result[2], 18);
+  const contract = new ethers.Contract(SALE_AND_LOCK_ADDRESS, SALE_AND_LOCK_ABI, provider);
+  try {
+    const [amount, nextUnlock, remaining] = await contract.getClaimable(currentAccount);
 
     document.getElementById("claimableInfo").innerHTML = `
-      🔓 Claimable: ${claimable} STCT<br>
-      ⏰ Next Unlock: ${nextUnlockTime}<br>
-      🧾 Remaining: ${remaining} STCT
+      ✅ Claimable: ${ethers.utils.formatUnits(amount, 18)} STCT<br>
+      🔒 Remaining: ${ethers.utils.formatUnits(remaining, 18)} STCT<br>
+      ⏰ Next Unlock: ${nextUnlock > 0 ? new Date(nextUnlock * 1000).toLocaleString() : "Unlocked"}
     `;
+  } catch (err) {
+    console.error("❌ Claim info error:", err);
+    document.getElementById("claimableInfo").innerText = "Failed to load claim info.";
   }
+}
 
-  async function claimLockedTokens() {
-    if (!contract) return alert("Connect wallet first");
-
-    try {
-      const tx = await contract.claim();
-      await tx.wait();
-      alert("✅ Tokens claimed successfully!");
-    } catch (err) {
-      console.error("❌ Claim failed:", err);
-      alert("❌ Claim failed.");
-    }
+// 지갑 연결 후 자동으로 실행
+async function connectWallet() {
+  try {
+    const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+    currentAccount = accounts[0];
+    displayWalletAddress(currentAccount);
+    await loadClaimInfo(); // 여기서 자동 호출
+  } catch (err) {
+    console.error("Wallet connection error", err);
   }
+}
+
+// 이미 연결된 지갑 있을 경우
+window.addEventListener("DOMContentLoaded", async () => {
+  if (window.ethereum && window.ethereum.selectedAddress) {
+    currentAccount = window.ethereum.selectedAddress;
+    await loadClaimInfo();
+  }
+});
       
       
 updateTotalPresale(); // 페이지 로드시 즉시 호출
