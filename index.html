@@ -1133,7 +1133,9 @@ async function claimLockedTokens() {
 document.addEventListener("DOMContentLoaded", () => {
   updateTotalPresale();
   fetchPurchaseLogFromSheet();
-  
+  loadSTCTBalance();
+  loadClaimableLockup(); // 락업 자동 로딩도 함께
+});
 </script></body>
 </html>
 
