@@ -654,24 +654,6 @@ transition: color 0.2s ease; }
 
   
   <script>
-// 예시: 사용자 락업 상태 업데이트
-function updateLockupStatus(user) {
-  // 예시로 30%, 60%, 90% 진행 상태를 표시하는 값
-  let status = {
-    immediate: 30,  // 즉시 지급된 토큰
-    after2m: 60,    // 2개월 후 지급된 토큰
-    after4m: 80,    // 4개월 후 지급된 토큰
-    after6m: 100    // 6개월 후 지급된 토큰
-  };
-
-  // 실제로 UI에 업데이트할 수 있는 코드 작성
-  document.getElementById("lockupStatus").innerHTML = `
-    <div>즉시 지급: ${status.immediate}%</div>
-    <div>2개월 후: ${status.after2m}%</div>
-    <div>4개월 후: ${status.after4m}%</div>
-    <div>6개월 후: ${status.after6m}%</div>
-  `;
-}
     
     let totalPresale = 0;
 let prePurchased = 0;
