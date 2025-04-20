@@ -640,7 +640,7 @@ const buyButton = document.getElementById('buyButton');
   
 buyInput.addEventListener('input', () => {
   const bnb = parseFloat(buyInput.value) || 0;
-  const stct = bnb * 2000000;
+  const stct = bnb * 20000000;
   buyOutput.textContent = `Estimated STCT: ${stct.toLocaleString()} STCT`;
 });
 
