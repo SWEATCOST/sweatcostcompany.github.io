@@ -659,8 +659,7 @@ const buyButton = document.getElementById('buyButton');
   const preOutput = document.getElementById('preStctResult');
   const preButton = document.getElementById('preBuyButton');
   const maxPresaleTotal = 1000;
-  let prePurchased = parseFloat(localStorage.getItem("preBuyTotal") || "0");
-  let totalPresale = parseFloat(localStorage.getItem("preBuyTotalGlobal") || "0");
+
 
   function updatePresaleUI() {
     const percent = (totalPresale / maxPresaleTotal) * 100;
