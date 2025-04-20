@@ -655,45 +655,46 @@ buyButton.addEventListener('click', () => {
   const maxPresaleTotal = 1000;
 
 
-  function updatePresaleUI() {
-    const percent = (totalPresale / maxPresaleTotal) * 100;
-    document.getElementById("presaleSummary").textContent = `총 판매량: ${totalPresale.toFixed(6)} / ${maxPresaleTotal} BNB`;
-    document.getElementById("presaleBar").style.width = `${Math.min(percent, 100)}%`;
-  }
+function updatePresaleUI() {
+  const percent = (totalPresale / maxPresaleTotal) * 100;
+  document.getElementById("presaleSummary").textContent = `Total Sold: ${totalPresale.toFixed(6)} / ${maxPresaleTotal} BNB`;
+  document.getElementById("presaleBar").style.width = `${Math.min(percent, 100)}%`;
+}
 
-  preInput.addEventListener('input', () => {
-    const bnb = parseFloat(preInput.value) || 0;
-    const available = maxPresaleTotal - totalPresale;
-    if (bnb > 2 || prePurchased + bnb > 2 || bnb > available) {
-      preOutput.textContent = `개인 한도 또는 전체 한도를 초과했습니다. 남은 전체 한도: ${available.toFixed(6)} BNB`;
-      preButton.disabled = true;
-      return;
-    }
-    const stct = bnb * 10000000;
-    preOutput.textContent = `예상 STCT: ${stct.toLocaleString()} STCT`;
-    preButton.disabled = false;
-  });
+preInput.addEventListener('input', () => {
+  const bnb = parseFloat(preInput.value) || 0;
+  const available = maxPresaleTotal - totalPresale;
+  if (bnb > 2 || prePurchased + bnb > 2 || bnb > available) {
+    preOutput.textContent = `You have exceeded the individual or total limit. Remaining total limit: ${available.toFixed(6)} BNB`;
+    preButton.disabled = true;
+    return;
+  }
+  const stct = bnb * 10000000;
+  preOutput.textContent = `Estimated STCT: ${stct.toLocaleString()} STCT`;
+  preButton.disabled = false;
+});
 
 preButton.addEventListener('click', async () => {
   const bnb = parseFloat(preInput.value) || 0;
   const available = maxPresaleTotal - totalPresale;
 
   if (!currentAccount) {
-    alert("지갑을 먼저 연결하세요.");
+    alert("Please connect your wallet first.");
     return;
   }
   if (bnb <= 0) {
-    alert("BNB 수량을 입력해주세요.");
+    alert("Please enter the amount of BNB.");
     return;
   }
   if (bnb > available) {
-    alert(`사전구매 가능 수량을 초과했습니다. 남은 수량: ${available.toFixed(6)} BNB`);
+    alert(`Presale limit exceeded. Remaining amount: ${available.toFixed(6)} BNB`);
     return;
   }
   if (prePurchased + bnb > 2) {
-    alert("1인 최대 구매 한도인 2 BNB를 초과했습니다.");
+    alert("You have exceeded the individual purchase limit of 2 BNB.");
     return;
   }
+
 
   try {
     // ✅ 실제 결제
