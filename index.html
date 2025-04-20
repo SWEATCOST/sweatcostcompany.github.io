@@ -1131,15 +1131,18 @@ async function claimLockedTokens() {
       
       
 document.addEventListener("DOMContentLoaded", () => {
+  if (window.ethereum && window.ethereum.selectedAddress) {
+    currentAccount = window.ethereum.selectedAddress;
+    displayWalletAddress(currentAccount);
+    loadSTCTBalance();
+    loadClaimableLockup();
+  }
+
   updateTotalPresale();
   fetchPurchaseLogFromSheet();
-  loadSTCTBalance();
-  loadClaimableLockup(); // 락업 자동 로딩도 함께
 });
 
-    function handlePresalePurchase() {
-  fetchPurchaseLogFromSheet();  // 최근 구매자 목록 새로고침
-}
+
     
 </script></body>
 </html>
