@@ -526,6 +526,29 @@ transition: color 0.2s ease; }
   </div>
 </div>
 
+<div class="lockup-banner" style="background: #222; color: #ffd700; padding: 30px 20px; text-align: center; border-radius: 10px;">
+  <h2>🚀 사전구매 및 락업 시스템</h2>
+  <p>사전구매 후, 구매한 STCT 토큰은 일정 기간 동안 락업(잠금)됩니다. 락업 기간이 끝난 후, 일정 비율이 자동으로 해제됩니다.</p>
+  <div style="display: flex; justify-content: center; gap: 20px;">
+    <div style="background: #333; padding: 10px; border-radius: 5px; width: 150px;">
+      <h3>즉시 지급</h3>
+      <p>30%</p>
+    </div>
+    <div style="background: #333; padding: 10px; border-radius: 5px; width: 150px;">
+      <h3>2개월 후</h3>
+      <p>20%</p>
+    </div>
+    <div style="background: #333; padding: 10px; border-radius: 5px; width: 150px;">
+      <h3>4개월 후</h3>
+      <p>20%</p>
+    </div>
+    <div style="background: #333; padding: 10px; border-radius: 5px; width: 150px;">
+      <h3>6개월 후</h3>
+      <p>30%</p>
+    </div>
+  </div>
+</div>
+  
 <div class="buy-box" style="margin-top: 40px;">
   <h3>🔒 STCT Lock-up & Claim</h3>
 
@@ -631,7 +654,25 @@ transition: color 0.2s ease; }
 
   
   <script>
+// 예시: 사용자 락업 상태 업데이트
+function updateLockupStatus(user) {
+  // 예시로 30%, 60%, 90% 진행 상태를 표시하는 값
+  let status = {
+    immediate: 30,  // 즉시 지급된 토큰
+    after2m: 60,    // 2개월 후 지급된 토큰
+    after4m: 80,    // 4개월 후 지급된 토큰
+    after6m: 100    // 6개월 후 지급된 토큰
+  };
 
+  // 실제로 UI에 업데이트할 수 있는 코드 작성
+  document.getElementById("lockupStatus").innerHTML = `
+    <div>즉시 지급: ${status.immediate}%</div>
+    <div>2개월 후: ${status.after2m}%</div>
+    <div>4개월 후: ${status.after4m}%</div>
+    <div>6개월 후: ${status.after6m}%</div>
+  `;
+}
+    
     let totalPresale = 0;
 let prePurchased = 0;
 const maxPresaleTotal = 1000;
