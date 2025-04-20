@@ -793,55 +793,8 @@ preButton.addEventListener('click', async () => {
 </script>
 
     <script>
- 
 
-  
-let purchaseLog = JSON.parse(localStorage.getItem("purchaseLog") || "[]");
-const TOKEN_RATE = 10000000; // 1 BNB = 10,000,000 STCT
 
-function handlePresalePurchase() {
-  const buyer = currentAccount;
-  const amount = parseFloat(document.getElementById("preBnbAmount").value);
-  const timestamp = new Date().toLocaleTimeString();
-
-  if (!buyer || amount <= 0) return;
-
-  const stctAmount = Math.floor(amount * TOKEN_RATE);
-
-  // 새 구매 기록 추가
-  purchaseLog.unshift({
-    address: buyer,
-    amount: amount.toFixed(2),
-    stct: stctAmount.toLocaleString(),
-    time: timestamp
-  });
-
-  // 최대 10개까지만 유지
-  purchaseLog = purchaseLog.slice(0, 10);
-
-  // 저장 및 표시
-  localStorage.setItem("purchaseLog", JSON.stringify(purchaseLog));
-  updatePurchaseTable();
-}
-
-function formatAddress(address) {
-  return address.slice(0, 6) + "..." + address.slice(-4);
-}
-
-function updatePurchaseTable() {
-  const tableBody = document.getElementById("purchaseTableBody");
-  tableBody.innerHTML = "";
-
-  purchaseLog.forEach(log => {
-    const row = `<tr>
-      <td>${formatAddress(log.address)}</td>
-      <td>${log.amount}</td>
-      <td>${log.stct}</td>
-      <td>${log.time}</td>
-    </tr>`;
-    tableBody.innerHTML += row;
-  });
-}
 
   
 let currentAccount = null;
@@ -882,7 +835,7 @@ function displayWalletAddress(address) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  updatePurchaseTable();
+ 
 
   if (window.ethereum && window.ethereum.selectedAddress) {
     currentAccount = window.ethereum.selectedAddress;
@@ -909,6 +862,31 @@ document.addEventListener("DOMContentLoaded", function () {
     console.error("누적 판매량 fetch 실패", err);
   }
 }
+      async function fetchPurchaseLogFromSheet() {
+  try {
+    const res = await fetch("https://my-proxy-app-murex.vercel.app/api/send");
+    const json = await res.json();
+
+    if (!Array.isArray(json.records)) return;
+
+    const tableBody = document.getElementById("purchaseTableBody");
+    tableBody.innerHTML = "";
+
+    json.records.slice(0, 10).reverse().forEach(log => {
+      const row = `<tr>
+        <td>${log.address.slice(0, 6)}...${log.address.slice(-4)}</td>
+        <td>${parseFloat(log.bnb).toFixed(2)}</td>
+        <td>${parseInt(log.stct).toLocaleString()}</td>
+        <td>${log.timestamp}</td>
+      </tr>`;
+      tableBody.innerHTML += row;
+    });
+  } catch (err) {
+    console.error("❌ 최근 구매자 로딩 실패:", err);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", fetchPurchaseLogFromSheet);
 
 updateTotalPresale(); // 페이지 로드시 즉시 호출
 
