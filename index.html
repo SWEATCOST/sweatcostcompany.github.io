@@ -107,12 +107,18 @@ transition: color 0.2s ease; }
 
 
 
-    .token-info-box h2 {
-      color: #ffd700; font-size: 32px;
-      margin-bottom: 20px;
-      border-bottom: 2px solid rgba(255, 215, 0, 0.3);
-      display: inline-block; padding-bottom: 5px;
-    }
+   .token-info-box {
+  margin: 80px auto;
+  padding: 20px;
+  max-width: 400px; /* 최대 너비를 400px로 설정 */
+  width: 100%; /* 화면에 따라 너비가 100%까지 늘어나도록 설정 */
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 24px;
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.1);
+  backdrop-filter: blur(8px);
+  animation: fadeIn 1s ease-out;
+  text-align: left;
+}
     .token-card {
       background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
       border: 1px solid #333;
