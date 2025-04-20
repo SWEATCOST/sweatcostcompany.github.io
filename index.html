@@ -42,8 +42,8 @@
   box-shadow: 0 2px 8px rgba(255, 215, 0, 0.1);
 }
 
-    .navbar a { color: #ffd700; font-size: 14px; font-weight: 500; text-decoration: none; tra#buyBnbAmount,
-nsition: color 0.2s ease; }
+    .navbar a { color: #ffd700; font-size: 14px; font-weight: 500; text-decoration: none; #buyBnbAmount,
+transition: color 0.2s ease; }
     .navbar a:hover { color: #ffffff !important; }
     .navbar a.active { font-weight: 700; }
     header { padding: 140px 20px 20px; }
@@ -449,7 +449,6 @@ nsition: color 0.2s ease; }
   </p>
 </header>
 
-</div>  
 <div class="buy-box">
   <h3>Buy STCT Directly [Before DEX Listing]</h3>
   <input type="number" id="buyBnbAmount" placeholder="Enter BNB amount to purchase">
@@ -859,7 +858,6 @@ document.getElementById("presaleBar").style.width = `${Math.min(percent, 100)}%`
 }
 
   }
-}
       async function fetchPurchaseLogFromSheet() {
   try {
     const res = await fetch("https://my-proxy-app-murex.vercel.app/api/send");
