@@ -917,7 +917,6 @@ console.error("❌ Failed to load recent buyers:", err);
 
 document.addEventListener("DOMContentLoaded", fetchPurchaseLogFromSheet);
 
-updateTotalPresale(); // 페이지 로드시 즉시 호출
 
 
       <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
@@ -974,7 +973,7 @@ updateTotalPresale(); // 페이지 로드시 즉시 호출
   });
 </script>
 
-
+updateTotalPresale(); // 페이지 로드시 즉시 호출
   
 </script></body>
 </html>
