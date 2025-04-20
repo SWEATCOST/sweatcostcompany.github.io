@@ -775,7 +775,7 @@ preButton.addEventListener('click', async () => {
     const m = Math.floor((diff / (1000 * 60)) % 60);
     const s = Math.floor((diff / 1000) % 60);
 
-    presaleCountdownEl.innerText = `${d}일 ${h}시간 ${m}분 ${s}초`;
+presaleCountdownEl.innerText = `${d} days ${h} hours ${m} minutes ${s} seconds`;
   }
 
   setInterval(updatePresaleCountdown, 1000);
@@ -794,7 +794,7 @@ const connectWalletBtn = document.getElementById('connectWalletBtn');
 
 async function connectWallet() {
   if (!window.ethereum) {
-    alert('MetaMask가 설치되어 있지 않습니다.');
+    alert('METAMASK is not installed.');
     return;
   }
 
@@ -810,7 +810,8 @@ async function connectWallet() {
        displayWalletAddress(account);
   } catch (err) {
     console.error(err);
-    alert('지갑 연결 실패 또는 거부됨');
+alert('Wallet connection failed or was rejected');
+
   }
 }
 
@@ -821,7 +822,7 @@ function displayWalletAddress(address) {
   document.getElementById('walletAddressDisplay').innerText = ' ' + short;
 
   // 연결 상태 안내 문구
-  document.getElementById('walletStatus').innerText = '✅ 지갑 연결됨';
+  document.getElementById('walletStatus').innerText = '✅ Wallet connected';
   document.getElementById('walletStatus').style.color = '#00ffc8';
 }
 
@@ -832,7 +833,7 @@ document.addEventListener("DOMContentLoaded", function () {
     currentAccount = window.ethereum.selectedAddress;
     displayWalletAddress(currentAccount);
   } else {
-    document.getElementById('walletStatus').innerText = '메타마스크 지갑을 연결해주세요';
+    document.getElementById('walletStatus').innerText = 'Please connect your METAMASK wallet.';
     document.getElementById('walletStatus').style.color = '#ff7070';
   }
 });
@@ -845,12 +846,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const total = parseFloat(json.total || 0);
     totalPresale = total;
 
-    document.getElementById("presaleSummary").textContent = `총 판매량: ${total.toFixed(6)} / 1000 BNB`;
+   document.getElementById("presaleSummary").textContent = `Total Sold: ${total.toFixed(6)} / 1000 BNB`;
 
-    const percent = (total / maxPresaleTotal) * 100;
-    document.getElementById("presaleBar").style.width = `${Math.min(percent, 100)}%`;
-  } catch (err) {
-    console.error("누적 판매량 fetch 실패", err);
+const percent = (total / maxPresaleTotal) * 100;
+document.getElementById("presaleBar").style.width = `${Math.min(percent, 100)}%`;
+} catch (err) {
+  console.error("Failed to fetch total presale amount", err);
+}
+
   }
 }
       async function fetchPurchaseLogFromSheet() {
@@ -873,7 +876,8 @@ document.addEventListener("DOMContentLoaded", function () {
       tableBody.innerHTML += row;
     });
   } catch (err) {
-    console.error("❌ 최근 구매자 로딩 실패:", err);
+console.error("❌ Failed to load recent buyers:", err);
+
   }
 }
 
