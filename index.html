@@ -751,11 +751,12 @@ preButton.addEventListener('click', async () => {
     handlePresalePurchase();   // 최근 구매자 목록 반영
     updateTotalPresale();     // 총 판매량 fetch 갱신
 
-    alert(`사전구매 완료! 개인 누적 ${prePurchased.toFixed(6)} BNB / 총 판매 ${totalPresale.toFixed(6)} BNB`);
+alert(`Presale completed! Your total: ${prePurchased.toFixed(6)} BNB / Total sold: ${totalPresale.toFixed(6)} BNB`);
+
 
   } catch (error) {
     console.error(error);
-    alert('트랜잭션이 취소되었거나 실패했습니다.');
+alert('The transaction was either cancelled or failed.');
   }
 });
 
