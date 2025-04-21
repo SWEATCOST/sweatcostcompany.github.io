@@ -1452,32 +1452,8 @@ async function checkIfAdmin() {
     }
   }
 
-function getMedalImage(bnb) {
-  if (bnb >= 1.5) return 'gold.png';
-  if (bnb >= 0.81) return 'silver.png';
-  if (bnb >= 0.3) return 'bronze.png';
-  return null;
-}
 
-const tbody = document.getElementById("purchaseTableBody");
-data.forEach(item => {
-  const medal = getMedalImage(item.bnb); // 함수로 이미지 경로 선택
-
-  const row = `
-    <tr>
-      <td>${item.address}</td>
-      <td style="text-align:right;">${item.bnb}</td>
-      <td style="text-align:right;">${item.stct}</td>
-      <td style="text-align:right;">${item.time}</td>
-      <td style="text-align:center;">
-        ${medal ? `<img src="${medal}" style="width:20px;" />` : ''}
-      </td>
-    </tr>
-  `;
-  tbody.innerHTML += row;
-});
-
-  document.getElementById("burnBtn").addEventListener("click", burnNFT);
+ document.getElementById("burnBtn").addEventListener("click", burnNFT);
   document.getElementById("upgradeBtn").addEventListener("click", upgradeNFT);
 
   window.addEventListener("load", init);
@@ -1496,7 +1472,33 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-  
+ function getMedalImage(bnb) {
+  if (bnb >= 1.5) return 'gold.png';
+  if (bnb >= 0.81) return 'silver.png';
+  if (bnb >= 0.3) return 'bronze.png';
+  return null;
+}
+
+const tbody = document.getElementById("purchaseTableBody");
+data.forEach(item => {
+  const bnbValue = parseFloat(item.bnb);  // 문자열일 경우 대비
+  const medal = getMedalImage(bnbValue);
+
+  const row = `
+    <tr>
+      <td>${item.address}</td>
+      <td style="text-align:right;">${item.bnb}</td>
+      <td style="text-align:right;">${item.stct}</td>
+      <td style="text-align:right;">${item.time}</td>
+      <td style="text-align:center;">
+        ${medal ? `<img src="${medal}" style="width:20px;" />` : ''}
+      </td>
+    </tr>
+  `;
+  tbody.innerHTML += row;
+}); 
+
+
 </script></body>
 </html>
 
