@@ -690,7 +690,7 @@ transition: color 0.2s ease; }
   
 <div style="max-width: 700px; width: 90%; margin: 0 auto; margin-top: 40px;">
 
-  <h3 style="color: gold; text-align: center;">Recent Purchasers (Latest 10)</h3>
+  <h3 style="color: gold; text-align: center;">Recent Purchasers (Latest 5)</h3>
 
   <table style="width: 100%; color: white; font-size: 14px; border-collapse: collapse;">
     <thead>
@@ -1045,7 +1045,7 @@ alert('The transaction was either cancelled or failed.');
 
 
   const presaleCountdownEl = document.getElementById("presaleCountdown");
-  const presaleEndTime = new Date("2025-05-22T00:00:00Z").getTime();  // 마감일 수정 가능
+  const presaleEndTime = new Date("2025-05-24T00:00:00Z").getTime();  // 마감일 수정 가능
 
   function updatePresaleCountdown() {
     const now = new Date().getTime();
@@ -1149,7 +1149,7 @@ document.getElementById("presaleBar").style.width = `${Math.min(percent, 100)}%`
     const tableBody = document.getElementById("purchaseTableBody");
     tableBody.innerHTML = "";
 
-    json.records.slice(0, 10).reverse().forEach(log => {
+    json.records.slice(0, 5).reverse().forEach(log => {
       const row = `<tr>
         <td>${log.address.slice(0, 6)}...${log.address.slice(-4)}</td>
         <td>${parseFloat(log.bnb).toFixed(2)}</td>
