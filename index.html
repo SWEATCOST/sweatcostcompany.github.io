@@ -22,28 +22,26 @@
     text-align: center;
   }
 
-     .image-row {
+  .image-row {
     display: flex;
     justify-content: center;
-    gap: 24px; /* 이미지 사이 여백 */
-    margin-top: 40px;
-    flex-wrap: wrap; /* 반응형 줄바꿈 */
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-top: 30px;
   }
 
   .image-row img {
-    width: 250px;
-    height: 250px;
-    object-fit: cover; /* 비율 유지하면서 자르기 */
-    border-radius: 16px;
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
     transition: 0.3s;
   }
 
   .image-row img:hover {
     filter: brightness(0.85);
     cursor: pointer;
+    transform: scale(1.1);
   }
-
     .zoomed {
       transform: scale(2); /* 2배 확대 */
       cursor: zoom-out;
@@ -638,15 +636,12 @@ transition: color 0.2s ease; }
   
 <div class="buy-box" style="margin-top: 40px;">
   <h3>🔒 STCT Lock-up & Claim</h3>
-
   <button onclick="loadClaimableLockup()" class="stylish-button" style="margin-top: 12px;">
     🔍 Check Lock-up Amount
   </button>
-
   <div id="claimableInfo" style="margin-top: 10px; color: #00ffc8;">
     Loading your lock-up data...
   </div>
-
   <button onclick="claimLockedTokens()" class="stylish-button" style="margin-top: 16px;">
     💸 Claim STCT
   </button>
@@ -784,16 +779,16 @@ transition: color 0.2s ease; }
 </div>
 
 
-  <h2>COMMUNITY</h2>
-<div id="communuty" class="image-row" style="text-align:center; margin-top: 40px;">
+ <h2 style="text-align: center; color: gold;">COMMUNITY</h2>
+<div id="community" class="image-row">
   <a href="https://x.com/SWEATCOST" target="_blank">
-    <img src="tw_logo.png" alt="https://x.com/SWEATCOST">
+    <img src="tw_logo.png" alt="Twitter">
   </a>
   <a href="https://t.me/+o1PRGaGJNhQyZDRl" target="_blank">
-    <img src="tel_logo.png" alt="https://t.me/+o1PRGaGJNhQyZDRl">
+    <img src="tel_logo.png" alt="Telegram">
   </a>
   <a href="https://discord.gg/hkNzTruTQH" target="_blank">
-    <img src="dis_logo.png" alt="https://discord.gg/hkNzTruTQH">
+    <img src="dis_logo.png" alt="Discord">
   </a>
 </div>
 
