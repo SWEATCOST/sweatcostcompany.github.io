@@ -756,23 +756,19 @@ transition: color 0.2s ease; }
 
    <h2>UTILITY</h2>
 <div id="utility" style="text-align:center; margin-top: 40px;">
-  <img id="utilImage" src="util.jpg" alt="util"
-       onclick="toggleZoom()"
-       style="width: 600px; max-width: 90%; height: auto; border-radius: 16px; box-shadow: 0 0 30px rgba(255, 215, 0, 0.1); transition: transform 0.3s ease; cursor: zoom-in;">
+  <img id="utilImage" src="util.jpg" alt="util" onclick="toggleZoom()">
 </div>
   
   <script>
 
-     function toggleZoom() {
+   function toggleZoom() {
     const img = document.getElementById("utilImage");
     if (img.classList.contains("zoomed")) {
       img.classList.remove("zoomed");
       img.style.transform = "scale(1)";
-      img.style.cursor = "zoom-in";
     } else {
       img.classList.add("zoomed");
       img.style.transform = "scale(2)";
-      img.style.cursor = "zoom-out";
     }
   }
     
