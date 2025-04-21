@@ -694,12 +694,13 @@ transition: color 0.2s ease; }
 
   <table style="width: 100%; color: white; font-size: 14px; border-collapse: collapse;">
     <thead>
-      <tr style="color: gold; border-bottom: 1px solid #444;">
-        <th style="text-align: left;">Address</th>
-        <th style="text-align: right;">BNB</th>
-        <th style="text-align: right;">STCT</th>
-        <th style="text-align: right;">Time</th>
-      </tr>
+       <tr style="color: gold; border-bottom: 1px solid #444;">
+  <th style="text-align: center;">Address</th>
+  <th style="text-align: center;">BNB</th>
+  <th style="text-align: center;">STCT</th>
+  <th style="text-align: center;">Time</th>
+  <th style="text-align: center;">NFT</th> <!-- 추가된 부분 -->
+</tr>
     </thead>
   <tbody id="purchaseTableBody">
     <!-- JavaScript로 자동 표시 -->
@@ -1450,6 +1451,31 @@ async function checkIfAdmin() {
       alert("❌ 업그레이드 실패: " + err.message);
     }
   }
+
+function getMedalImage(bnb) {
+  if (bnb >= 1.5) return 'img/medal_gold.png';
+  if (bnb >= 0.81) return 'img/medal_silver.png';
+  if (bnb >= 0.3) return 'img/medal_bronze.png';
+  return null;
+}
+
+const tbody = document.getElementById("purchaseTableBody");
+data.forEach(item => {
+  const medal = getMedalImage(item.bnb); // 함수로 이미지 경로 선택
+
+  const row = `
+    <tr>
+      <td>${item.address}</td>
+      <td style="text-align:right;">${item.bnb}</td>
+      <td style="text-align:right;">${item.stct}</td>
+      <td style="text-align:right;">${item.time}</td>
+      <td style="text-align:center;">
+        ${medal ? `<img src="${medal}" style="width:20px;" />` : ''}
+      </td>
+    </tr>
+  `;
+  tbody.innerHTML += row;
+});
 
   document.getElementById("burnBtn").addEventListener("click", burnNFT);
   document.getElementById("upgradeBtn").addEventListener("click", upgradeNFT);
