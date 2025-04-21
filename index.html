@@ -22,6 +22,13 @@
     text-align: center;
   }
 
+    .zoomed {
+      transform: scale(2); /* 2배 확대 */
+      cursor: zoom-out;
+      z-index: 10;
+      position: relative;
+    }
+    
   .overlay {
     background-color: rgba(0, 0, 0, 0.65);  /* 어둡고 투명한 블러 배경 */
     backdrop-filter: blur(2px);
@@ -729,11 +736,25 @@ transition: color 0.2s ease; }
 
    <h2>UTILITY</h2>
 <div id="utility" style="text-align:center; margin-top: 40px;">
-  <img src="util.jpg" alt="util"
-       style="width: 600px; max-width: 90%; height: auto; border-radius: 16px; box-shadow: 0 0 30px rgba(255, 215, 0, 0.1);">
+  <img id="utilImage" src="util.jpg" alt="util"
+       onclick="toggleZoom()"
+       style="width: 600px; max-width: 90%; height: auto; border-radius: 16px; box-shadow: 0 0 30px rgba(255, 215, 0, 0.1); transition: transform 0.3s ease; cursor: zoom-in;">
 </div>
   
   <script>
+
+     function toggleZoom() {
+    const img = document.getElementById("utilImage");
+    if (img.classList.contains("zoomed")) {
+      img.classList.remove("zoomed");
+      img.style.transform = "scale(1)";
+      img.style.cursor = "zoom-in";
+    } else {
+      img.classList.add("zoomed");
+      img.style.transform = "scale(2)";
+      img.style.cursor = "zoom-out";
+    }
+  }
     
     let totalPresale = 0;
 let prePurchased = 0;
