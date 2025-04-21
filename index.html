@@ -31,16 +31,20 @@
   }
 
   .image-row img {
-    width: 60px;
-    height: 60px;
+    width: 64px;
+    height: 64px;
+    object-fit: contain;  /* 비율 유지하며 빈 공간 채우기 */
     border-radius: 12px;
+    background-color: #000;  /* 배경 넣으면 정리된 느낌 */
+    padding: 6px;            /* 여백 추가 시 테두리 안 겹침 */
     transition: 0.3s;
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.15);
   }
 
   .image-row img:hover {
     filter: brightness(0.85);
-    cursor: pointer;
     transform: scale(1.1);
+    cursor: pointer;
   }
     .zoomed {
       transform: scale(2); /* 2배 확대 */
