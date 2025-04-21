@@ -28,6 +28,26 @@
       z-index: 10;
       position: relative;
     }
+
+    #utilImage {
+    width: 600px;
+    max-width: 90%;
+    height: auto;
+    border-radius: 16px;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.1);
+    transition: transform 0.3s ease, filter 0.3s ease;
+    cursor: default;
+  }
+
+  #utilImage:hover {
+    filter: brightness(0.85); /* 흐려짐 효과 */
+    cursor: pointer;          /* 손가락 커서 */
+  }
+
+  #utilImage.zoomed {
+    transform: scale(2);
+    cursor: zoom-out;
+  }
     
   .overlay {
     background-color: rgba(0, 0, 0, 0.65);  /* 어둡고 투명한 블러 배경 */
