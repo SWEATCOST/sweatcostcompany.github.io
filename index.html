@@ -1529,6 +1529,9 @@ const providerOptions = {
   },
 };
 
+    let web3Modal;
+let currentAccount = null;
+    
 function initWeb3Modal() {
   web3Modal = new window.Web3Modal({
     cacheProvider: false,
@@ -1570,12 +1573,12 @@ function initWeb3Modal() {
   window.addEventListener("load", init);
       
 document.addEventListener("DOMContentLoaded", () => {
+   initWeb3Modal(); // ✅ Web3Modal 초기화
   const hamburger = document.getElementById("hamburgerBtn");
   const sideMenu = document.getElementById("sideMenu");
 
   hamburger.addEventListener("click", () => {
     sideMenu.classList.toggle("active");
-  initWeb3Modal(); // ✅ Web3Modal 초기화
   document.getElementById("connectWalletBtn").addEventListener("click", connectWallet); // 버튼 클릭 연결
 
   fetchPurchaseLogFromSheet(); // 최근 구매자 불러오기
