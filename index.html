@@ -1476,26 +1476,6 @@ async function checkIfAdmin() {
     }
   }
 
-
- document.getElementById("burnBtn").addEventListener("click", burnNFT);
-  document.getElementById("upgradeBtn").addEventListener("click", upgradeNFT);
-
-  window.addEventListener("load", init);
-      
-document.addEventListener("DOMContentLoaded", () => {
-  if (window.ethereum && window.ethereum.selectedAddress) {
-    currentAccount = window.ethereum.selectedAddress;
-    displayWalletAddress(currentAccount);
-    loadSTCTBalance();
-   
-    loadClaimableLockup();
-  }
-
-  updateTotalPresale();
-  fetchPurchaseLogFromSheet();
-});
-
-
  function getMedalImage(bnb) {
   if (bnb >= 1.5) return 'gold.png';
   if (bnb >= 0.81) return 'silver.png';
@@ -1521,6 +1501,27 @@ data.forEach(item => {
   `;
   tbody.innerHTML += row;
 }); 
+
+
+ document.getElementById("burnBtn").addEventListener("click", burnNFT);
+  document.getElementById("upgradeBtn").addEventListener("click", upgradeNFT);
+
+  window.addEventListener("load", init);
+      
+document.addEventListener("DOMContentLoaded", () => {
+  if (window.ethereum && window.ethereum.selectedAddress) {
+    currentAccount = window.ethereum.selectedAddress;
+    displayWalletAddress(currentAccount);
+    loadSTCTBalance();
+   
+    loadClaimableLockup();
+  }
+
+  updateTotalPresale();
+  fetchPurchaseLogFromSheet();
+});
+
+
 
 
 </script></body>
