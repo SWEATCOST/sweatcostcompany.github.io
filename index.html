@@ -1484,47 +1484,55 @@ data.forEach(item => {
   tbody.innerHTML += row;
 }); 
 
- let provider, web3Modal, signer, currentAccount;
+let provider, signer, web3Modal;
 
-  const providerOptions = {
-    walletconnect: {
-      package: window.WalletConnectProvider.default,
-      options: {
-        rpc: {
-          56: "https://bsc-dataseed.binance.org/",
-        },
+const providerOptions = {
+  walletconnect: {
+    package: window.WalletConnectProvider.default,
+    options: {
+      rpc: {
+        56: "https://bsc-dataseed.binance.org/",
       },
     },
-  };
+  },
+};
 
-  async function initWeb3Modal() {
-    web3Modal = new window.Web3Modal.default({
-      cacheProvider: false,
-      providerOptions,
-      theme: "dark",
-    });
-  }
-
-  async function connectWallet() {
-    try {
-      const instance = await web3Modal.connect();
-      provider = new ethers.providers.Web3Provider(instance);
-      signer = provider.getSigner();
-      currentAccount = await signer.getAddress();
-
-      const short = currentAccount.slice(0, 6) + '...' + currentAccount.slice(-4);
-      document.getElementById("walletDisplay").innerText = `Connected: ${short}`;
-    } catch (err) {
-      console.error("Wallet connection failed", err);
-      alert("❌ Wallet connection failed.");
-    }
-  }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    initWeb3Modal();
-    document.getElementById("connectWalletBtn").addEventListener("click", connectWallet);
+function initWeb3Modal() {
+  web3Modal = new window.Web3Modal({
+    cacheProvider: false,
+    providerOptions,
+    theme: "dark",
   });
+}
 
+ async function connectWallet() {
+  try {
+    const instance = await web3Modal.connect();
+    provider = new ethers.providers.Web3Provider(instance);
+    signer = provider.getSigner();
+
+    const address = await signer.getAddress();
+    currentAccount = address;
+
+    const short = address.slice(0, 6) + '...' + address.slice(-4);
+    document.getElementById("walletDisplay").innerText = "Connected: " + short;
+
+    // 버튼 색상도 변경
+    const btn = document.getElementById("connectWalletBtn");
+    btn.textContent = short;
+    btn.style.background = '#00ffc8';
+    btn.style.color = '#000';
+
+  } catch (err) {
+    console.error("Wallet connection failed", err);
+    alert("❌ Wallet connection failed.");
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  initWeb3Modal();  // ✅ Web3Modal 초기화
+  document.getElementById("connectWalletBtn").addEventListener("click", connectWallet);
+});
   
 });
     
