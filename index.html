@@ -1561,14 +1561,7 @@ function initWeb3Modal() {
   }
 }
 
-  document.addEventListener("DOMContentLoaded", () => {
-  const hamburger = document.getElementById("hamburgerBtn");
-  const sideMenu = document.getElementById("sideMenu");
 
-  hamburger.addEventListener("click", () => {
-    sideMenu.classList.toggle("active");
-  });
-});
 
     
  document.getElementById("burnBtn").addEventListener("click", burnNFT);
@@ -1577,7 +1570,11 @@ function initWeb3Modal() {
   window.addEventListener("load", init);
       
 document.addEventListener("DOMContentLoaded", () => {
-  
+  const hamburger = document.getElementById("hamburgerBtn");
+  const sideMenu = document.getElementById("sideMenu");
+
+  hamburger.addEventListener("click", () => {
+    sideMenu.classList.toggle("active");
   initWeb3Modal(); // ✅ Web3Modal 초기화
   document.getElementById("connectWalletBtn").addEventListener("click", connectWallet); // 버튼 클릭 연결
 
@@ -1590,6 +1587,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loadSTCTBalance();
     loadClaimableLockup();
   }
+      });
 });
 
 
