@@ -22,6 +22,32 @@
     text-align: center;
   }
 
+#walletArea {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+  text-align: right;
+}
+
+#connectWalletBtn {
+  background: linear-gradient(145deg, #ffd700, #ffb700);
+  color: #000;
+  font-weight: bold;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.3);
+  font-size: 14px;
+}
+
+#walletDisplay {
+  color: #00ffc8;
+  font-size: 12px;
+  margin-top: 4px;
+}
+    
     body {
   font-size: 18px;
   line-height: 1.6;
@@ -531,8 +557,14 @@ transition: color 0.2s ease; }
   <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
   
 </head>
-  
+
 <body>
+
+<div id="walletArea">
+  <button id="connectWalletBtn">Connect Wallet</button>
+  <div id="walletDisplay"></div>
+</div>
+  
   <div class="wrapper">
   <nav class="navbar">
   <ul class="nav-menu">
