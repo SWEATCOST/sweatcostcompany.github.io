@@ -1503,6 +1503,48 @@ data.forEach(item => {
 }); 
 
 
+
+  let provider, web3Modal, signer;
+
+  const providerOptions = {
+    walletconnect: {
+      package: window.WalletConnectProvider.default,
+      options: {
+        rpc: {
+          56: "https://bsc-dataseed.binance.org/", // BSC Mainnet
+        },
+      },
+    },
+  };
+
+  async function init() {
+    web3Modal = new window.Web3Modal.default({
+      cacheProvider: false,
+      providerOptions,
+      theme: "dark",
+    });
+  }
+
+  async function connectWallet() {
+    try {
+      const instance = await web3Modal.connect();
+      provider = new ethers.providers.Web3Provider(instance);
+      signer = provider.getSigner();
+
+      const address = await signer.getAddress();
+      document.getElementById("walletDisplay").innerText = "Connected: " + address.slice(0, 6) + "..." + address.slice(-4);
+    } catch (err) {
+      console.error("Wallet connection failed", err);
+      alert("❌ Wallet connection failed.");
+    }
+  }
+
+  document.getElementById("connectWalletBtn").addEventListener("click", connectWallet);
+
+  window.addEventListener("load", init);
+
+
+    
  document.getElementById("burnBtn").addEventListener("click", burnNFT);
   document.getElementById("upgradeBtn").addEventListener("click", upgradeNFT);
 
