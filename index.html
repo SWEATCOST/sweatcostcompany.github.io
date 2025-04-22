@@ -543,6 +543,65 @@ transition: color 0.2s ease; }
       width: 100%;
     }
 
+    .hamburger {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  font-size: 26px;
+  color: gold;
+  cursor: pointer;
+  z-index: 11000;
+  transition: transform 0.3s ease;
+}
+
+.hamburger:hover {
+  transform: scale(1.2);
+}
+
+/* 사이드 메뉴 */
+.side-menu {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  width: 250px;
+  height: 100vh;
+  background-color: #000;
+  box-shadow: 2px 0 12px rgba(255, 215, 0, 0.15);
+  transition: left 0.3s ease;
+  z-index: 10000;
+  padding-top: 60px;
+}
+
+/* 메뉴 펼침 시 */
+.side-menu.active {
+  left: 0;
+}
+
+/* 메뉴 항목 */
+.side-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.side-nav li {
+  border-bottom: 1px solid #222;
+}
+
+.side-nav li a {
+  display: block;
+  padding: 15px 20px;
+  color: gold;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.side-nav li a:hover {
+  background-color: #111;
+  color: #fff;
+}
+
   @media screen and (max-width: 100%) {
   .nav-menu {
     justify-content: center;
@@ -565,10 +624,13 @@ transition: color 0.2s ease; }
   <div id="walletDisplay" style="color:#00ffc8; font-size:14px; margin-top:6px;">Not connected</div>
   <div id="walletStatus" style="color:#ff7070; font-size:14px;">🦊 Please connect your wallet</div>
 </div>
+
+<div id="hamburgerBtn" class="hamburger">
+  ☰
+</div>
   
-  <div class="wrapper">
-  <nav class="navbar">
-  <ul class="nav-menu">
+<div id="sideMenu" class="side-menu">
+  <ul class="side-nav">
     <li><a href="#presale">PRESALE</a></li>
     <li><a href="#token">TOKEN INFO</a></li>
     <li><a href="#roadmap">ROADMAP</a></li>
@@ -579,7 +641,7 @@ transition: color 0.2s ease; }
     <li><a href="#dev">DEVELOPER INFO</a></li>
     <li><a href="#contact">CONTACT</a></li>
   </ul>
-</nav>
+</div>
 
 
 
@@ -1499,7 +1561,14 @@ function initWeb3Modal() {
   }
 }
 
-  
+  document.addEventListener("DOMContentLoaded", () => {
+  const hamburger = document.getElementById("hamburgerBtn");
+  const sideMenu = document.getElementById("sideMenu");
+
+  hamburger.addEventListener("click", () => {
+    sideMenu.classList.toggle("active");
+  });
+});
 
     
  document.getElementById("burnBtn").addEventListener("click", burnNFT);
