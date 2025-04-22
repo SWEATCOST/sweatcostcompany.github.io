@@ -1573,26 +1573,24 @@ function initWeb3Modal() {
   window.addEventListener("load", init);
       
 document.addEventListener("DOMContentLoaded", () => {
-   initWeb3Modal(); // ✅ Web3Modal 초기화
+  initWeb3Modal(); // ✅ 가장 먼저 호출
+
+  document.getElementById("connectWalletBtn").addEventListener("click", async () => {
+    await connectWallet();  // 지갑 연결
+    loadSTCTBalance();      // 잔액 확인
+    loadClaimableLockup();  // 락업 정보 확인
+  });
+
+  // 사이드 메뉴 이벤트는 따로
   const hamburger = document.getElementById("hamburgerBtn");
   const sideMenu = document.getElementById("sideMenu");
-
   hamburger.addEventListener("click", () => {
     sideMenu.classList.toggle("active");
-  document.getElementById("connectWalletBtn").addEventListener("click", connectWallet); // 버튼 클릭 연결
+  });
 
-  fetchPurchaseLogFromSheet(); // 최근 구매자 불러오기
-  updateTotalPresale();        // 총 판매량 불러오기
-
-  if (window.ethereum && window.ethereum.selectedAddress) {
-    currentAccount = window.ethereum.selectedAddress;
-    displayWalletAddress(currentAccount);
-    loadSTCTBalance();
-    loadClaimableLockup();
-  }
-      });
+  fetchPurchaseLogFromSheet();
+  updateTotalPresale();
 });
-
 
 
 
