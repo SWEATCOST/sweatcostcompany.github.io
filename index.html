@@ -543,7 +543,7 @@ transition: color 0.2s ease; }
       width: 100%;
     }
 
-  @media screen and (max-width: 450px) {
+  @media screen and (max-width: 100%) {
   .nav-menu {
     justify-content: center;
     flex-wrap: wrap;
@@ -562,7 +562,7 @@ transition: color 0.2s ease; }
 
 <div id="walletArea">
   <button id="connectWalletBtn">Connect Wallet</button>
-  <div id="walletDisplay"></div>
+  <div id="walletDisplay">Not connected</div>
 </div>
   
   <div class="wrapper">
@@ -1483,22 +1483,20 @@ data.forEach(item => {
   tbody.innerHTML += row;
 }); 
 
-
-
-  let provider, web3Modal, signer;
+ let provider, web3Modal, signer, currentAccount;
 
   const providerOptions = {
     walletconnect: {
       package: window.WalletConnectProvider.default,
       options: {
         rpc: {
-          56: "https://bsc-dataseed.binance.org/", // BSC Mainnet
+          56: "https://bsc-dataseed.binance.org/",
         },
       },
     },
   };
 
-  async function init() {
+  async function initWeb3Modal() {
     web3Modal = new window.Web3Modal.default({
       cacheProvider: false,
       providerOptions,
@@ -1511,19 +1509,22 @@ data.forEach(item => {
       const instance = await web3Modal.connect();
       provider = new ethers.providers.Web3Provider(instance);
       signer = provider.getSigner();
+      currentAccount = await signer.getAddress();
 
-      const address = await signer.getAddress();
-      document.getElementById("walletDisplay").innerText = "Connected: " + address.slice(0, 6) + "..." + address.slice(-4);
+      const short = currentAccount.slice(0, 6) + '...' + currentAccount.slice(-4);
+      document.getElementById("walletDisplay").innerText = `Connected: ${short}`;
     } catch (err) {
       console.error("Wallet connection failed", err);
       alert("❌ Wallet connection failed.");
     }
   }
 
+  document.addEventListener("DOMContentLoaded", () => {
+    initWeb3Modal();
+    document.getElementById("connectWalletBtn").addEventListener("click", connectWallet);
+  });
 
-
-document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("connectWalletBtn").addEventListener("click", connectWallet);
+  
 });
     
  document.getElementById("burnBtn").addEventListener("click", burnNFT);
