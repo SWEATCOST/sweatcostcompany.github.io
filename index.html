@@ -1085,35 +1085,6 @@ presaleCountdownEl.innerText = `${d} days ${h} hours ${m} minutes ${s} seconds`;
 
 
 
-  
-let currentAccount = null;
-
-const connectWalletBtn = document.getElementById('connectWalletBtn');
-
-async function connectWallet() {
-  if (!window.ethereum) {
-    alert('METAMASK is not installed.');
-    return;
-  }
-
-  try {
-    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-    const account = accounts[0];
-    currentAccount = account;
-    const shortened = account.slice(0, 6) + '...' + account.slice(-4);
-
-    connectWalletBtn.title = "Connected: " + shortened;
-    connectWalletBtn.style.background = '#00ffc8';
-    connectWalletBtn.style.boxShadow = '0 0 12px rgba(0, 255, 200, 0.4)';
-       displayWalletAddress(account);
-  } catch (err) {
-    console.error(err);
-alert('Wallet connection failed or was rejected');
-
-  }
-}
-
-connectWalletBtn.addEventListener('click', connectWallet);
 
 function displayWalletAddress(address) {
   const short = address.slice(0, 6) + '...' + address.slice(-4);
@@ -1417,7 +1388,7 @@ async function checkIfAdmin() {
     "function tokenOfOwnerByIndex(address owner, uint256 index) view returns (uint256)"
   ];
 
-  let provider, signer, nftContract;
+  let provider, signer, web3Modal, nftContract;
 
   async function init() {
     if (window.ethereum) {
@@ -1484,7 +1455,6 @@ data.forEach(item => {
   tbody.innerHTML += row;
 }); 
 
-let provider, signer, web3Modal;
 
 const providerOptions = {
   walletconnect: {
@@ -1529,12 +1499,8 @@ function initWeb3Modal() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  initWeb3Modal();  // ✅ Web3Modal 초기화
-  document.getElementById("connectWalletBtn").addEventListener("click", connectWallet);
-});
   
-});
+
     
  document.getElementById("burnBtn").addEventListener("click", burnNFT);
   document.getElementById("upgradeBtn").addEventListener("click", upgradeNFT);
@@ -1542,16 +1508,18 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("load", init);
       
 document.addEventListener("DOMContentLoaded", () => {
+  initWeb3Modal(); // ✅ Web3Modal 초기화
+  document.getElementById("connectWalletBtn").addEventListener("click", connectWallet); // 버튼 클릭 연결
+
+  fetchPurchaseLogFromSheet(); // 최근 구매자 불러오기
+  updateTotalPresale();        // 총 판매량 불러오기
+
   if (window.ethereum && window.ethereum.selectedAddress) {
     currentAccount = window.ethereum.selectedAddress;
     displayWalletAddress(currentAccount);
     loadSTCTBalance();
-   
     loadClaimableLockup();
   }
-
-  updateTotalPresale();
-  fetchPurchaseLogFromSheet();
 });
 
 
