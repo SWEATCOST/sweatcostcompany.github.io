@@ -1518,6 +1518,11 @@ data.forEach(item => {
 }); 
 
 
+   let web3Modal;
+  let provider;
+  let signer;
+  let currentAccount;
+
 const providerOptions = {
   walletconnect: {
     package: window.WalletConnectProvider.default,
@@ -1528,12 +1533,6 @@ const providerOptions = {
     },
   },
 };
-
-
-let web3Modal;
-  let provider;
-  let signer;
-  let currentAccount;
     
 web3Modal = new Web3Modal.default({
   cacheProvider: true,
@@ -1555,7 +1554,7 @@ web3Modal = new Web3Modal.default({
 
     // 버튼 색상도 변경
     const btn = document.getElementById("connectWalletBtn");
-    initWeb3Modal();
+
     btn.textContent = short;
     btn.style.background = '#00ffc8';
     btn.style.color = '#000';
