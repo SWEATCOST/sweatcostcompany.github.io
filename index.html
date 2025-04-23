@@ -1560,14 +1560,6 @@ const providerOptions = {
   }
 }
 
-
-
-    
- document.getElementById("burnBtn").addEventListener("click", burnNFT);
-  document.getElementById("upgradeBtn").addEventListener("click", upgradeNFT);
-
-  window.addEventListener("load", init);
-      
 document.addEventListener("DOMContentLoaded", () => {
  
  web3Modal = new Web3Modal.default({
@@ -1575,24 +1567,34 @@ document.addEventListener("DOMContentLoaded", () => {
   providerOptions,
   theme: "dark",
 });
- 
-
-  document.getElementById("connectWalletBtn").addEventListener("click", async () => {
+document.getElementById("connectWalletBtn").addEventListener("click", async () => {
     await connectWallet();  // 지갑 연결
     loadSTCTBalance();      // 잔액 확인
     loadClaimableLockup();  // 락업 정보 확인
   });
+    
+ document.getElementById("burnBtn").addEventListener("click", burnNFT);
+  document.getElementById("upgradeBtn").addEventListener("click", upgradeNFT);
 
-  // 사이드 메뉴 이벤트는 따로
+ // 사이드 메뉴 이벤트는 따로
   const hamburger = document.getElementById("hamburgerBtn");
   const sideMenu = document.getElementById("sideMenu");
   hamburger.addEventListener("click", () => {
     sideMenu.classList.toggle("active");
   });
-
+ 
+  window.addEventListener("load", init);
+      
   fetchPurchaseLogFromSheet();
   updateTotalPresale();
+
+if (window.ethereum && window.ethereum.selectedAddress) {
+    currentAccount = window.ethereum.selectedAddress;
+    loadSTCTBalance();
+    loadClaimableLockup();
+  }
 });
+
 
 
 
