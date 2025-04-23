@@ -1518,10 +1518,12 @@ data.forEach(item => {
 }); 
 
 
- let web3Modal = null;
-  let provider;
-  let signer;
-  let currentAccount;
+// 🔧 최종 구조 정리된 Web3Modal 및 Presale 스크립트
+
+let web3Modal = null;
+let provider;
+let signer;
+let currentAccount;
 
 const providerOptions = {
   walletconnect: {
@@ -1533,9 +1535,8 @@ const providerOptions = {
     },
   },
 };
-    
 
- async function connectWallet() {
+async function connectWallet() {
   try {
     const instance = await web3Modal.connect();
     provider = new ethers.providers.Web3Provider(instance);
@@ -1547,48 +1548,45 @@ const providerOptions = {
     const short = address.slice(0, 6) + '...' + address.slice(-4);
     document.getElementById("walletDisplay").innerText = "Connected: " + short;
 
-    // 버튼 색상도 변경
     const btn = document.getElementById("connectWalletBtn");
-
     btn.textContent = short;
     btn.style.background = '#00ffc8';
     btn.style.color = '#000';
- localStorage.setItem("connectedWallet", address);
+    localStorage.setItem("connectedWallet", address);
   } catch (err) {
     console.error("Wallet connection failed", err);
-    alert("❌ Wallet connection failed.");
+    alert("\u274C Wallet connection failed.");
   }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
- 
- web3Modal = new Web3Modal.default({
-  cacheProvider: true,
-  providerOptions,
-  theme: "dark",
-});
-document.getElementById("connectWalletBtn").addEventListener("click", async () => {
-    await connectWallet();  // 지갑 연결
-    loadSTCTBalance();      // 잔액 확인
-    loadClaimableLockup();  // 락업 정보 확인
+  web3Modal = new Web3Modal.default({
+    cacheProvider: true,
+    providerOptions,
+    theme: "dark",
   });
-    
- document.getElementById("burnBtn").addEventListener("click", burnNFT);
+
+  document.getElementById("connectWalletBtn").addEventListener("click", async () => {
+    await connectWallet();
+    loadSTCTBalance();
+    loadClaimableLockup();
+  });
+
+  document.getElementById("burnBtn").addEventListener("click", burnNFT);
   document.getElementById("upgradeBtn").addEventListener("click", upgradeNFT);
 
- // 사이드 메뉴 이벤트는 따로
   const hamburger = document.getElementById("hamburgerBtn");
   const sideMenu = document.getElementById("sideMenu");
   hamburger.addEventListener("click", () => {
     sideMenu.classList.toggle("active");
   });
- 
+
   window.addEventListener("load", init);
-      
+
   fetchPurchaseLogFromSheet();
   updateTotalPresale();
 
-if (window.ethereum && window.ethereum.selectedAddress) {
+  if (window.ethereum && window.ethereum.selectedAddress) {
     currentAccount = window.ethereum.selectedAddress;
     loadSTCTBalance();
     loadClaimableLockup();
