@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en">
+ <!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1530,15 +1530,16 @@ const providerOptions = {
 };
 
 
-let currentAccount = null;
+let web3Modal;
+  let provider;
+  let signer;
+  let currentAccount;
     
-function initWeb3Modal() {
-  web3Modal = new window.Web3Modal({
-    cacheProvider: false,
-    providerOptions,
-    theme: "dark",
-  });
-}
+web3Modal = new Web3Modal.default({
+  cacheProvider: true,
+  providerOptions,
+  theme: "dark",
+});
 
  async function connectWallet() {
   try {
