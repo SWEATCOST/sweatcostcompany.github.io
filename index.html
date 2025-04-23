@@ -1557,7 +1557,7 @@ function initWeb3Modal() {
     btn.textContent = short;
     btn.style.background = '#00ffc8';
     btn.style.color = '#000';
-
+ localStorage.setItem("connectedWallet", address);
   } catch (err) {
     console.error("Wallet connection failed", err);
     alert("❌ Wallet connection failed.");
