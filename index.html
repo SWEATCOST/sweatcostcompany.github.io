@@ -1497,7 +1497,7 @@ async function checkIfAdmin() {
   if (bnb >= 0.3) return 'bronze.png';
   return null;
 }
-
+let data = [];
 const tbody = document.getElementById("purchaseTableBody");
 data.forEach(item => {
   const bnbValue = parseFloat(item.bnb);  // 문자열일 경우 대비
