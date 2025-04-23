@@ -1518,7 +1518,7 @@ data.forEach(item => {
 }); 
 
 
- let web3Modal;
+ let web3Modal = null;
   let provider;
   let signer;
   let currentAccount;
@@ -1569,6 +1569,7 @@ const providerOptions = {
   window.addEventListener("load", init);
       
 document.addEventListener("DOMContentLoaded", () => {
+ 
  web3Modal = new Web3Modal.default({
   cacheProvider: true,
   providerOptions,
