@@ -1513,7 +1513,6 @@ data.forEach(item => {
 }); 
 
 
-let web3Modal = null;
 let provider;
 let signer;
 let currentAccount;
@@ -1586,14 +1585,14 @@ document.addEventListener("DOMContentLoaded", () => {
     <!-- ESM 스크립트 -->
   <script type="module">
     // 1) ESM 모듈 불러오기
-    import { Web3Modal } from 'https://cdn.jsdelivr.net/npm/@web3modal/standalone@2.7.21/dist/index.js';
-    import {
-      EthereumClient,
-      w3mConnectors,
-      w3mProvider
-    } from 'https://cdn.jsdelivr.net/npm/@web3modal/ethereum@2.7.21/dist/index.js';
-    import { configureChains, createClient } from 'https://cdn.jsdelivr.net/npm/wagmi@0.9.16/dist/index.js';
-    import { bsc } from 'https://cdn.jsdelivr.net/npm/@wagmi/chains@0.0.21/dist/index.js';
+    import { Web3Modal } from 'https://unpkg.com/@web3modal/standalone@2.7.21/dist/index.esm.js';
+  import {
+    EthereumClient,
+    w3mConnectors,
+    w3mProvider
+  } from 'https://unpkg.com/@web3modal/ethereum@2.7.21/dist/index.esm.js';
+  import { configureChains, createClient } from 'https://unpkg.com/wagmi@0.9.16/dist/wagmi.esm.js';
+  import { bsc } from 'https://unpkg.com/@wagmi/chains@0.0.21/dist/chains.esm.js';
 
     // 2) 필수 설정
     const projectId = 'b443e684791b762596a5fd2ab87605b7';  // ← 여기에 WalletConnect 프로젝트 ID
