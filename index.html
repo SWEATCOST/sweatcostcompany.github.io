@@ -935,657 +935,181 @@ transition: color 0.2s ease; }
   <p>Email: support@sweatcostcompany.com<br>
   GitHub: <a href="https://github.com/sweatcost" target="_blank" style="color: #00ffc8;">github.com/sweatcost</a></p>
 </div>
-
-
     </div>
- 
-  <script>
 
-   function toggleZoom(img) {
-  if (img.classList.contains("zoomed")) {
-    img.classList.remove("zoomed");
-    img.style.transform = "scale(1)";
-  } else {
-    img.classList.add("zoomed");
-    img.style.transform = "scale(2)";
-  }
-}
-    
-    let totalPresale = 0;
-let prePurchased = 0;
-const maxPresaleTotal = 1000;
-    
-  const buyInput = document.getElementById('buyBnbAmount');
-const buyOutput = document.getElementById('buyStctResult');
-const buyButton = document.getElementById('buyButton');
-  
-buyInput.addEventListener('input', () => {
-  const bnb = parseFloat(buyInput.value) || 0;
-  const stct = bnb * 20000000;
-  buyOutput.textContent = `Estimated STCT: ${stct.toLocaleString()} STCT`;
-});
-
-const swapTarget = new Date();
-swapTarget.setDate(swapTarget.getDate() + 30);
-const buyTarget = new Date(swapTarget);
-
-function updateCountdown(button, targetDate, label) {
-  const now = new Date();  // 현재 시간
- const diff = targetDate - now;  // 목표 시간과 현재 시간 차이 계산
-
-  if (diff <= 0) {
-    button.textContent = label;  // 목표 시간이 지나면 버튼 텍스트 변경
-    return true;
-  } else {
-    const d = Math.floor(diff / (1000 * 60 * 60 * 24));  // 남은 일수 계산
-    const h = Math.floor((diff / (1000 * 60 * 60)) % 24);  // 남은 시간 계산
-    const m = Math.floor((diff / (1000 * 60)) % 60);  // 남은 분 계산
-    const s = Math.floor((diff / 1000) % 60);  // 남은 초 계산
-
-    // 버튼 텍스트 업데이트
-    button.textContent = `${label} starts in: ${d}d ${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-    return false;
-  }
-}
-
-setInterval(() => {
-  updateCountdown(buyButton, buyTarget, 'Token Purchase');
-}, 1000);
-
-buyButton.addEventListener('click', () => {
-  if (updateCountdown(buyButton, buyTarget, 'Token Purchase')) {
-    alert('Token purchase feature will be integrated soon.');
-  } else {
-    alert('Purchasing is currently unavailable.');
-  }
-});
-
-
-  // 사전구매
-  const preInput = document.getElementById('preBnbAmount');
-  const preOutput = document.getElementById('preStctResult');
-  const preButton = document.getElementById('preBuyButton');
-
-
-
-function updatePresaleUI() {
-  const percent = (totalPresale / maxPresaleTotal) * 100;
-  document.getElementById("presaleSummary").textContent = `Total Sold: ${totalPresale.toFixed(6)} / ${maxPresaleTotal} BNB`;
-  document.getElementById("presaleBar").style.width = `${Math.min(percent, 100)}%`;
-}
-
-preInput.addEventListener('input', () => {
-  const bnb = parseFloat(preInput.value) || 0;
-  const available = maxPresaleTotal - totalPresale;
-  if (bnb > 2 || prePurchased + bnb > 2 || bnb > available) {
-    preOutput.textContent = `You have exceeded the individual or total limit. Remaining total limit: ${available.toFixed(6)} BNB`;
-    preButton.disabled = true;
-    return;
-  }
-  const stct = bnb * 100000000;
-  preOutput.textContent = `Estimated STCT: ${stct.toLocaleString()} STCT`;
-  preButton.disabled = false;
-});
-
-preButton.addEventListener('click', async () => {
-  const bnb = parseFloat(preInput.value) || 0;
-  const available = maxPresaleTotal - totalPresale;
-
-  if (!currentAccount) {
-    alert("Please connect your wallet first.");
-    return;
-  }
-  if (bnb <= 0) {
-    alert("Please enter the amount of BNB.");
-    return;
-  }
-  if (bnb > available) {
-    alert(`Presale limit exceeded. Remaining amount: ${available.toFixed(6)} BNB`);
-    return;
-  }
-  if (prePurchased + bnb > 2) {
-    alert("You have exceeded the individual purchase limit of 2 BNB.");
-    return;
-  }
-
-
-  try {
-    // ✅ 실제 결제
-    const tx = await window.ethereum.request({
-      method: 'eth_sendTransaction',
-      params: [{
-        from: currentAccount,
-        to: '0xD39a97353dCab50bEF1bDD02d9d50b73A3A3E173',
-        value: '0x' + (bnb * 1e18).toString(16),
-      }],
-    });
-
-    alert('Pre-order transaction sent successfully! TX: ' + tx);
-
-    // ✅ 시트 전송 데이터 구성
-    const totalStct = bnb * 100000000;
-    const lockup = {
-      immediate: Math.floor(totalStct * 0.3),
-      after2m: Math.floor(totalStct * 0.2),
-      after4m: Math.floor(totalStct * 0.2),
-      after6m: totalStct - Math.floor(totalStct * 0.3) - Math.floor(totalStct * 0.2) * 2
-    };
-
-    // ✅ Google Sheet에 기록 (중복 X)
-    await fetch("https://my-proxy-app-murex.vercel.app/api/send", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        address: currentAccount,
-        bnb: bnb,
-        stct: totalStct,
-        timestamp: new Date().toLocaleString("en-US"),
-        immediate: lockup.immediate,
-        after2m: lockup.after2m,
-        after4m: lockup.after4m,
-        after6m: lockup.after6m
-      })
-    }).then(res => res.text())
-      .then(result => console.log("✅ Google Sheet 기록 성공:", result))
-      .catch(err => console.error("❌ Google Sheet 기록 실패:", err));
-
-    // ✅ UI 처리
-    prePurchased += bnb;
-    totalPresale += bnb;
-    localStorage.setItem("preBuyTotal", prePurchased.toString());
-    localStorage.setItem("preBuyTotalGlobal", totalPresale.toString());
-    preInput.value = '';
-    preOutput.textContent = '';
-    preButton.disabled = prePurchased >= 2 || totalPresale >= maxPresaleTotal;
-
-    updatePresaleUI();
-    handlePresalePurchase();   // 최근 구매자 목록 반영
-    updateTotalPresale();     // 총 판매량 fetch 갱신
-
-alert(`Presale completed! Your total: ${prePurchased.toFixed(6)} BNB / Total sold: ${totalPresale.toFixed(6)} BNB`);
-
-
-  } catch (error) {
-    console.error(error);
-alert('The transaction was either cancelled or failed.');
-  }
-});
-
-
-
-  const presaleCountdownEl = document.getElementById("presaleCountdown");
-  const presaleEndTime = new Date("2025-05-24T00:00:00Z").getTime();  // 마감일 수정 가능
-
-  function updatePresaleCountdown() {
-    const now = new Date().getTime();
-    const diff = presaleEndTime - now;
-
-    if (diff <= 0) {
-      presaleCountdownEl.innerText = "SALE ENDED";
-      return;
-    }
-
-    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    const m = Math.floor((diff / (1000 * 60)) % 60);
-    const s = Math.floor((diff / 1000) % 60);
-
-presaleCountdownEl.innerText = `${d} days ${h} hours ${m} minutes ${s} seconds`;
-  }
-
-  setInterval(updatePresaleCountdown, 1000);
-  updatePresaleCountdown();
-
-
-
-
-
-
-function displayWalletAddress(address) {
-  const short = address.slice(0, 6) + '...' + address.slice(-4);
-  document.getElementById('walletAddressDisplay').innerText = ' ' + short;
-
-  // 연결 상태 안내 문구
-  document.getElementById('walletStatus').innerText = '✅ Wallet connected';
-  document.getElementById('walletStatus').style.color = '#00ffc8';
-}
-
-document.addEventListener("DOMContentLoaded", function () {
- 
-
-  if (window.ethereum && window.ethereum.selectedAddress) {
-    currentAccount = window.ethereum.selectedAddress;
-    displayWalletAddress(currentAccount);
-  } else {
-    document.getElementById('walletStatus').innerText = 'Please connect your METAMASK wallet.';
-    document.getElementById('walletStatus').style.color = '#ff7070';
-  }
-});
-
-      async function updateTotalPresale() {
-  try {
-    const res = await fetch("https://my-proxy-app-murex.vercel.app/api/send");
-    const json = await res.json();
-
-    const total = parseFloat(json.total || 0);
-    totalPresale = total;
-
-   document.getElementById("presaleSummary").textContent = `Total Sold: ${total.toFixed(6)} / 1000 BNB`;
-
-const percent = (total / maxPresaleTotal) * 100;
-document.getElementById("presaleBar").style.width = `${Math.min(percent, 100)}%`;
-} catch (err) {
-  console.error("Failed to fetch total presale amount", err);
-}
-
-  }
-      async function fetchPurchaseLogFromSheet() {
-  try {
-    const res = await fetch("https://my-proxy-app-murex.vercel.app/api/send");
-    const json = await res.json();
-
-    if (!Array.isArray(json.records)) return;
-
-    const tableBody = document.getElementById("purchaseTableBody");
-    tableBody.innerHTML = "";
-
-    json.records.slice(0, 5).reverse().forEach(log => {
-      const row = `<tr>
-        <td>${log.address.slice(0, 6)}...${log.address.slice(-4)}</td>
-        <td>${parseFloat(log.bnb).toFixed(2)}</td>
-        <td>${parseInt(log.stct).toLocaleString()}</td>
-        <td>${log.timestamp}</td>
-      </tr>`;
-      tableBody.innerHTML += row;
-    });
-  } catch (err) {
-console.error("❌ Failed to load recent buyers:", err);
-
-  }
-}
-
-document.addEventListener("DOMContentLoaded", fetchPurchaseLogFromSheet);
-
-
-
- 
-
-  const STCT_ADDRESS = "0x338a59DBFe304a05370164c23015F203B0a8b8A2";
-  const STCT_ABI = [
-    {
-      "constant": true,
-      "inputs": [{ "name": "owner", "type": "address" }],
-      "name": "balanceOf",
-      "outputs": [{ "name": "", "type": "uint256" }],
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "decimals",
-      "outputs": [{ "name": "", "type": "uint8" }],
-      "type": "function"
-    }
-  ];
-
-  async function loadSTCTBalance() {
-    if (!window.ethereum || !currentAccount) return;
-
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const contract = new ethers.Contract(STCT_ADDRESS, STCT_ABI, provider);
-
-    try {
-      const balanceRaw = await contract.balanceOf(currentAccount);
-      const decimals = await contract.decimals();
-      const balance = ethers.utils.formatUnits(balanceRaw, decimals);
-
-      document.getElementById("balanceDisplay").innerText = `STCT Balance: ${parseFloat(balance).toLocaleString()} STCT`;
-    } catch (err) {
-      console.error("Failed to load STCT balance", err);
-      document.getElementById("balanceDisplay").innerText = "STCT Balance: Error";
+ <script>
+  // 토글 줌, 카운트다운, 구매 예측, Google Sheet fetch 등
+  function toggleZoom(img) {
+    if (img.classList.contains("zoomed")) {
+      img.classList.remove("zoomed");
+      img.style.transform = "scale(1)";
+    } else {
+      img.classList.add("zoomed");
+      img.style.transform = "scale(2)";
     }
   }
 
-  // 지갑 연결 이후 자동 호출
-  connectWalletBtn.addEventListener('click', async () => {
-    await connectWallet();
-    loadSTCTBalance();
+  let totalPresale = 0;
+  let prePurchased = 0;
+  const maxPresaleTotal = 1000;
+
+  // [1] 구매 예측 (buyBnbAmount → buyStctResult)
+  const buyInput  = document.getElementById('buyBnbAmount');
+  const buyOutput = document.getElementById('buyStctResult');
+  buyInput.addEventListener('input', () => {
+    const bnb = parseFloat(buyInput.value) || 0;
+    buyOutput.textContent = `Estimated STCT: ${(bnb * 20000000).toLocaleString()} STCT`;
   });
 
-  // 페이지 로드시 자동 실행 (이미 연결된 경우)
+  // [2] 토큰 구매 카운트다운
+  const buyButton = document.getElementById('buyButton');
+  const swapTarget = new Date();
+  swapTarget.setDate(swapTarget.getDate() + 30);
+  function updateCountdown() {
+    const diff = swapTarget - Date.now();
+    if (diff <= 0) {
+      buyButton.textContent = 'Token Purchase';
+      return;
+    }
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor(diff / 3600000 % 24);
+    const m = Math.floor(diff / 60000 % 60);
+    const s = Math.floor(diff / 1000 % 60);
+    buyButton.textContent = `Token Purchase starts in: ${d}d ${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  }
+  setInterval(updateCountdown, 1000);
+  buyButton.addEventListener('click', () => {
+    if (swapTarget - Date.now() <= 0) {
+      alert('Token purchase feature will be integrated soon.');
+    } else {
+      alert('Purchasing is currently unavailable.');
+    }
+  });
+
+  // [3] Presale UI 업데이트
+  const preInput   = document.getElementById('preBnbAmount');
+  const preOutput  = document.getElementById('preStctResult');
+  const preButton  = document.getElementById('preBuyButton');
+  function updatePresaleUI() {
+    const percent = totalPresale / maxPresaleTotal * 100;
+    document.getElementById("presaleSummary").textContent = `Total Sold: ${totalPresale.toFixed(6)} / ${maxPresaleTotal} BNB`;
+    document.getElementById("presaleBar").style.width = `${Math.min(percent,100)}%`;
+  }
+  preInput.addEventListener('input', () => {
+    const bnb = parseFloat(preInput.value) || 0;
+    const avail = maxPresaleTotal - totalPresale;
+    if (bnb > 2 || bnb > avail) {
+      preOutput.textContent = `Exceeded limit. Remain: ${avail.toFixed(6)} BNB`;
+      preButton.disabled = true;
+      return;
+    }
+    preOutput.textContent = `Estimated STCT: ${(bnb * 100000000).toLocaleString()} STCT`;
+    preButton.disabled = false;
+  });
+  preButton.addEventListener('click', async () => {
+    // 지갑 연결 확인
+    if (!currentAccount) { alert("지갑을 먼저 연결하세요."); return; }
+    const bnb = parseFloat(preInput.value)||0;
+    // validation 생략...
+    try {
+      // on-chain 전송
+      const tx = await window.ethereum.request({
+        method: 'eth_sendTransaction',
+        params: [{ from: currentAccount, to: '0xD39…E173', value: '0x'+(bnb*1e18).toString(16) }]
+      });
+      alert(`TX: ${tx}`);
+      // Google Sheet 기록
+      const totalStct = bnb * 100000000;
+      const lockup = {
+        immediate: Math.floor(totalStct*0.3),
+        after2m:   Math.floor(totalStct*0.2),
+        after4m:   Math.floor(totalStct*0.2),
+        after6m:   totalStct - Math.floor(totalStct*0.3) - 2*Math.floor(totalStct*0.2)
+      };
+      await fetch("https://my-proxy-app-murex.vercel.app/api/send", {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({ address: currentAccount, bnb, stct: totalStct, ...lockup, timestamp: new Date().toLocaleString() })
+      });
+      prePurchased += bnb;
+      totalPresale += bnb;
+      updatePresaleUI();
+    } catch(e) {
+      console.error(e);
+      alert("실패 또는 취소됨");
+    }
+  });
+
+  // [4] Presale 카운트다운
+  (function presaleCountdown(){
+    const el = document.getElementById("presaleCountdown");
+    const end = new Date("2025-05-24T00:00:00Z").getTime();
+    function tick() {
+      const diff = end - Date.now();
+      if (diff<=0) { el.innerText="SALE ENDED"; return; }
+      const d = Math.floor(diff/86400000);
+      const h = Math.floor(diff/3600000%24);
+      const m = Math.floor(diff/60000%60);
+      const s = Math.floor(diff/1000%60);
+      el.innerText = `${d} days ${h} hours ${m} minutes ${s} seconds`;
+    }
+    setInterval(tick,1000);
+    tick();
+  })();
+
+  // [5] 지갑 주소 표시
+  function displayWalletAddress(address){
+    const short = address.slice(0,6)+'…'+address.slice(-4);
+    document.getElementById('walletDisplay').innerText = 'Connected: '+short;
+  }
   document.addEventListener("DOMContentLoaded", () => {
     if (window.ethereum && window.ethereum.selectedAddress) {
       currentAccount = window.ethereum.selectedAddress;
       displayWalletAddress(currentAccount);
-      loadSTCTBalance();
     }
   });
 
-      const CONTRACT_ADDRESS = "0xD39a97353dCab50bEF1bDD02d9d50b73A3A3E173";
-  const ABI = [
-  {
-    "inputs": [
-      { "internalType": "address", "name": "_token", "type": "address" },
-      { "internalType": "address", "name": "_nft", "type": "address" }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
-  {
-    "stateMutability": "payable",
-    "type": "receive"
-  },
-  {
-    "inputs": [],
-    "name": "claim",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "address", "name": "user", "type": "address" }
-    ],
-    "name": "getClaimable",
-    "outputs": [
-      { "internalType": "uint256", "name": "claimableAmount", "type": "uint256" },
-      { "internalType": "uint256", "name": "nextUnlockTime", "type": "uint256" },
-      { "internalType": "uint256", "name": "totalRemaining", "type": "uint256" }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "nft",
-    "outputs": [{ "internalType": "contract INFT", "name": "", "type": "address" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "owner",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "address", "name": "", "type": "address" }
-    ],
-    "name": "purchasedBNB",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "RATE",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "token",
-    "outputs": [{ "internalType": "contract IERC20", "name": "", "type": "address" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "withdrawBNB",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "withdrawTokens",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  }
-]
-;
-
-
-const SALE_AND_LOCK_ADDRESS = "0xD39a97353dCab50bEF1bDD02d9d50b73A3A3E173"; // 중간관리자 주소
-const SALE_AND_LOCK_ABI = [
-  {
-    "inputs": [{ "internalType": "address", "name": "user", "type": "address" }],
-    "name": "getClaimable",
-    "outputs": [
-      { "internalType": "uint256", "name": "claimableAmount", "type": "uint256" },
-      { "internalType": "uint256", "name": "nextUnlockTime", "type": "uint256" },
-      { "internalType": "uint256", "name": "totalRemaining", "type": "uint256" }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "claim",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  }
-];
-
-// 락업 정보 자동 로딩 함수
-async function loadClaimableLockup() {
-  if (!window.ethereum || !window.ethereum.selectedAddress) {
-    document.getElementById("claimableInfo").innerText = "🦊 Please connect your wallet first.";
-    return;
-  }
-
-  currentAccount = window.ethereum.selectedAddress;
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const contract = new ethers.Contract(SALE_AND_LOCK_ADDRESS, SALE_AND_LOCK_ABI, provider);
-
-  try {
-    const [amount, nextUnlock, remaining] = await contract.getClaimable(currentAccount);
-
-    const claimable = parseFloat(ethers.utils.formatUnits(amount, 18)).toFixed(2);
-    const remainingStct = parseFloat(ethers.utils.formatUnits(remaining, 18)).toFixed(2);
-    const unlockDate = nextUnlock > 0 ? new Date(nextUnlock * 1000).toLocaleString() : "✅ Unlocked";
-
-    document.getElementById("claimableInfo").innerHTML = `
-      ✅ Claimable: ${claimable} STCT<br>
-      ⏰ Next Unlock: ${unlockDate}<br>
-      🧾 Remaining: ${remainingStct} STCT
-    `;
-  } catch (err) {
-    console.error("❌ Failed to load claimable info", err);
-    document.getElementById("claimableInfo").innerText = "❌ Failed to load lock-up data.";
-  }
-}
-
-async function claimLockedTokens() {
-  if (!window.ethereum || !window.ethereum.selectedAddress) {
-    alert("Please connect your wallet first.");
-    return;
-  }
-
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const signer = provider.getSigner();
-  const contract = new ethers.Contract(SALE_AND_LOCK_ADDRESS, SALE_AND_LOCK_ABI, signer);
-
-  try {
-    const tx = await contract.claim();
-    await tx.wait();
-    alert("✅ Claim successful!");
-
-    // 갱신
-    await loadClaimableLockup();
-  } catch (err) {
-    console.error("❌ Claim failed", err);
-    alert("❌ Claim failed or cancelled.");
-  }
-}
-
-    const ownerAddress = "0x09C32FBb84773288C21a79B3A7666bDE4C93A01E"; // 이곳에 실제 owner 지갑주소 입력
-
-async function checkIfAdmin() {
-  if (!currentAccount) return;
-  if (currentAccount.toLowerCase() === ownerAddress.toLowerCase()) {
-    document.getElementById("adminControls").style.display = "block";
-  }
-}
-
-
-    
-  const nftContractAddress = "0xdff65b1718d9527f24A59ACBc7524420Bf814faF";
-  const nftAbi = [
-    "function burn(uint256 tokenId) external",
-    "function upgrade() external", // 업그레이드용 함수
-    "function balanceOf(address owner) view returns (uint256)",
-    "function tokenOfOwnerByIndex(address owner, uint256 index) view returns (uint256)"
-  ];
-
-  let provider, signer, web3Modal, nftContract;
-
-  async function init() {
-    if (window.ethereum) {
-      provider = new ethers.providers.Web3Provider(window.ethereum);
-      await provider.send("eth_requestAccounts", []);
-      signer = provider.getSigner();
-      nftContract = new ethers.Contract(nftContractAddress, nftAbi, signer);
-    }
-  }
-
-  async function burnNFT() {
+  // [6] Google Sheet에서 최근 구매자 불러오기
+  async function fetchPurchaseLogFromSheet(){
     try {
-      const userAddress = await signer.getAddress();
-      const balance = await nftContract.balanceOf(userAddress);
-
-      if (balance == 0) {
-        return alert("보유 중인 NFT가 없습니다.");
-      }
-
-      const tokenId = await nftContract.tokenOfOwnerByIndex(userAddress, 0); // 첫 NFT
-      const tx = await nftContract.burn(tokenId);
-      await tx.wait();
-      alert("✅ NFT 소각 완료!");
-    } catch (err) {
-      console.error(err);
-      alert("❌ 소각 실패: " + err.message);
-    }
+      const res  = await fetch("https://my-proxy-app-murex.vercel.app/api/send");
+      const json = await res.json();
+      const tbody= document.getElementById("purchaseTableBody");
+      tbody.innerHTML = "";
+      json.records.slice(0,5).reverse().forEach(log => {
+        tbody.innerHTML +=
+          `<tr>
+             <td>${log.address.slice(0,6)}…${log.address.slice(-4)}</td>
+             <td>${parseFloat(log.bnb).toFixed(2)}</td>
+             <td>${parseInt(log.stct).toLocaleString()}</td>
+             <td>${log.timestamp}</td>
+           </tr>`;
+      });
+    } catch(e){ console.error(e); }
   }
+  document.addEventListener("DOMContentLoaded", fetchPurchaseLogFromSheet);
 
-  async function upgradeNFT() {
+  // [7] 토큰 잔액 로드
+  async function loadSTCTBalance(){
+    if (!window.ethereum||!currentAccount) return;
+    const contract = new ethers.Contract("0x338a59D…b8A2", STCT_ABI, new ethers.providers.Web3Provider(window.ethereum));
     try {
-      const tx = await nftContract.upgrade();
-      await tx.wait();
-      alert("✅ 업그레이드 NFT 발급 완료!");
-    } catch (err) {
-      console.error(err);
-      alert("❌ 업그레이드 실패: " + err.message);
-    }
+      const raw = await contract.balanceOf(currentAccount);
+      const dec = await contract.decimals();
+      const bal = ethers.utils.formatUnits(raw,dec);
+      document.getElementById("balanceDisplay").innerText = `STCT Balance: ${parseFloat(bal).toLocaleString()} STCT`;
+    } catch(e){ console.error(e); }
   }
-
- function getMedalImage(bnb) {
-  if (bnb >= 1.5) return 'gold.png';
-  if (bnb >= 0.81) return 'silver.png';
-  if (bnb >= 0.3) return 'bronze.png';
-  return null;
-}
-let data = [];
-const tbody = document.getElementById("purchaseTableBody");
-data.forEach(item => {
-  const bnbValue = parseFloat(item.bnb);  // 문자열일 경우 대비
-  const medal = getMedalImage(bnbValue);
-
-  const row = `
-    <tr>
-      <td>${item.address}</td>
-      <td style="text-align:right;">${item.bnb}</td>
-      <td style="text-align:right;">${item.stct}</td>
-      <td style="text-align:right;">${item.time}</td>
-      <td style="text-align:center;">
-        ${medal ? `<img src="${medal}" style="width:20px;" />` : ''}
-      </td>
-    </tr>
-  `;
-  tbody.innerHTML += row;
-}); 
-
-
-let provider;
-let signer;
-let currentAccount;
-
-const providerOptions = {
-  walletconnect: {
-    package: window.WalletConnectProvider.default,
-    options: {
-      rpc: {
-        56: "https://bsc-dataseed.binance.org/",
-      },
-    },
-  },
-};
-
-async function connectWallet() {
-  try {
-    const instance = await web3Modal.connect();
-    provider = new ethers.providers.Web3Provider(instance);
-    signer = provider.getSigner();
-
-    const address = await signer.getAddress();
-    currentAccount = address;
-
-    const short = address.slice(0, 6) + '...' + address.slice(-4);
-    document.getElementById("walletDisplay").innerText = "Connected: " + short;
-
-    const btn = document.getElementById("connectWalletBtn");
-    btn.textContent = short;
-    btn.style.background = '#00ffc8';
-    btn.style.color = '#000';
-    localStorage.setItem("connectedWallet", address);
-  } catch (err) {
-    console.error("Wallet connection failed", err);
-    alert("\u274C Wallet connection failed.");
-  }
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-
-  document.getElementById("connectWalletBtn").addEventListener("click", async () => {
-    await connectWallet();
-    loadSTCTBalance();
-    loadClaimableLockup();
-  });
-
-  document.getElementById("burnBtn").addEventListener("click", burnNFT);
-  document.getElementById("upgradeBtn").addEventListener("click", upgradeNFT);
-
-  const hamburger = document.getElementById("hamburgerBtn");
-  const sideMenu = document.getElementById("sideMenu");
-  hamburger.addEventListener("click", () => {
-    sideMenu.classList.toggle("active");
-  });
-
-  window.addEventListener("load", init);
-
-  fetchPurchaseLogFromSheet();
-  updateTotalPresale();
-
-  if (window.ethereum && window.ethereum.selectedAddress) {
-    currentAccount = window.ethereum.selectedAddress;
-    loadSTCTBalance();
-    loadClaimableLockup();
-  }
-});
-
-
+  window.loadSTCTBalance = loadSTCTBalance;
+  window.loadClaimableLockup = loadClaimableLockup; // 아래 DApp 모듈에서 구현
+  window.claimLockedTokens   = claimLockedTokens;
+  window.burnNFT = burnNFT;
+  window.upgradeNFT = upgradeNFT;
 </script>
-    <!-- ESM 스크립트 -->
-  <script type="module">
-    // 1) ESM 모듈 불러오기
-    import { Web3Modal } from 'https://unpkg.com/@web3modal/standalone@2.7.21/dist/index.esm.js';
+
+ <script type="module">
+  // — 필수 모듈 임포트
+  import { Web3Modal } from 'https://unpkg.com/@web3modal/standalone@2.7.21/dist/index.esm.js';
   import {
     EthereumClient,
     w3mConnectors,
@@ -1593,51 +1117,93 @@ document.addEventListener("DOMContentLoaded", () => {
   } from 'https://unpkg.com/@web3modal/ethereum@2.7.21/dist/index.esm.js';
   import { configureChains, createClient } from 'https://unpkg.com/wagmi@0.9.16/dist/wagmi.esm.js';
   import { bsc } from 'https://unpkg.com/@wagmi/chains@0.0.21/dist/chains.esm.js';
+  import { ethers } from 'https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.esm.min.js';
 
-    // 2) 필수 설정
-    const projectId = 'b443e684791b762596a5fd2ab87605b7';  // ← 여기에 WalletConnect 프로젝트 ID
-    const chains = [bsc];
+  // — 설정
+  const projectId = 'b443e684791b762596a5fd2ab87605b7';
+  const chains    = [bsc];
 
-    // 3) wagmi 클라이언트 생성 (autoConnect 포함)
-    const { provider, webSocketProvider } = configureChains(chains, [
-      w3mProvider({ projectId })
-    ]);
-    const wagmiClient = createClient({
-      autoConnect: true,
-      connectors: w3mConnectors({ projectId, chains }),
-      provider,
-      webSocketProvider
-    });
+  // — wagmi 클라이언트 생성 (autoConnect)
+  const { provider, webSocketProvider } = configureChains(chains, [ w3mProvider({ projectId }) ]);
+  const wagmiClient = createClient({
+    autoConnect: true,
+    connectors: w3mConnectors({ projectId, chains }),
+    provider,
+    webSocketProvider
+  });
 
-    // 4) Web3Modal / EthereumClient 초기화
-    const ethereumClient = new EthereumClient(wagmiClient, chains);
-    const web3Modal = new Web3Modal({
-      projectId,
-      theme: 'dark',
-      accentColor: 'default',
-      ethereumClient
-    });
+  // — Web3Modal 초기화
+  const ethereumClient = new EthereumClient(wagmiClient, chains);
+  const web3Modal      = new Web3Modal({ projectId, theme:'dark', accentColor:'default', ethereumClient });
 
-    // 5) 버튼 클릭 시 지갑 연결
-    const btn = document.getElementById('connectWalletBtn');
-    const display = document.getElementById('walletDisplay');
-    btn.addEventListener('click', async () => {
-      await web3Modal.openModal();
-      const signer = await wagmiClient.getSigner();
-      const address = await signer.getAddress();
-      const short = address.slice(0,6) + '…' + address.slice(-4);
-      display.innerText = 'Connected: ' + short;
-      btn.style.background = '#00ffc8';
-      btn.style.color = '#000';
-    });
+  // — 글로벌 변수 할당
+  window.currentAccount = null;
+  window.provider       = provider;        // wagmi provider
+  window.signer         = null;            // signer 는 아래에서 설정
+  window.contracts      = {
+    presale:  new ethers.Contract('0xD39a…E173', SALE_AND_LOCK_ABI, provider),
+    stct:     new ethers.Contract('0x338a59D…b8A2', STCT_ABI, provider),
+    nft:      new ethers.Contract('0xdff65b17…4faF', nftAbi, provider)
+  };
 
-    // 6) 사이드 메뉴 토글
-    const hamburger = document.getElementById('hamburgerBtn');
-    const sideMenu = document.getElementById('sideMenu');
-    hamburger.addEventListener('click', () => {
-      sideMenu.classList.toggle('active');
-    });
-  </script>
+  // — 버튼 클릭 시 연결
+  const btn     = document.getElementById('connectWalletBtn');
+  const display = document.getElementById('walletDisplay');
+  btn.addEventListener('click', async () => {
+    await web3Modal.openModal();
+    window.signer = await wagmiClient.getSigner();
+    const address = await window.signer.getAddress();
+    window.currentAccount = address;
+    const short = address.slice(0,6)+'…'+address.slice(-4);
+    display.innerText = 'Connected: '+short;
+    btn.style.background = '#00ffc8';
+    btn.style.color      = '#000';
+
+    // 연결 후 balance, lockup 정보 자동 로드
+    loadSTCTBalance();
+    loadClaimableLockup();
+  });
+
+  // — Claimable & Claim 구현
+  window.loadClaimableLockup = async () => {
+    if (!window.signer) return alert("지갑을 연결하세요.");
+    const contract = window.contracts.presale.connect(window.signer);
+    const [amount,next,remain] = await contract.getClaimable(window.currentAccount);
+    const c = parseFloat(ethers.utils.formatUnits(amount,18)).toFixed(2);
+    const r = parseFloat(ethers.utils.formatUnits(remain,18)).toFixed(2);
+    document.getElementById("claimableInfo").innerHTML =
+      `✅ Claimable: ${c} STCT<br>⏰ Next Unlock: ${new Date(next*1000).toLocaleString()}<br>🧾 Remaining: ${r} STCT`;
+  };
+  window.claimLockedTokens = async () => {
+    if (!window.signer) return alert("지갑을 연결하세요.");
+    const tx = await window.contracts.presale.connect(window.signer).claim();
+    await tx.wait();
+    alert("✅ Claim 성공!");
+    loadClaimableLockup();
+  };
+
+  // — NFT burn/upgrade
+  window.burnNFT = async () => {
+    const nft = window.contracts.nft.connect(window.signer);
+    const bal = await nft.balanceOf(window.currentAccount);
+    if (bal.eq(0)) return alert("NFT 없음");
+    const tokenId = await nft.tokenOfOwnerByIndex(window.currentAccount,0);
+    const tx = await nft.burn(tokenId);
+    await tx.wait();
+    alert("✅ 소각 완료");
+  };
+  window.upgradeNFT = async () => {
+    const nft = window.contracts.nft.connect(window.signer);
+    const tx  = await nft.upgrade();
+    await tx.wait();
+    alert("✅ 업그레이드 완료");
+  };
+
+  // — 사이드 메뉴 토글 (중복 방지)
+  document.getElementById('hamburgerBtn')
+    .addEventListener('click', ()=> document.getElementById('sideMenu').classList.toggle('active'));
+</script>
+
 </body>
 </html>
 
