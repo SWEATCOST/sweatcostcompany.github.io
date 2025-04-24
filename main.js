@@ -5,7 +5,7 @@ import { mainnet, bsc } from '@wagmi/chains';
 import { ethers } from 'ethers';
 
 // 1️⃣ WalletConnect에서 받은 Project ID 입력
-const projectId = '여기에_프로젝트_ID_복사해서_붙여넣기';
+const projectId = 'b443e684791b762596a5fd2ab87605b7';
 
 // 2️⃣ 연결할 체인 설정 (BSC 또는 mainnet 등)
 const chains = [bsc];
