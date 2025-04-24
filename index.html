@@ -612,17 +612,18 @@ transition: color 0.2s ease; }
 }
   </style>
 
-
+ <script type="module" src="/src/main.js"></script>
 </head>
 
 <body>
 
 <!-- 지갑 연결 버튼 -->
-  <div id="walletArea">
-    <button id="connectWalletBtn">Connect Wallet</button>
-    <div id="walletDisplay">Not connected</div>
-  </div>
 
+ <div id="walletArea" style="position: fixed; top:20px; right:20px; z-index:1000; text-align:right;">
+    <button id="connectWalletBtn">Connect Wallet</button>
+    <div id="walletDisplay" style="color:#00ffc8; font-size:12px; margin-top:4px;">Not connected</div>
+  </div>
+ 
 <!-- 사이드 메뉴 햄버거 -->
   <div id="hamburgerBtn" class="hamburger">☰</div>
   <div id="sideMenu" class="side-menu">…</div>
