@@ -612,7 +612,7 @@ transition: color 0.2s ease; }
 }
   </style>
 
- <script type="module" src="/src/main.js"></script>
+
 </head>
 
 <body>
@@ -1210,7 +1210,56 @@ const chains = [mainnet, polygon, bsc, arbitrum, optimism];
   document.getElementById('hamburgerBtn')
     .addEventListener('click', ()=> document.getElementById('sideMenu').classList.toggle('active'));
 </script>
+ <script type="module">
+    import { Web3Modal } from 'https://cdn.jsdelivr.net/npm/@web3modal/standalone@2?module';
+    import {
+      EthereumClient,
+      w3mConnectors,
+      w3mProvider
+    } from 'https://cdn.jsdelivr.net/npm/@web3modal/ethereum@2?module';
+    import { configureChains, createClient } from 'https://cdn.jsdelivr.net/npm/wagmi@0.9.16?module';
+    import { bsc } from 'https://cdn.jsdelivr.net/npm/@wagmi/chains@0.0.21?module';
 
+    // ② WalletConnect 대시보드에서 받은 프로젝트 ID
+    const projectId = 'b443e684791b762596a5fd2ab87605b7';
+
+    // ③ BSC 체인 + provider 설정
+    const chains = [bsc];
+    const { provider, webSocketProvider } = configureChains(
+      chains,
+      [ w3mProvider({ projectId }) ]
+    );
+
+    // ④ wagmi 클라이언트 (autoConnect 포함)
+    const wagmiClient = createClient({
+      autoConnect: true,
+      connectors: w3mConnectors({ projectId, chains }),
+      provider,
+      webSocketProvider
+    });
+
+    // ⑤ Web3Modal 초기화
+    const ethereumClient = new EthereumClient(wagmiClient, chains);
+    const web3Modal      = new Web3Modal({
+      projectId,
+      theme: 'dark',
+      ethereumClient
+    });
+
+    // ⑥ 버튼 클릭 → 모달 열고, 지갑 선택 후 주소 표시
+    const btn     = document.getElementById('connectWalletBtn');
+    const display = document.getElementById('walletDisplay');
+
+    btn.addEventListener('click', async () => {
+      await web3Modal.openModal();
+      const signer  = await wagmiClient.getSigner();
+      const address = await signer.getAddress();
+      const short   = address.slice(0,6) + '…' + address.slice(-4);
+      display.innerText = 'Connected: ' + short;
+      btn.style.background = '#00ffc8';
+      btn.style.color      = '#000';
+    });
+  </script>
 </body>
 </html>
 
