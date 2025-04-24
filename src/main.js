@@ -6,7 +6,7 @@ import { bsc } from '@wagmi/chains'
 import { ethers } from 'ethers'
 
 // 1) WalletConnect Cloud 에서 발급받은 Project ID
-const projectId = 'YOUR_PROJECT_ID_HERE'
+const projectId = 'b443e684791b762596a5fd2ab87605b7'
 
 // 2) Wagmi + Web3Modal 세팅
 const chains = [bsc]
