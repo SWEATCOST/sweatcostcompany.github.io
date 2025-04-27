@@ -6,24 +6,22 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
   <style>
-    html { scroll-behavior: smooth; }
-    body {
-    margin: 0;
-    background: url("pattern_background3.png") no-repeat center center scroll;
-    background-size: cover;
-       background-repeat: repeat-y; /* 배경 이미지 세로 방향으로 반복 */
-  background-size: cover; /* 배경 이미지 크기 조정 */
-  background-attachment: fixed; /* 배경 이미지 고정 */
-  height: 100vh; /* 화면 높이에 맞게 배경이 꽉 차도록 설정 */
-    background-color: #000; /* 배경 이미지 로딩 안될 경우 대비 */
-    color: #fff;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    text-align: center;
-  }
-    
-    body {
+    html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden; /* 화면 잘림 방지 */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #fff;
+  background: url("pattern_background3.png") no-repeat center center fixed;
+  background-size: cover;
+  background-color: #000;
+  text-align: center;
   font-size: 18px;
   line-height: 1.6;
+  scroll-behavior: smooth;
+  min-height: 100vh; /* height 대신 min-height 사용 */
 }
  /* Web3Modal 버튼을 기존 스타일에 맞춰 약간 조정 (필요에 따라) */
     w3m-button#connectWalletBtn {
