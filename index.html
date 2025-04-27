@@ -20,32 +20,6 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     text-align: center;
   }
-
-#walletArea {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 10000;
-  text-align: right;
-}
-
-#connectWalletBtn {
-  background: linear-gradient(145deg, #ffd700, #ffb700);
-  color: #000;
-  font-weight: bold;
-  padding: 10px 18px;
-  border: none;
-  border-radius: 24px;
-  cursor: pointer;
-  box-shadow: 0 0 12px rgba(255, 215, 0, 0.3);
-  font-size: 14px;
-}
-
-#walletDisplay {
-  color: #00ffc8;
-  font-size: 12px;
-  margin-top: 4px;
-}
     
     body {
   font-size: 18px;
@@ -617,12 +591,7 @@ transition: color 0.2s ease; }
 
 <body>
 
-<!-- 지갑 연결 버튼 -->
 
- <div id="walletArea" style="position: fixed; top:20px; right:20px; z-index:1000; text-align:right;">
-    <button id="connectWalletBtn">Connect Wallet</button>
-    <div id="walletDisplay" style="color:#00ffc8; font-size:12px; margin-top:4px;">Not connected</div>
-  </div>
  
 <!-- 사이드 메뉴 햄버거 -->
   <div id="hamburgerBtn" class="hamburger">☰</div>
@@ -1058,17 +1027,7 @@ transition: color 0.2s ease; }
     tick();
   })();
 
-  // [5] 지갑 주소 표시
-  function displayWalletAddress(address){
-    const short = address.slice(0,6)+'…'+address.slice(-4);
-    document.getElementById('walletDisplay').innerText = 'Connected: '+short;
-  }
-  document.addEventListener("DOMContentLoaded", () => {
-    if (window.ethereum && window.ethereum.selectedAddress) {
-      currentAccount = window.ethereum.selectedAddress;
-      displayWalletAddress(currentAccount);
-    }
-  });
+
 
   // [6] Google Sheet에서 최근 구매자 불러오기
   async function fetchPurchaseLogFromSheet(){
@@ -1110,20 +1069,8 @@ transition: color 0.2s ease; }
 
  
  <script type="module">
-  // — 필수 모듈 임포트
- 
-  // — wagmi 클라이언트 생성 (autoConnect)
-  const { provider, webSocketProvider } = configureChains(chains, [ w3mProvider({ projectId }) ]);
-  const wagmiClient = createClient({
-    autoConnect: true,
-    connectors: w3mConnectors({ projectId, chains }),
-    provider,
-    webSocketProvider
-  });
 
-  // — Web3Modal 초기화
-  const ethereumClient = new EthereumClient(wagmiClient, chains);
-  const web3Modal      = new Web3Modal({ projectId, theme:'dark', accentColor:'default', ethereumClient });
+ 
 
   // — 글로벌 변수 할당
   window.currentAccount = null;
