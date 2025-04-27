@@ -1182,9 +1182,14 @@ transition: color 0.2s ease; }
     alert("✅ 업그레이드 완료");
   };
 
-  // — 사이드 메뉴 토글 (중복 방지)
-  document.getElementById('hamburgerBtn')
-    .addEventListener('click', ()=> document.getElementById('sideMenu').classList.toggle('active'));
+document.addEventListener("DOMContentLoaded", function() {
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const sideMenu = document.getElementById('sideMenu');
+
+    hamburgerBtn.addEventListener('click', function() {
+      sideMenu.classList.toggle('active');
+    });
+  });
 
   
 </script>
