@@ -33,6 +33,15 @@
     #walletAddress, #bnbBalance, #claimableAmount {
       font-weight: bold;
     }
+
+   #walletArea {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+  text-align: right;
+}
+   
 h2, h3 {
   font-size: 1.6rem;
 }
@@ -598,7 +607,7 @@ transition: color 0.2s ease; }
 
 <body>
 
-<div class="container">
+<div class="container" id="walletArea" >
 
       <!-- Connect Wallet 버튼: Web3Modal v2 제공 <w3m-button> 사용 -->
       <w3m-button id="connectWalletBtn"></w3m-button>
