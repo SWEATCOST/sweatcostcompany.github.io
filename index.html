@@ -1,1206 +1,336 @@
- <!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Web3Modal v2 + wagmi Integration</title>
   <style>
-    html { scroll-behavior: smooth; }
+    /* 기존 스타일 유지: 예시로 기본 레이아웃과 버튼 스타일 */
     body {
-    margin: 0;
-    background: url("pattern_background3.png") no-repeat center center scroll;
-    background-size: cover;
-       background-repeat: repeat-y; /* 배경 이미지 세로 방향으로 반복 */
-  background-size: cover; /* 배경 이미지 크기 조정 */
-  background-attachment: fixed; /* 배경 이미지 고정 */
-  height: 100vh; /* 화면 높이에 맞게 배경이 꽉 차도록 설정 */
-    background-color: #000; /* 배경 이미지 로딩 안될 경우 대비 */
-    color: #fff;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    text-align: center;
-  }
-
-#walletArea {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 10000;
-  text-align: right;
-}
-
-#connectWalletBtn {
-  background: linear-gradient(145deg, #ffd700, #ffb700);
-  color: #000;
-  font-weight: bold;
-  padding: 10px 18px;
-  border: none;
-  border-radius: 24px;
-  cursor: pointer;
-  box-shadow: 0 0 12px rgba(255, 215, 0, 0.3);
-  font-size: 14px;
-}
-
-#walletDisplay {
-  color: #00ffc8;
-  font-size: 12px;
-  margin-top: 4px;
-}
-    
-    body {
-  font-size: 18px;
-  line-height: 1.6;
-}
-
-h2, h3 {
-  font-size: 1.6rem;
-}
-
-img {
-  max-width: 100%;
-  height: auto;
-}
-    
-    .wrapper {
-  max-width: 1600px;   /* 전체 가로폭 늘림 */
-  width: 95%;          /* 반응형 대응 */
-  margin: 0 auto;      /* 가운데 정렬 */
-}
-    
-     #airdrop img {
-    max-width: 90%;       /* 화면 기준으로 90% 크기로 제한 */
-    width: 800px;         /* 기본 크기 */
-    height: auto;         /* 비율 유지 */
-    border-radius: 16px;
-    transition: transform 0.3s ease;
-    cursor: pointer;
-  }
-
-  #airdrop img:hover {
-    filter: brightness(0.9);
-  }
-    
-  .image-row {
-    display: flex;
-    justify-content: center;
-    gap: 24px;
-    flex-wrap: wrap;
-    margin-top: 30px;
-  }
-
-  .image-row img {
-    width: 64px;
-    height: 64px;
-    object-fit: contain;  /* 비율 유지하며 빈 공간 채우기 */
-    border-radius: 12px;
-    background-color: #000;  /* 배경 넣으면 정리된 느낌 */
-    padding: 0px;            /* 여백 추가 시 테두리 안 겹침 */
-    transition: 0.3s;
-    box-shadow: 0 0 8px rgba(255, 215, 0, 0.15);
-  }
-
-  .image-row img:hover {
-    filter: brightness(0.85);
-    transform: scale(1.1);
-    cursor: pointer;
-  }
-    .zoomed {
-      transform: scale(2); /* 2배 확대 */
-      cursor: zoom-out;
-      z-index: 10;
-      position: relative;
-      
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f4f4f4;
+      color: #333;
     }
-
-    #utilImage {
-    width: 600px;
-    max-width: 90%;
-    height: auto;
-    border-radius: 16px;
-    box-shadow: 0 0 30px rgba(255, 215, 0, 0.1);
-    transition: transform 0.3s ease, filter 0.3s ease;
-    cursor: default;
-  }
-
-  #utilImage:hover {
-    filter: brightness(0.85); /* 흐려짐 효과 */
-    cursor: pointer;          /* 손가락 커서 */
-  }
-
-  #utilImage.zoomed {
-    transform: scale(2);
-    cursor: zoom-out;
-  }
-    
-  .overlay {
-    background-color: rgba(0, 0, 0, 0.65);  /* 어둡고 투명한 블러 배경 */
-    backdrop-filter: blur(2px);
-    width: 100%;
-    min-height: 100vh;
-  }
-
-  #connectWalletBtn:hover {
-  transform: scale(1.15);
-}
-
-    #preorder-lockup-container {
-    width: 80%; /* 이 값을 조정하여 섹션의 너비를 줄입니다 */
-    margin: 0 auto; /* 콘텐츠를 중앙에 배치 */
-}
-
-    #Pre-sale NFT {
-    width: 80%; /* 이 값을 조정하여 섹션의 너비를 줄입니다 */
-    margin: 0 auto; /* 콘텐츠를 중앙에 배치 */
-}
-
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: #000;
-  z-index: 1000;
-  padding: 12px 16px;
-  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.1);
-}
-
-    .navbar a { color: #ffd700; font-size: 14px; font-weight: 500; text-decoration: none; #buyBnbAmount,
-transition: color 0.2s ease; }
-    .navbar a:hover { color: #ffffff !important; }
-    .navbar a.active { font-weight: 700; }
-    header { padding: 140px 20px 20px; }
-    .logo { width: 250px; margin-bottom: 20px; transition: transform 0.3s ease; }
-    .logo:hover { transform: scale(1.05); }
-    
-
-
-  .slogan {
-  font-family: 'Playfair Display', serif;
-  font-size: 2.2vw;
-  font-weight: 500;
-  line-height: 1.6;
-  color: #ffd700;
-  text-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
-  padding: 0 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-  animation: fadeInUp 1.5s ease-out both;
-}
-
-
-    
-    @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-    
-#buyBnbAmount,
-#preBnbAmount {
-  max-width: 240px;
-  margin: 0 auto 10px;
-  display: block;
-}
-    .swap-box, .buy-box {
-      background: #1c1c1c;
-      margin: 30px auto;
+    h1, h2 {
+      color: #444;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
       padding: 20px;
-      width: 90%; max-width: 400px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(255, 215, 0, 0.1);
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    .swap-box h3, .buy-box h3 { color: #ffd700; margin-bottom: 15px; }
-    .swap-box input, .buy-box input {
-      width: 100%; padding: 8px 10px;
-      margin-bottom: 10px; font-size: 14px;
-      height: 36px; border: none; border-radius: 6px;
+    header {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 20px;
     }
-
-
-
-   .token-info-box {
-  margin: 80px auto;
-  padding: 20px;
-  max-width: 400px; /* 최대 너비를 400px로 설정 */
-  width: 100%; /* 화면에 따라 너비가 100%까지 늘어나도록 설정 */
-  background: rgba(0, 0, 0, 0.4);
-  border-radius: 24px;
-  box-shadow: 0 0 30px rgba(255, 215, 0, 0.1);
-  backdrop-filter: blur(8px);
-  animation: fadeIn 1s ease-out;
-  text-align: center;
-}
-    .token-card {
-      background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
-      border: 1px solid #333;
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
+    /* Web3Modal 버튼을 기존 스타일에 맞춰 약간 조정 (필요에 따라) */
+    w3m-button#connectWalletBtn {
+      --w3m-accent-color: #4a90e2;  /* 버튼 테마 색상 (예시) */
+      /* margin, font 등 외부에서 추가 스타일 가능 */
     }
-    .token-row {
-      display: flex; justify-content: space-between;
-      padding: 12px 0; border-bottom: 1px solid #333;
-    }
-    .token-row:last-child { border-bottom: none; }
-    .label { color: #aaa; font-weight: 500; }
-    .value { color: #fff; font-weight: bold; }
-
-  .presale-banner {
-    margin-top: 100px;
-    text-align: center;
-    padding: 40px 20px;
-  }
-
-  .presale-badge {
-    color: gold;
-    font-weight: 600;
-    font-size: 1.2rem;
-    letter-spacing: 1px;
-    margin-bottom: 10px;
-  }
-
-  .presale-headline {
-    font-size: 2.5rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #f0c420;
-  }
-
-  .presale-tagline {
-    font-size: 1rem;
-    color: #ccc;
-    margin-bottom: 20px;
-  }
-
-  .presale-countdown {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #00ffc8;
-    background-color: #222;
-    padding: 10px 20px;
-    border-radius: 10px;
-    display: inline-block;
-    margin-top: 10px;
-  }
-
-   {
-    .presale-headline { font-size: 1.8rem; }
-    .presale-countdown { font-size: 1.2rem; }
-  }
-
-    @media (max-width: 768px)
-{
-    .presale-headline { font-size: 1.8rem; }
-    .presale-countdown { font-size: 1.2rem; }
-  }
- {
-      header { padding-top: 180px; }
-        
-      .slogan { font-size: 15px; }
-      h3 { font-size: 16px; }
-      .navbar a { font-size: 13px; }
-      .swap-box, .buy-box { width: 90%; max-width: 90%; box-sizing: border-box; }
-      .navbar { flex-direction: column; gap: 12px; }
-      .slogan { font-size: 16px; }
-      .swap-box input, .buy-box input { padding: 6px 8px; font-size: 13px; height: 32px; }
-      .swap-box, .buy-box  {
-  background: #1c1c1c;
-  margin: 30px auto;
-  padding: 20px;
-  width: 90%; max-width: 400px;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(255, 215, 0, 0.1);
-  border: 2px solid #ffd700; /* ← 이 줄을 추가하세요 */
-}
-     .token-info-box {
-  margin: 80px auto;
-  padding: 20px;
-  max-width: 640px;
-  background: rgba(0, 0, 0, 0.4);
-  border-radius: 24px;
-  box-shadow: 0 0 30px rgba(255, 215, 0, 0.1);
-  backdrop-filter: blur(8px);
-  animation: fadeIn 1s ease-out;
-  text-align: left;
-}
-
-.token-info-box h2 {
-  color: #ffd700;
-  font-size: 28px;
-  margin-bottom: 20px;
-  text-align: center;
-  text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
-}
-
-.token-card {
-  background: linear-gradient(135deg, #121212, #1a1a1a);
-  border-radius: 20px;
-  padding: 24px;
-  box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
-}
-
-.token-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 14px 0;
-  border-bottom: 1px solid #333;
-}
-
-.token-row:last-child {
-  border-bottom: none;
-}
-
-.label {
-  color: #aaa;
-  font-weight: 500;
-}
-
-.value {
-  color: #fff;
-  font-weight: bold;
-}
-
-.unit {
-  font-size: 14px;
-  color: #ffd700;
-  margin-left: 6px;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-    }
-    #preBuyButton {
-  background: linear-gradient(145deg, #ffd700, #ffb700);
-  color: #000;
-  font-size: 16px;
-  font-weight: bold;
-  padding: 12px 24px;
-  border: none;
-  border-radius: 30px;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
-  transition: all 0.3s ease;
-}
-
-#preBuyButton:hover {
-  background: linear-gradient(145deg, #ffcc00, #ffaa00);
-  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
-  transform: scale(1.05);
-}
-
-    .stylish-button {
-  background: linear-gradient(145deg, #ffd700, #ffb700);
-  color: #000;
-  font-size: 16px;
-  font-weight: bold;
-  padding: 12px 24px;
-  border: none;
-  border-radius: 30px;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
-  transition: all 0.3s ease;
-}
-
-.stylish-button:hover {
-  background: linear-gradient(145deg, #ffcc00, #ffaa00);
-  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
-  transform: scale(1.05);
-}
-    .token-row .label {
-  font-weight: 600;
-  color: #ffd700;
-}
-    .token-row.highlight {
-  background: rgba(255, 215, 0, 0.08);
-  border-left: 4px solid #ffd700;
-  padding-left: 10px;
-}
-
-    .roadmap-timeline {
-  margin: 60px auto;
-  padding: 20px;
-  max-width: 600px;
-  border-left: 3px solid #ffd700;
-  position: relative;
-}
-
-.timeline-item {
-  padding: 12px 20px;
-  position: relative;
-}
-
-.timeline-item::before {
-  content: "";
-  position: absolute;
-  top: 20px;
-  left: -9px;
-  width: 14px;
-  height: 14px;
-  background: #ffd700;
-  border-radius: 50%;
-  border: 2px solid #111;
-  box-shadow: 0 0 6px rgba(255, 215, 0, 0.5);
-}
-
-.timeline-date {
-  font-weight: bold;
-  color: #ffd700;
-  margin-bottom: 6px;
-}
-
-.timeline-content {
-  color: #fff;
-  font-size: 15px;
-}
-    .timeline-item::before {
-  content: "";
-  position: absolute;
-  top: 20px;
-  left: -9px;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  border: 2px solid #111;
-  box-shadow: 0 0 6px rgba(255, 255, 255, 0.1);
-}
-
-.timeline-item[data-status="done"]::before {
-  background: #4CAF50;
-  box-shadow: 0 0 6px rgba(76, 175, 80, 0.6);
-}
-
-.timeline-item[data-status="current"]::before {
-  background: #FFD700;
-  box-shadow: 0 0 6px rgba(255, 215, 0, 0.8);
-}
-
-.timeline-item[data-status="upcoming"]::before {
-  background: #555555;
-  box-shadow: 0 0 6px rgba(100, 100, 100, 0.3);
-}
-
-.nft-box {
-  background-color: #333; /* 기본 배경색 */
-  padding: 15px;
-  border-radius: 5px;
-  width: 150px;
-  text-align: center;
-}
-
-#bronze {
-  background-color: #cd7f32; /* Bronze 배경색 */
-}
-
-#silver {
-  background-color: #c0c0c0; /* Silver 배경색 */
-}
-
-#gold {
-  background-color: #ffd700; /* Gold 배경색 */
-}
-
-  
-
-.nav-menu {
-  display: flex;
-  flex-wrap: wrap;              /* 여러 줄 가능 */
-  justify-content: center;      /* ← 핵심: 가운데 정렬 */
-  align-items: center;
-  list-style: none;
-  margin: 0 auto;               /* ← 가운데 정렬 보조 */
-  padding: 10px 10px;
-  gap: 16px;                    /* 항목 사이 간격 */
-}
-
-
-    .nav-menu li a {
-      color: gold;
-      text-decoration: none;
+    #walletAddress, #bnbBalance, #claimableAmount {
       font-weight: bold;
-      font-size: 15px;
-      letter-spacing: 1px;
-      position: relative;
-      transition: color 0.3s ease-in-out;
     }
-
-    .nav-menu li a::after {
-      content: '';
-      position: absolute;
-      width: 0%;
-      height: 2px;
-      background: gold;
-      left: 0;
-      bottom: -5px;
-      transition: 0.3s ease;
+    .section {
+      margin: 20px 0;
+      padding: 15px;
+      background: #fafafa;
+      border: 1px solid #ddd;
+      border-radius: 6px;
     }
-
-    .nav-menu li a:hover {
-      color: #ffd700;
+    .section h2 {
+      font-size: 1.1em;
+      margin-top: 0;
     }
-
-    .nav-menu li a:hover::after {
-      width: 100%;
+    .section p {
+      margin: 5px 0;
     }
-
-    .hamburger {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  font-size: 26px;
-  color: gold;
-  cursor: pointer;
-  z-index: 11000;
-  transition: transform 0.3s ease;
-}
-
-.hamburger:hover {
-  transform: scale(1.2);
-}
-
-/* 사이드 메뉴 */
-.side-menu {
-  position: fixed;
-  top: 0;
-  left: -250px;
-  width: 250px;
-  height: 100vh;
-  background-color: #000;
-  box-shadow: 2px 0 12px rgba(255, 215, 0, 0.15);
-  transition: left 0.3s ease;
-  z-index: 10000;
-  padding-top: 60px;
-}
-
-/* 메뉴 펼침 시 */
-.side-menu.active {
-  left: 0;
-}
-
-/* 메뉴 항목 */
-.side-nav {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.side-nav li {
-  border-bottom: 1px solid #222;
-}
-
-.side-nav li a {
-  display: block;
-  padding: 15px 20px;
-  color: gold;
-  font-weight: bold;
-  text-decoration: none;
-  transition: background 0.2s;
-}
-
-.side-nav li a:hover {
-  background-color: #111;
-  color: #fff;
-}
-
-  @media screen and (max-width: 100%) {
-  .nav-menu {
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 12px;
-    padding: 12px 0;
-  }
-}
+    .section input {
+      padding: 5px;
+      margin-right: 5px;
+    }
+    .section button {
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    #statusMessage {
+      margin-top: 10px;
+      min-height: 20px;
+      color: #d00;
+    }
   </style>
-
-
 </head>
-
 <body>
+  <div class="container">
+    <header>
+      <!-- Connect Wallet 버튼: Web3Modal v2 제공 <w3m-button> 사용 -->
+      <w3m-button id="connectWalletBtn"></w3m-button>
+    </header>
 
-<!-- 지갑 연결 버튼 -->
+    <main>
+      <h1>My DApp</h1>
+      <p>지갑 주소: <span id="walletAddress">연결되지 않음</span></p>
+      <p>보유 BNB 잔액: <span id="bnbBalance">0</span> BNB</p>
+      <p>클레임 가능 토큰: <span id="claimableAmount">0</span></p>
 
- <div id="walletArea" style="position: fixed; top:20px; right:20px; z-index:1000; text-align:right;">
-    <button id="connectWalletBtn">Connect Wallet</button>
-    <div id="walletDisplay" style="color:#00ffc8; font-size:12px; margin-top:4px;">Not connected</div>
+      <div class="section presale-section">
+        <h2>Presale 구매</h2>
+        <p>참여를 위해 BNB 전송:</p>
+        <input type="text" id="presaleAmount" placeholder="BNB 금액 입력" />
+        <button id="buyPresaleBtn">Presale 구매</button>
+      </div>
+
+      <div class="section lockup-section">
+        <h2>Lockup 클레임</h2>
+        <p>락업된 토큰 클레임:</p>
+        <button id="claimBtn">토큰 클레임</button>
+      </div>
+
+      <div class="section nft-section">
+        <h2>NFT 처리</h2>
+        <p>NFT 소각 또는 업그레이드:</p>
+        <input type="text" id="nftIdInput" placeholder="NFT ID" />
+        <button id="burnBtn">NFT 소각</button>
+        <button id="upgradeBtn">NFT 업그레이드</button>
+      </div>
+
+      <p id="statusMessage"></p> <!-- 작업 상태/오류 메시지 표시 영역 -->
+    </main>
   </div>
- 
-<!-- 사이드 메뉴 햄버거 -->
-  <div id="hamburgerBtn" class="hamburger">☰</div>
-  <div id="sideMenu" class="side-menu">…</div>
-  
-<div id="sideMenu" class="side-menu">
-  <ul class="side-nav">
-    <li><a href="#presale">PRESALE</a></li>
-    <li><a href="#token">TOKEN INFO</a></li>
-    <li><a href="#roadmap">ROADMAP</a></li>
-    <li><a href="#utility">UTILITY</a></li>
-    <li><a href="#airdrop">AIRDROP</a></li>
-    <li><a href="#nft">NFT</a></li>
-    <li><a href="#community">COMMUNITY</a></li>
-    <li><a href="#dev">DEVELOPER INFO</a></li>
-    <li><a href="#contact">CONTACT</a></li>
-  </ul>
-</div>
 
+  <!-- Web3Modal v2 + wagmi 스크립트 통합 -->
+  <script type="module">
+    // Web3Modal wagmi 어댑터 및 wagmi 함수 불러오기 (CDN 사용)
+    import { createWeb3Modal, defaultWagmiConfig } from "https://esm.sh/@web3modal/wagmi@5.0.10?bundle";
+    import { bsc } from "https://esm.sh/@wagmi/core@2.12.2/chains?bundle&target=es2020&exports=bsc";
+    import { getAccount, getBalance, getChainId, watchAccount, switchChain, readContract, writeContract, sendTransaction, reconnect } from "https://esm.sh/@wagmi/core@2.12.2?bundle&target=es2020&exports=getAccount,getBalance,getChainId,watchAccount,switchChain,readContract,writeContract,sendTransaction,reconnect";
 
+    // ** 지갑 연결 및 상태 관리 설정 **
+    const projectId = 'YOUR_PROJECT_ID';  // WalletConnect 프로젝트 ID (교체 필요)
+    const chains = [bsc];                 // 사용 체인: BSC 메인넷 (BNB Smart Chain)
+    const metadata = {
+      name: "My DApp",
+      description: "My DApp for presale, claim, NFT",
+      url: "https://mydapp.example",  // 실제 배포 URL로 변경
+      icons: []  // 아이콘 URL이 있으면 추가
+    };
 
+    // wagmi 기본 구성 생성 (Web3Modal과 연결)
+    const wagmiConfig = defaultWagmiConfig({
+      projectId,
+      chains,
+      metadata
+    });
+    // 이전에 연결된 지갑이 있으면 자동 재연결 시도
+    reconnect(wagmiConfig);
 
-<header>
-  <img class="logo" src="logo_1.png" alt="STCT Logo">
-  <p class="slogan">
-    All workers around the world should be compensated for their labor. <br>
-    <strong style="color: #fff;">STCT will be there to compensate them.</strong><br><br>
-    We will pay this to all workers around the world. And we will work harder.<br><br>
-    The IPO of companies will grow and the GDP will grow. We will work to make it happen.<br>
-    <strong style="color: #ffcc00;">The plan is already in place.</strong>
-  </p>
-</header>
+    // Web3Modal 초기화 (v2 modal 생성)
+    const web3Modal = createWeb3Modal({
+      projectId,
+      wagmiConfig
+    });
 
-<div class="buy-box">
-  <h3>[1BNB]=20,000,000</h3>
-  <input type="number" id="buyBnbAmount" placeholder="Enter BNB amount to purchase">
-  <div id="buyStctResult">Estimated STCT: 0</div>
-  <button id="buyButton" class="stylish-button">Time left until purchase: Calculating...</button>
-</div>
+    // Web3Modal 이벤트 구독 (연결/해제 등의 이벤트 감지)
+    web3Modal.subscribeEvents((event) => {
+      console.log('Web3Modal Event:', event); // 이벤트 디버깅 로그
+      const eventName = event?.data?.event;
+      if (eventName === 'CONNECT_SUCCESS') {
+        // 지갑 연결 성공 이벤트 (watchAccount에서도 처리하므로 이곳에서는 로그만 남김)
+        console.log('Wallet connected via Web3Modal.');
+      } else if (eventName === 'MODAL_CLOSE') {
+        console.log('Web3Modal closed');
+      } else if (eventName === 'DISCONNECT') {
+        console.log('Wallet disconnected');
+      }
+    });
 
+    // ** 지갑 계정 상태 변화 감지 및 UI 업데이트 **
+    watchAccount(wagmiConfig, async (account) => {
+      const addressSpan = document.getElementById('walletAddress');
+      const balanceSpan = document.getElementById('bnbBalance');
+      const claimSpan = document.getElementById('claimableAmount');
+      if (account.isConnected) {
+        const userAddress = account.address;
+        addressSpan.textContent = userAddress;  // 지갑 주소 표시
 
+        // 선택된 체인이 BSC인지 확인하고, 아니면 BSC로 전환 시도
+        try {
+          const chainId = account.chain?.id || (await getChainId(wagmiConfig));
+          if (chainId !== bsc.id) {
+            await switchChain(wagmiConfig, { id: bsc.id });
+            console.log('Switched to BSC network');
+          }
+        } catch (switchError) {
+          console.error('Network switch failed or rejected', switchError);
+          alert('BNB Smart Chain(BSC)으로 네트워크를 전환해주세요.');
+        }
 
-<div id="presale" class="presale-banner">
-  <div class="presale-badge">LIMITED PRE-SALE OFFER</div>
-  <div class="presale-headline">1 BNB = 100,000,000 STCT</div>
-  <div class="presale-tagline">Seize the moment. The future of labor value begins <strong>now</strong>.</div>
-  <div class="presale-countdown" id="presaleCountdown">Loading...</div>
-</div>
+        // 연결 후 사용자 BNB 잔액 조회 및 표시
+        try {
+          const balanceData = await getBalance(wagmiConfig, { address: userAddress });
+          // getBalance 결과에서 값 추출 (BigInt로 가정)
+          const balanceValue = (typeof balanceData === 'bigint')
+            ? balanceData
+            : (balanceData?.value ?? balanceData);
+          // BNB 잔액 (ETH 단위)을 표시 형식으로 변환
+          const balanceBNB = Number(balanceValue) / 1e18;
+          balanceSpan.textContent = balanceBNB.toFixed(4);
+        } catch (err) {
+          console.error('Failed to fetch BNB balance', err);
+          balanceSpan.textContent = '조회 오류';
+        }
 
-<div class="buy-box" style="border: 2px solid #ffd700;">
-  <h3>STCT Presale</h3>
-  <p style="font-size: 14px; color: #aaa;">* Please connect to your PC.</p>
-  <p style="font-size: 14px; color: #aaa;">* The total presale amount is limited to 1000 BNB.</p>
-  <p style="font-size: 14px; color: #aaa;">* The maximum purchase per person is 2 BNB.</p>
-  <div id="presaleSummary" style="font-size: 14px; color: #ffd700; margin: 5px 0;">Total Sold: 0 / 1000 BNB</div>
-  <div style="background: #333; border-radius: 8px; height: 10px; width: 100%; margin-bottom: 10px; overflow: hidden;">
-    <div id="presaleBar" style="height: 100%; width: 0%; background: #ffd700;"></div>
-  </div>
-  <input type="number" id="preBnbAmount" placeholder="Enter BNB amount (Max 2)">
-  <div id="preStctResult">Estimated STCT: 0</div>
+        // 클레임 가능 토큰 정보 조회 및 표시
+        try {
+          // 지갑 주소별 클레임 가능 토큰 양 조회 (view 함수 호출)
+          const claimable = await readContract(wagmiConfig, {
+            address: window.LOCKUP_CONTRACT_ADDRESS,
+            abi: window.lockupAbi,
+            functionName: "claimable",
+            args: [ userAddress ]
+          });
+          // 반환된 클레임 가능 토큰 양 (BigInt 처리)
+          const claimValue = (typeof claimable === 'bigint')
+            ? claimable
+            : BigInt(claimable.toString());
+          const claimTokens = Number(claimValue) / 1e18;
+          claimSpan.textContent = claimTokens.toFixed(2);
+        } catch (err) {
+          console.error('Failed to fetch claimable tokens', err);
+          // 조회 실패 시 0으로 표시 또는 그대로 둠
+          claimSpan.textContent = '0';
+        }
+      } else {
+        // 지갑 연결 해제 상태
+        addressSpan.textContent = '연결되지 않음';
+        balanceSpan.textContent = '0';
+        claimSpan.textContent = '0';
+      }
+    });
 
-<div id="walletStatus" style="
-  margin-top: 6px;
-  color: #ff7070;
-  font-size: 0.9rem;
-">
-  🦊 Please connect your MetaMask wallet
-</div>
+    // ** 스마트 컨트랙트 주소 및 ABI 설정 **
+    // (필요 시 실제 프로젝트 주소와 ABI로 교체)
+    window.PRESALE_ADDRESS = "0xD39a97353dCab50bEF1bDD02d9d50b73A3A3E173";  // Presale BNB 수신 주소
+    window.LOCKUP_CONTRACT_ADDRESS = "0x1234567890abcdef1234567890abcdef12345678";  // Lockup 컨트랙트 주소 (예시)
+    window.NFT_CONTRACT_ADDRESS = "0xabcdefabcdefabcdefabcdefabcdefabcdef";       // NFT 컨트랙트 주소 (예시)
 
-<button id="preBuyButton" class="stylish-button">
-  Execute Presale Purchase
-</button>
+    // 간단한 ABI (필요한 함수만 정의):
+    window.lockupAbi = [
+      "function claim() external",
+      "function claimable(address) view returns (uint256)"
+    ];
+    window.nftAbi = [
+      "function burn(uint256 tokenId) external",
+      "function upgrade(uint256 tokenId) external"
+    ];
 
-<div id="walletAddressDisplay" style="
-  margin-top: 10px;
-  font-size: 0.95rem;
-  color: gold;
-  background-color: rgba(255,255,255,0.05);
-  padding: 6px 12px;
-  border-radius: 8px;
-  display: inline-block;
-">
-  Wallet Address
-</div>
-</div>
-
-<!-- 기존 메타마스크 버튼 아래에 추가 -->
-<div style="text-align:center; margin-top: 10px;">
-  <div id="balanceDisplay" style="
-    font-size: 1rem;
-    color: #00ffc8;
-    background-color: rgba(255,255,255,0.05);
-    padding: 8px 16px;
-    border-radius: 10px;
-    display: inline-block;
-  ">
-    STCT Balance: Loading...
-  </div>
-</div>
-
-
-<div id="preorder-lockup-container">
-  <h2>Pre-order and lock-up system</h2>
-  <p>After pre-purchase, the purchased STCT tokens will be locked for a certain period of time.</p>
-  <p> After the lock-up period ends, a certain percentage will be automatically released.</p>
-  <div style="display: flex; justify-content: center; gap: 20px;">
-<div style="background: #333; padding: 10px; border-radius: 5px; width: 150px;">
-  <h3>Immediate Payment</h3>
-  <p>30%</p>
-</div>
-<div style="background: #333; padding: 10px; border-radius: 5px; width: 150px;">
-  <h3>After 2 Months</h3>
-  <p>20%</p>
-</div>
-<div style="background: #333; padding: 10px; border-radius: 5px; width: 150px;">
-  <h3>After 4 Months</h3>
-  <p>20%</p>
-</div>
-<div style="background: #333; padding: 10px; border-radius: 5px; width: 150px;">
-  <h3>After 6 Months</h3>
-  <p>30%</p>
-</div>
-  </div>
-</div>
-  
-<div class="buy-box" style="margin-top: 40px;">
-  <h3>🔒 STCT Lock-up & Claim</h3>
-  <button onclick="loadClaimableLockup()" class="stylish-button" style="margin-top: 12px;">
-    🔍 Check Lock-up Amount
-  </button>
-  <div id="claimableInfo" style="margin-top: 10px; color: #00ffc8;">
-    Loading your lock-up data...
-  </div>
-  <button onclick="claimLockedTokens()" class="stylish-button" style="margin-top: 16px;">
-    💸 Claim STCT
-  </button>
-</div>
-
- 
-  
-<div style="max-width: 700px; width: 90%; margin: 0 auto; margin-top: 40px;">
-
-  <h3 style="color: gold; text-align: center;">Recent Purchasers (Latest 5)</h3>
-
-  <table style="width: 100%; color: white; font-size: 14px; border-collapse: collapse;">
-    <thead>
-       <tr style="color: gold; border-bottom: 1px solid #444;">
-  <th style="text-align: center;">Address</th>
-  <th style="text-align: center;">BNB</th>
-  <th style="text-align: center;">STCT</th>
-  <th style="text-align: center;">Time</th>
-  <th style="text-align: center;">NFT</th> <!-- 추가된 부분 -->
-</tr>
-    </thead>
-  <tbody id="purchaseTableBody">
-    <!-- JavaScript로 자동 표시 -->
-  </tbody>
-</table>
-
-  <div id="Pre-sale NFT">
-  <h2>Pre-sale NFT Distribution Event</h2>
-  <p>Special NFTs can be received based on cumulative purchases. Check the criteria below and receive higher-tier NFTs!</p>
-  
- <div style="display: flex; justify-content: center; gap: 20px;">
-  <div id="nft" class="nft-box" id="bronze">
-    <h3>Bronze NFT</h3>
-    <p>Purchase between 0.3 BNB ~ 0.8 BNB</p>
-    <p>[Staking Interest 0.3%]</p>
-  </div>
-  <div class="nft-box" id="silver">
-    <h3>Silver NFT</h3>
-    <p>Purchase between 0.81 BNB ~ 1.5 BNB</p>
-    <p>[Staking Interest 1%]</p>
-  </div>
-  <div class="nft-box" id="gold">
-    <h3>Gold NFT</h3>
-    <p>Purchase between 1.51 BNB ~ 2 BNB</p>
-    <p>[Staking Interest 1.5%]</p>
-  </div>
-</div>
-  <div style="text-align: center; margin-top: 20px;">
-    <button class="stylish-button" id="burnBtn" style="background-color: #ffd700; color: black; padding: 10px 20px; border-radius: 8px;">Burn NFT</button>
-    <button class="stylish-button" id="upgradeBtn" style="background-color: #ffd700; color: black; padding: 10px 20px; border-radius: 8px;">Upgrade NFT</button>
-  
-
-  </div>
-</div>
-
-  <div class="nft-introduction">
-  <h2>PRE-ORDER NFT-GOLD</h2>
-  <p>[Staking Interest 1.5%]</p>
-  <img src="gold.png" alt="NFT image" style="max-width: 300px; height: auto; border-radius: 10px; margin-top: 5px;">
-    <h2>PRE-ORDER NFT-SILVER</h2>
-<p>[Staking Interest 1%]</p>
-    <img src="silver.png" alt="NFT image" style="max-width: 300px; height: auto; border-radius: 10px; margin-top: 5px;">
-     <h2>PRE-ORDER NFT-BRONZE</h2>
-    <p>[Staking Interest 0.3%]</p>
-<img src="bronze.png" alt="NFT image" style="max-width: 300px; height: auto; border-radius: 10px; margin-top: 5px;">
-</div>
-  </div>
-  
-</div>
-  
-  <!-- 💰 사전판매금액 분배 구조 인포그래픽 -->
-<div style="text-align:center; margin-top: 40px;">
-  <img src="presale_allocation2.png" alt="Presale Fund Allocation"
-       style="width: 480px; max-width: 90%; height: auto; border-radius: 16px; box-shadow: 0 0 30px rgba(255, 215, 0, 0.1);">
-</div>
-
-<div id="token" class="token-info-box">
-  <h2>TOKEN INFORMATION</h2>
-  <div class="token-card">
-    <div class="token-row">
-      <span class="label">Total Supply</span>
-      <span class="value">1,000,000,000,000,000 <span class="unit"></span></span>
-    </div>
-    <div class="token-row">
-      <span class="label">Symbol</span>
-      <span class="value">STCT</span>
-    </div>
-    <div class="token-row">
-      <span class="label">Features</span>
-      <span class="value">🔥 Burn, 📥 Staking, 🔒 Lock-up, 🎁 Airdrop</span>
-    </div>
-    <div class="token-row">
-      <span class="label">Network</span>
-      <span class="value">🌐 Binance Smart Chain (BSC)</span>
-    </div>
-  </div>
-</div>
-</div>
-<div class="token-info-box" id="roadmap">
-  <h2>ROADMAP</h2>
-
-<div class="roadmap-timeline">
-  <div class="timeline-item" data-status="done">
-    <div class="timeline-date">Q1 2025</div>
-    <div class="timeline-content">Team Formation and Token Planning</div>
-  </div>
-  <div class="timeline-item" data-status="done">
-    <div class="timeline-date">Q2 2025</div>
-    <div class="timeline-content">Website Launch, Wallet Integration</div>
-  </div>
-  <div class="timeline-item" data-status="current">
-    <div class="timeline-date">Q3 2025</div>
-    <div class="timeline-content">Presale, DEX Listing, Lock-up System Implementation, Airdrop Recruitment</div>
-  </div>
-  <div class="timeline-item" data-status="upcoming">
-    <div class="timeline-date">Q4 2025</div>
-    <div class="timeline-content">First Token Burn, Global Partnerships & Community Expansion, Airdrop</div>
-  </div>
-  <div class="timeline-item" data-status="upcoming">
-    <div class="timeline-date">Q1 2026</div>
-    <div class="timeline-content">Mobile App Launch, User Expansion, Corporate Consultant Execution</div>
-  </div>
-  <div class="timeline-item" data-status="upcoming">
-    <div class="timeline-date">Q2 2026</div>
-    <div class="timeline-content">CEX Listing, Platform Integration, Global Expansion</div>
-  </div>
-  <div class="timeline-item" data-status="upcoming">
-    <div class="timeline-date">Q3 2026</div>
-    <div class="timeline-content">Additional Burn & Content Development</div>
-  </div>
-</div>
-
-   <h2>UTILITY</h2>
-<div id="utility" style="text-align:center; margin-top: 40px;">
-  <img id="utilImage" src="util.jpg" alt="util" onclick="toggleZoom(this)">
-</div>
-
-
- <h2 style="text-align: center; color: gold;">COMMUNITY</h2>
-<div id="community" class="image-row">
-  <a href="https://x.com/SWEATCOST" target="_blank">
-    <img src="tw_logo2.png" alt="Twitter">
-  </a>
-  <a href="https://t.me/+o1PRGaGJNhQyZDRl" target="_blank">
-    <img src="tel_logo.png" alt="Telegram">
-  </a>
-  <a href="https://discord.gg/hkNzTruTQH" target="_blank">
-    <img src="dis_logo.png" alt="Discord">
-  </a>
-</div>
-
-<h2>AIRDROP</h2>
-<div id="airdrop" style="text-align:center; margin-top: 40px;">
-  <img src="airdrop.png" alt="airdrop" onclick="toggleZoom(this)" />
-  <img src="airdrop2.png" alt="airdrop2" onclick="toggleZoom(this)" />
-</div>
-
-<h2 id="dev" style="color: gold; margin-top: 80px;">DEVELOPER INFO</h2>
-<div id="dev" style="text-align:center; margin-top: 40px;">
-  <img src="choksu.png" alt="dev" onclick="toggleZoom(this)" />
-
-<div id="contact" style="background: rgba(0, 0, 0, 0.5); padding: 30px; border-radius: 20px; max-width: 900px; margin: 0 auto; box-shadow: 0 0 20px rgba(255, 215, 0, 0.1); color: white;">
-
-  <h3 style="color: #ffd700;">🔧 Contract Addresses</h3>
-  <p>
-    <strong>STCT Token:</strong>  
-    <a href="https://bscscan.com/token/0x338a59DBFe304a05370164c23015F203B0a8b8A2" target="_blank" style="color: #00ffc8;">0x338a59DBFe30...b8A2</a><br>
-    <strong>NFT Contract:</strong>  
-    <a href="https://bscscan.com/address/0xdff65b1718d9527f24A59ACBc7524420Bf814faF" target="_blank" style="color: #00ffc8;">0xdff65b1718d9...4faF</a>
-  </p>
-
-  <h3 style="color: #ffd700;">🔒 Security Status</h3>
-  <p>Smart contracts verified on BscScan<br>
-  External audit in progress (May 2025 target)<br>
-  Proxy & Upgradeable pattern applied for future updates</p>
-
-  <h3 style="color: #ffd700;">📬 Contact</h3>
-  <p>Email: support@sweatcostcompany.com<br>
-  GitHub: <a href="https://github.com/sweatcost" target="_blank" style="color: #00ffc8;">github.com/sweatcost</a></p>
-</div>
-    </div>
-
- <script>
-  // 토글 줌, 카운트다운, 구매 예측, Google Sheet fetch 등
-  function toggleZoom(img) {
-    if (img.classList.contains("zoomed")) {
-      img.classList.remove("zoomed");
-      img.style.transform = "scale(1)";
-    } else {
-      img.classList.add("zoomed");
-      img.style.transform = "scale(2)";
+    // ** 유틸리티: BNB 값 변환 함수 (문자열 → Wei bigint) **
+    function parseEther(amountStr) {
+      // 문자열 형식의 BNB 금액을 10^18 Wei 정수로 변환
+      const parts = amountStr.split('.');
+      const intPart = parts[0] || '0';
+      let decPart = parts[1] || '';
+      if (!/^\d+$/.test(intPart + decPart)) {
+        throw new Error("Invalid amount format");
+      }
+      if (decPart.length > 18) {
+        decPart = decPart.substring(0, 18); // 소수부 18자리 초과시 자름
+      }
+      // 소수부를 18자리로 패딩
+      const decPartPadded = decPart.padEnd(18, '0');
+      const whole = intPart + decPartPadded;
+      // 문자열이 비어있지 않다면 BigInt로 변환
+      return whole === '' ? BigInt(0) : BigInt(whole);
     }
-  }
 
-  let totalPresale = 0;
-  let prePurchased = 0;
-  const maxPresaleTotal = 1000;
+    // ** 이벤트 핸들러 설정 **
 
-  // [1] 구매 예측 (buyBnbAmount → buyStctResult)
-  const buyInput  = document.getElementById('buyBnbAmount');
-  const buyOutput = document.getElementById('buyStctResult');
-  buyInput.addEventListener('input', () => {
-    const bnb = parseFloat(buyInput.value) || 0;
-    buyOutput.textContent = `Estimated STCT: ${(bnb * 20000000).toLocaleString()} STCT`;
-  });
+    // Presale 구매 버튼 클릭 -> BNB 전송 트랜잭션 실행
+    document.getElementById('buyPresaleBtn').addEventListener('click', async () => {
+      const amountStr = document.getElementById('presaleAmount').value.trim();
+      if (!amountStr) {
+        alert('구매할 BNB 금액을 입력하세요.');
+        return;
+      }
+      try {
+        const valueWei = parseEther(amountStr);
+        // wagmi sendTransaction 사용하여 BNB 전송 트랜잭션 생성
+        await sendTransaction(wagmiConfig, {
+          to: window.PRESALE_ADDRESS,
+          value: valueWei
+        });
+        alert('Presale 구매 트랜잭션 전송 완료!');
+      } catch (err) {
+        console.error('Presale transaction failed', err);
+        alert('Presale 구매 실패: ' + (err.message || err));
+      }
+    });
 
-  // [2] 토큰 구매 카운트다운
-  const buyButton = document.getElementById('buyButton');
-  const swapTarget = new Date();
-  swapTarget.setDate(swapTarget.getDate() + 30);
-  function updateCountdown() {
-    const diff = swapTarget - Date.now();
-    if (diff <= 0) {
-      buyButton.textContent = 'Token Purchase';
-      return;
-    }
-    const d = Math.floor(diff / 86400000);
-    const h = Math.floor(diff / 3600000 % 24);
-    const m = Math.floor(diff / 60000 % 60);
-    const s = Math.floor(diff / 1000 % 60);
-    buyButton.textContent = `Token Purchase starts in: ${d}d ${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-  }
-  setInterval(updateCountdown, 1000);
-  buyButton.addEventListener('click', () => {
-    if (swapTarget - Date.now() <= 0) {
-      alert('Token purchase feature will be integrated soon.');
-    } else {
-      alert('Purchasing is currently unavailable.');
-    }
-  });
+    // 토큰 클레임 버튼 클릭 -> Lockup 컨트랙트의 claim 함수 호출
+    document.getElementById('claimBtn').addEventListener('click', async () => {
+      try {
+        await writeContract(wagmiConfig, {
+          address: window.LOCKUP_CONTRACT_ADDRESS,
+          abi: window.lockupAbi,
+          functionName: "claim"
+        });
+        alert('토큰 클레임 트랜잭션 전송 완료!');
+        // 클레임 후 클레임 가능 수량 갱신 (여기서는 즉시 0으로 설정)
+        document.getElementById('claimableAmount').textContent = '0';
+      } catch (err) {
+        console.error('Claim transaction failed', err);
+        alert('클레임 실패: ' + (err.message || err));
+      }
+    });
 
-  // [3] Presale UI 업데이트
-  const preInput   = document.getElementById('preBnbAmount');
-  const preOutput  = document.getElementById('preStctResult');
-  const preButton  = document.getElementById('preBuyButton');
-  function updatePresaleUI() {
-    const percent = totalPresale / maxPresaleTotal * 100;
-    document.getElementById("presaleSummary").textContent = `Total Sold: ${totalPresale.toFixed(6)} / ${maxPresaleTotal} BNB`;
-    document.getElementById("presaleBar").style.width = `${Math.min(percent,100)}%`;
-  }
-  preInput.addEventListener('input', () => {
-    const bnb = parseFloat(preInput.value) || 0;
-    const avail = maxPresaleTotal - totalPresale;
-    if (bnb > 2 || bnb > avail) {
-      preOutput.textContent = `Exceeded limit. Remain: ${avail.toFixed(6)} BNB`;
-      preButton.disabled = true;
-      return;
-    }
-    preOutput.textContent = `Estimated STCT: ${(bnb * 100000000).toLocaleString()} STCT`;
-    preButton.disabled = false;
-  });
-  preButton.addEventListener('click', async () => {
-    // 지갑 연결 확인
-    if (!currentAccount) { alert("지갑을 먼저 연결하세요."); return; }
-    const bnb = parseFloat(preInput.value)||0;
-    // validation 생략...
-    try {
-      // on-chain 전송
-      const tx = await window.ethereum.request({
-        method: 'eth_sendTransaction',
-        params: [{ from: currentAccount, to: '0xD39…E173', value: '0x'+(bnb*1e18).toString(16) }]
-      });
-      alert(`TX: ${tx}`);
-      // Google Sheet 기록
-      const totalStct = bnb * 100000000;
-      const lockup = {
-        immediate: Math.floor(totalStct*0.3),
-        after2m:   Math.floor(totalStct*0.2),
-        after4m:   Math.floor(totalStct*0.2),
-        after6m:   totalStct - Math.floor(totalStct*0.3) - 2*Math.floor(totalStct*0.2)
-      };
-      await fetch("https://my-proxy-app-murex.vercel.app/api/send", {
-        method: "POST",
-        headers: {"Content-Type":"application/json"},
-        body: JSON.stringify({ address: currentAccount, bnb, stct: totalStct, ...lockup, timestamp: new Date().toLocaleString() })
-      });
-      prePurchased += bnb;
-      totalPresale += bnb;
-      updatePresaleUI();
-    } catch(e) {
-      console.error(e);
-      alert("실패 또는 취소됨");
-    }
-  });
+    // NFT 소각 버튼 클릭 -> NFT 컨트랙트의 burn 함수 호출
+    document.getElementById('burnBtn').addEventListener('click', async () => {
+      const tokenIdStr = document.getElementById('nftIdInput').value.trim();
+      if (!tokenIdStr) {
+        alert('NFT ID를 입력하세요.');
+        return;
+      }
+      try {
+        const tokenId = BigInt(tokenIdStr);
+        await writeContract(wagmiConfig, {
+          address: window.NFT_CONTRACT_ADDRESS,
+          abi: window.nftAbi,
+          functionName: "burn",
+          args: [ tokenId ]
+        });
+        alert(`NFT #${tokenIdStr} 소각 트랜잭션 전송 완료!`);
+      } catch (err) {
+        console.error('Burn transaction failed', err);
+        alert('NFT 소각 실패: ' + (err.message || err));
+      }
+    });
 
-  // [4] Presale 카운트다운
-  (function presaleCountdown(){
-    const el = document.getElementById("presaleCountdown");
-    const end = new Date("2025-05-24T00:00:00Z").getTime();
-    function tick() {
-      const diff = end - Date.now();
-      if (diff<=0) { el.innerText="SALE ENDED"; return; }
-      const d = Math.floor(diff/86400000);
-      const h = Math.floor(diff/3600000%24);
-      const m = Math.floor(diff/60000%60);
-      const s = Math.floor(diff/1000%60);
-      el.innerText = `${d} days ${h} hours ${m} minutes ${s} seconds`;
-    }
-    setInterval(tick,1000);
-    tick();
-  })();
-
-  // [5] 지갑 주소 표시
-  function displayWalletAddress(address){
-    const short = address.slice(0,6)+'…'+address.slice(-4);
-    document.getElementById('walletDisplay').innerText = 'Connected: '+short;
-  }
-  document.addEventListener("DOMContentLoaded", () => {
-    if (window.ethereum && window.ethereum.selectedAddress) {
-      currentAccount = window.ethereum.selectedAddress;
-      displayWalletAddress(currentAccount);
-    }
-  });
-
-  // [6] Google Sheet에서 최근 구매자 불러오기
-  async function fetchPurchaseLogFromSheet(){
-    try {
-      const res  = await fetch("https://my-proxy-app-murex.vercel.app/api/send");
-      const json = await res.json();
-      const tbody= document.getElementById("purchaseTableBody");
-      tbody.innerHTML = "";
-      json.records.slice(0,5).reverse().forEach(log => {
-        tbody.innerHTML +=
-          `<tr>
-             <td>${log.address.slice(0,6)}…${log.address.slice(-4)}</td>
-             <td>${parseFloat(log.bnb).toFixed(2)}</td>
-             <td>${parseInt(log.stct).toLocaleString()}</td>
-             <td>${log.timestamp}</td>
-           </tr>`;
-      });
-    } catch(e){ console.error(e); }
-  }
-  document.addEventListener("DOMContentLoaded", fetchPurchaseLogFromSheet);
-
-  // [7] 토큰 잔액 로드
-  async function loadSTCTBalance(){
-    if (!window.ethereum||!currentAccount) return;
-    const contract = new ethers.Contract("0x338a59D…b8A2", STCT_ABI, new ethers.providers.Web3Provider(window.ethereum));
-    try {
-      const raw = await contract.balanceOf(currentAccount);
-      const dec = await contract.decimals();
-      const bal = ethers.utils.formatUnits(raw,dec);
-      document.getElementById("balanceDisplay").innerText = `STCT Balance: ${parseFloat(bal).toLocaleString()} STCT`;
-    } catch(e){ console.error(e); }
-  }
-  window.loadSTCTBalance = loadSTCTBalance;
-  window.loadClaimableLockup = loadClaimableLockup; // 아래 DApp 모듈에서 구현
-  window.claimLockedTokens   = claimLockedTokens;
-  window.burnNFT = burnNFT;
-  window.upgradeNFT = upgradeNFT;
-</script>
-
- 
- <script type="module">
-  // — 필수 모듈 임포트
- 
-  // — wagmi 클라이언트 생성 (autoConnect)
-  const { provider, webSocketProvider } = configureChains(chains, [ w3mProvider({ projectId }) ]);
-  const wagmiClient = createClient({
-    autoConnect: true,
-    connectors: w3mConnectors({ projectId, chains }),
-    provider,
-    webSocketProvider
-  });
-
-  // — Web3Modal 초기화
-  const ethereumClient = new EthereumClient(wagmiClient, chains);
-  const web3Modal      = new Web3Modal({ projectId, theme:'dark', accentColor:'default', ethereumClient });
-
-  // — 글로벌 변수 할당
-  window.currentAccount = null;
-  window.provider       = provider;        // wagmi provider
-  window.signer         = null;            // signer 는 아래에서 설정
-  window.contracts      = {
-    presale:  new ethers.Contract('0xD39a…E173', SALE_AND_LOCK_ABI, provider),
-    stct:     new ethers.Contract('0x338a59D…b8A2', STCT_ABI, provider),
-    nft:      new ethers.Contract('0xdff65b17…4faF', nftAbi, provider)
-  };
-
-  // — 버튼 클릭 시 연결
-  const btn     = document.getElementById('connectWalletBtn');
-  const display = document.getElementById('walletDisplay');
-  btn.addEventListener('click', async () => {
-    await web3Modal.openModal();
-    window.signer = await wagmiClient.getSigner();
-    const address = await window.signer.getAddress();
-    window.currentAccount = address;
-    const short = address.slice(0,6)+'…'+address.slice(-4);
-    display.innerText = 'Connected: '+short;
-    btn.style.background = '#00ffc8';
-    btn.style.color      = '#000';
-
-    // 연결 후 balance, lockup 정보 자동 로드
-    loadSTCTBalance();
-    loadClaimableLockup();
-  });
-
-  // — Claimable & Claim 구현
-  window.loadClaimableLockup = async () => {
-    if (!window.signer) return alert("지갑을 연결하세요.");
-    const contract = window.contracts.presale.connect(window.signer);
-    const [amount,next,remain] = await contract.getClaimable(window.currentAccount);
-    const c = parseFloat(ethers.utils.formatUnits(amount,18)).toFixed(2);
-    const r = parseFloat(ethers.utils.formatUnits(remain,18)).toFixed(2);
-    document.getElementById("claimableInfo").innerHTML =
-      `✅ Claimable: ${c} STCT<br>⏰ Next Unlock: ${new Date(next*1000).toLocaleString()}<br>🧾 Remaining: ${r} STCT`;
-  };
-  window.claimLockedTokens = async () => {
-    if (!window.signer) return alert("지갑을 연결하세요.");
-    const tx = await window.contracts.presale.connect(window.signer).claim();
-    await tx.wait();
-    alert("✅ Claim 성공!");
-    loadClaimableLockup();
-  };
-
-  // — NFT burn/upgrade
-  window.burnNFT = async () => {
-    const nft = window.contracts.nft.connect(window.signer);
-    const bal = await nft.balanceOf(window.currentAccount);
-    if (bal.eq(0)) return alert("NFT 없음");
-    const tokenId = await nft.tokenOfOwnerByIndex(window.currentAccount,0);
-    const tx = await nft.burn(tokenId);
-    await tx.wait();
-    alert("✅ 소각 완료");
-  };
-  window.upgradeNFT = async () => {
-    const nft = window.contracts.nft.connect(window.signer);
-    const tx  = await nft.upgrade();
-    await tx.wait();
-    alert("✅ 업그레이드 완료");
-  };
-
-  // — 사이드 메뉴 토글 (중복 방지)
-  document.getElementById('hamburgerBtn')
-    .addEventListener('click', ()=> document.getElementById('sideMenu').classList.toggle('active'));
-
-  
-</script>
-
-  <script type="module" src="/src/main.js"></script>
+    // NFT 업그레이드 버튼 클릭 -> NFT 컨트랙트의 upgrade 함수 호출
+    document.getElementById('upgradeBtn').addEventListener('click', async () => {
+      const tokenIdStr = document.getElementById('nftIdInput').value.trim();
+      if (!tokenIdStr) {
+        alert('NFT ID를 입력하세요.');
+        return;
+      }
+      try {
+        const tokenId = BigInt(tokenIdStr);
+        await writeContract(wagmiConfig, {
+          address: window.NFT_CONTRACT_ADDRESS,
+          abi: window.nftAbi,
+          functionName: "upgrade",
+          args: [ tokenId ]
+        });
+        alert(`NFT #${tokenIdStr} 업그레이드 트랜잭션 전송 완료!`);
+      } catch (err) {
+        console.error('Upgrade transaction failed', err);
+        alert('NFT 업그레이드 실패: ' + (err.message || err));
+      }
+    });
+  </script>
 </body>
 </html>
-
-<footer style="text-align: center; color: #888; font-size: 13px; margin-top: 60px; padding: 20px 0;">
-  &copy; 2025 SweatCost Company. All rights reserved.<br>
-  This website provides official information regarding SweatCostToken (STCT).
-</footer>
-
