@@ -25,7 +25,14 @@
   font-size: 18px;
   line-height: 1.6;
 }
-
+ /* Web3Modal 버튼을 기존 스타일에 맞춰 약간 조정 (필요에 따라) */
+    w3m-button#connectWalletBtn {
+      --w3m-accent-color: #4a90e2;  /* 버튼 테마 색상 (예시) */
+      /* margin, font 등 외부에서 추가 스타일 가능 */
+    }
+    #walletAddress, #bnbBalance, #claimableAmount {
+      font-weight: bold;
+    }
 h2, h3 {
   font-size: 1.6rem;
 }
