@@ -1219,15 +1219,25 @@ import { getConnectorClient } from "https://esm.sh/@wagmi/core@2.12.2?bundle&tar
   const btn = document.getElementById('connectWalletBtn');
   
   // 계정 상태 변화 감지
-  watchAccount(wagmiConfig, (account) => {
-    if (account.isConnected) {
-      console.log("✅ 연결됨:", account.address);
-      // 연결되었을 때 추가 동작을 여기 넣을 수 있음
-    } else {
-      console.log("❌ 연결 끊김");
-    }
-  });
-
+ watchAccount(wagmiConfig, async (account) => {
+  if (account.isConnected) {
+    console.log("✅ 연결됨:", account.address);
+    window.currentAccount = account.address; // ✨ 이거 추가
+    const short = account.address.slice(0, 6) + '…' + account.address.slice(-4);
+    display.innerText = 'Connected: ' + short;
+    btn.style.background = '#00ffc8';
+    btn.style.color = '#000';
+    await loadSTCTBalance();
+    await loadClaimableLockup();
+  } else {
+    console.log("❌ 연결 끊김");
+    window.currentAccount = null;
+    display.innerText = "Wallet Address"; // 초기화
+    btn.style.background = '';
+    btn.style.color = '';
+  }
+});
+  
   // — 글로벌 변수 할당
   window.currentAccount = null;
   window.provider = wagmiConfig.publicClient;         // wagmi provider
@@ -1242,12 +1252,15 @@ import { getConnectorClient } from "https://esm.sh/@wagmi/core@2.12.2?bundle&tar
 const display = document.getElementById('walletAddressDisplay');
 
 btn.addEventListener('click', async () => {
-  if (isConnecting) return; // 이미 연결중이면 클릭 무시
-  isConnecting = true;       // 연결 시작
-
+  if (isConnecting) return;
+  if (window.currentAccount) {  // ✨ 이미 연결되어 있으면 다시 연결하지 않음
+    console.log("이미 연결되어 있음");
+    return;
+  }
+  isConnecting = true;
   try {
     await web3Modal.openModal();
-   const client = await getConnectorClient();
+    const client = await getConnectorClient();
     window.signer = client.account.signer;
     
     const address = await window.signer.getAddress();
@@ -1258,13 +1271,12 @@ btn.addEventListener('click', async () => {
     btn.style.background = '#00ffc8';
     btn.style.color = '#000';
 
-    // 연결 후 balance, lockup 정보 자동 로드
-    loadSTCTBalance();
-    loadClaimableLockup();
+    await loadSTCTBalance();
+    await loadClaimableLockup();
   } catch (e) {
     console.error(e);
   } finally {
-    isConnecting = false;  // 연결 완료되거나 실패해도 다시 풀어줌
+    isConnecting = false;
   }
 });
 
