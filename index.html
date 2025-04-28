@@ -1041,8 +1041,9 @@ transition: color 0.2s ease; }
     tick();
   })();
 
-// NFT메달표시
-  function getMedalImage(bnb) {
+  // NFT 메달 표시
+
+function getMedalImage(bnb) {
   if (bnb >= 1.51) return 'gold.png';
   if (bnb >= 0.81) return 'silver.png';
   if (bnb >= 0.3) return 'bronze.png';
@@ -1054,6 +1055,32 @@ function getMedalText(bnb) {
   if (bnb >= 0.81) return 'Silver';
   if (bnb >= 0.3) return 'Bronze';
   return '';
+}
+
+async function fetchPurchaseLogFromSheet(){
+  try {
+    const res  = await fetch("https://my-proxy-app-murex.vercel.app/api/send");
+    const json = await res.json();
+    const tbody= document.getElementById("purchaseTableBody");
+    tbody.innerHTML = "";
+
+    json.records.slice(0,5).reverse().forEach(log => {
+      const bnb = parseFloat(log.bnb);
+      const medalImg = getMedalImage(bnb);
+      const medalText = getMedalText(bnb);
+
+      tbody.innerHTML +=
+        `<tr>
+           <td style="text-align:center;">${log.address.slice(0,6)}…${log.address.slice(-4)}</td>
+           <td style="text-align:right;">${bnb.toFixed(2)}</td>
+           <td style="text-align:right;">${parseInt(log.stct).toLocaleString()}</td>
+           <td style="text-align:right;">${log.timestamp}</td>
+           <td style="text-align:center;">
+             ${medalImg ? `<img src="${medalImg}" style="width:24px; vertical-align:middle;"> <span style="margin-left:5px;">${medalText}</span>` : ''}
+           </td>
+         </tr>`;
+    });
+  } catch(e){ console.error(e); }
 }
 
 
