@@ -597,6 +597,7 @@ transition: color 0.2s ease; }
   display: flex; /* 플렉스 박스 적용 */
   justify-content: center; /* 가로 가운데 */
   align-items: center; /* 세로 가운데 */
+    margin-top: 20px;
   height: 45px; /* (선택) 전체 높이 조정 */
 }
 
@@ -838,8 +839,8 @@ a {
   <h2>Pre-sale NFT Distribution Event</h2>
   <p>Special NFTs can be received based on cumulative purchases. Check the criteria below and receive higher-tier NFTs!</p>
   
- <div style="display: flex; justify-content: center; gap: 20px;">
-  <div id="nft" class="nft-box" id="bronze">
+ <div id="nft" style="display: flex; justify-content: center; gap: 20px;">
+  <div class="nft-box" id="bronze">
     <h3>Bronze NFT</h3>
     <p>Purchase between 0.3 BNB ~ 0.8 BNB</p>
     <p>[Staking Interest 0.3%]</p>
@@ -1214,6 +1215,8 @@ async function fetchPurchaseLogFromSheet(){
     wagmiConfig
   });
 
+  const btn = document.getElementById('connectWalletBtn');
+  
   // 계정 상태 변화 감지
   watchAccount(wagmiConfig, (account) => {
     if (account.isConnected) {
