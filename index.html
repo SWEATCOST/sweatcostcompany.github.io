@@ -1223,6 +1223,8 @@ import { getConnectorClient } from "https://esm.sh/@wagmi/core@2.12.2?bundle&tar
   if (account.isConnected) {
     console.log("✅ 연결됨:", account.address);
     window.currentAccount = account.address; // ✨ 이거 추가
+    const client = await getConnectorClient(); // ✨ 여기서 signer 가져옴
+    window.signer = client.account.signer;
     const short = account.address.slice(0, 6) + '…' + account.address.slice(-4);
     display.innerText = 'Connected: ' + short;
     btn.style.background = '#00ffc8';
@@ -1253,7 +1255,7 @@ const display = document.getElementById('walletAddressDisplay');
 
 btn.addEventListener('click', async () => {
   if (isConnecting) return;
-  if (window.currentAccount) {  // ✨ 이미 연결되어 있으면 다시 연결하지 않음
+  if (window.currentAccount && window.signer) {  // ✨ 이미 연결되어 있으면 다시 연결하지 않음
     console.log("이미 연결되어 있음");
     return;
   }
