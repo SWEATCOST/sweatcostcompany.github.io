@@ -754,11 +754,11 @@ transition: color 0.2s ease; }
   <table style="width: 100%; color: white; font-size: 14px; border-collapse: collapse;">
     <thead>
        <tr style="color: gold; border-bottom: 1px solid #444;">
-  <th style="text-align: center;">Address</th>
-  <th style="text-align: center;">BNB</th>
-  <th style="text-align: center;">STCT</th>
-  <th style="text-align: center;">Time</th>
-  <th style="text-align: center;">NFT</th> <!-- 추가된 부분 -->
+  <th style="text-align: left;">Address</th>
+  <th style="text-align: left;">BNB</th>
+  <th style="text-align: left;">STCT</th>
+  <th style="text-align: left;">Time</th>
+  <th style="text-align: left;">NFT</th> <!-- 추가된 부분 -->
 </tr>
     </thead>
   <tbody id="purchaseTableBody">
@@ -1057,7 +1057,17 @@ function getMedalText(bnb) {
   if (bnb >= 0.3) return 'Bronze';
   return '';
 }
-
+  
+function formatNumber(num) {
+  if (num >= 1000000) {
+    return (num / 1000000).toFixed(1) + 'M'; // 1M, 2.5M 식으로
+  } else if (num >= 1000) {
+    return (num / 1000).toFixed(1) + 'K';    // 1K, 2.3K 식으로
+  } else {
+    return num.toString();                  // 1000 미만은 그대로
+  }
+}
+  
 async function fetchPurchaseLogFromSheet(){
   try {
     const res  = await fetch("https://my-proxy-app-murex.vercel.app/api/send");
@@ -1077,7 +1087,7 @@ async function fetchPurchaseLogFromSheet(){
         `<tr>
            <td style="text-align:center;">${log.address.slice(0,6)}…${log.address.slice(-4)}</td>
            <td style="text-align:right;">${bnb.toFixed(2)}</td>
-           <td style="text-align:right;">${parseInt(log.stct).toLocaleString()}</td>
+           <td style="text-align:left;">${formatNumber(parseInt(log.stct))}</td>
            <td style="text-align:right;">${log.timestamp.split('')[0]}</td>
            <td style="text-align:center;">
              ${medalImg ? `<img src="${medalImg}" style="width:24px; vertical-align:middle;"> <span style="margin-left:5px;">${medalText}</span>` : ''}
