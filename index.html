@@ -1074,7 +1074,7 @@ async function fetchPurchaseLogFromSheet(){
            <td style="text-align:center;">${log.address.slice(0,6)}…${log.address.slice(-4)}</td>
            <td style="text-align:right;">${bnb.toFixed(2)}</td>
            <td style="text-align:right;">${parseInt(log.stct).toLocaleString()}</td>
-           <td style="text-align:right;">${log.timestamp}</td>
+           <td style="text-align:right;">${log.timestamp.split(' ')[0]}</td>
            <td style="text-align:center;">
              ${medalImg ? `<img src="${medalImg}" style="width:24px; vertical-align:middle;"> <span style="margin-left:5px;">${medalText}</span>` : ''}
            </td>
