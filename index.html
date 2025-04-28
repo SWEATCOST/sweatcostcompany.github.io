@@ -1203,19 +1203,20 @@ async function fetchPurchaseLogFromSheet(){
     await tx.wait();
     alert("✅ 업그레이드 완료");
   };
-
-document.addEventListener("DOMContentLoaded", function() {
-  const hamburgerBtn = document.getElementById('hamburgerBtn');
-  const sideMenu = document.getElementById('sideMenu');
-
-  hamburgerBtn.addEventListener('click', function() {
-    sideMenu.classList.toggle('active');
-  });
-});
-
-
-  
+ 
 </script>
+
+ <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const sideMenu = document.getElementById('sideMenu');
+
+    hamburgerBtn.addEventListener('click', function() {
+      sideMenu.classList.toggle('active');
+    });
+  });
+</script>
+ 
 </body>
 </html>
 
