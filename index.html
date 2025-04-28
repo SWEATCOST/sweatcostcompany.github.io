@@ -1229,7 +1229,7 @@ async function fetchPurchaseLogFromSheet(){
 
   // — 글로벌 변수 할당
   window.currentAccount = null;
-  window.provider       = provider;        // wagmi provider
+  window.provider = wagmiConfig.publicClient;         // wagmi provider
   window.signer         = null;            // signer 는 아래에서 설정
   window.contracts      = {
     presale:  new ethers.Contract('0xD39a…E173', SALE_AND_LOCK_ABI, provider),
