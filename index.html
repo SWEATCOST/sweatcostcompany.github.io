@@ -1041,6 +1041,20 @@ transition: color 0.2s ease; }
     tick();
   })();
 
+// NFT메달표시
+  function getMedalImage(bnb) {
+  if (bnb >= 1.51) return 'gold.png';
+  if (bnb >= 0.81) return 'silver.png';
+  if (bnb >= 0.3) return 'bronze.png';
+  return null;
+}
+
+function getMedalText(bnb) {
+  if (bnb >= 1.51) return 'Gold';
+  if (bnb >= 0.81) return 'Silver';
+  if (bnb >= 0.3) return 'Bronze';
+  return '';
+}
 
 
   // [6] Google Sheet에서 최근 구매자 불러오기
