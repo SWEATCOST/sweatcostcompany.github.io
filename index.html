@@ -198,7 +198,11 @@ transition: color 0.2s ease; }
   box-shadow: 0 0 10px rgba(255, 215, 0, 0.1);
   border: 2px solid #ffd700; /* 기존 유지 */
 }
-    .swap-box h3, .buy-box h3 { color: #ffd700; margin-bottom: 15px; }
+    .swap-box h3, ..buy-box h3 {
+  color: #ffd700;
+  margin: 5px 0; /* 위 5px, 아래 0px */
+  font-size: 20px; /* (옵션) 글자 크기도 살짝 줄일 수 있어 */
+}
     .swap-box input, .buy-box input {
       width: 100%; padding: 8px 10px;
       margin-bottom: 10px; font-size: 14px;
