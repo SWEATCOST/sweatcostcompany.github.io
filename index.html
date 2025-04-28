@@ -1239,6 +1239,7 @@ import { getConnectorClient } from "https://esm.sh/@wagmi/core@2.12.2?bundle&tar
   };
 
  let isConnecting = false;  // 추가: 연결 중복 방지 변수
+const display = document.getElementById('walletAddressDisplay');
 
 btn.addEventListener('click', async () => {
   if (isConnecting) return; // 이미 연결중이면 클릭 무시
