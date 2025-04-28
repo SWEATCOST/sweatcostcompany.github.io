@@ -1063,7 +1063,7 @@ a {
       // on-chain 전송
       const tx = await window.ethereum.request({
         method: 'eth_sendTransaction',
-        params: [{ from: currentAccount, to: '0xD39…E173', value: '0x'+(bnb*1e18).toString(16) }]
+        params: [{ from: currentAccount, to: '0xD39a97353dCab50bEF1bDD02d9d50b73A3A3E173', value: '0x'+(bnb*1e18).toString(16) }]
       });
       alert(`TX: ${tx}`);
       // Google Sheet 기록
