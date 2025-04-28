@@ -1207,14 +1207,23 @@ async function fetchPurchaseLogFromSheet(){
 </script>
 
  <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const hamburgerBtn = document.getElementById('hamburgerBtn');
-    const sideMenu = document.getElementById('sideMenu');
+document.addEventListener("DOMContentLoaded", function() {
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const sideMenu = document.getElementById('sideMenu');
 
-    hamburgerBtn.addEventListener('click', function() {
-      sideMenu.classList.toggle('active');
-    });
+  // 햄버거 버튼 클릭 시 메뉴 열고 닫기
+  hamburgerBtn.addEventListener('click', function() {
+    sideMenu.classList.toggle('active');
   });
+
+  // 화면 다른 곳 클릭 시 메뉴 닫기
+  document.addEventListener('click', function(event) {
+    if (!sideMenu.contains(event.target) && !hamburgerBtn.contains(event.target)) {
+      sideMenu.classList.remove('active');
+    }
+  });
+});
+
 </script>
  
 </body>
