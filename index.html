@@ -1082,6 +1082,8 @@ async function fetchPurchaseLogFromSheet(){
     });
   } catch(e){ console.error(e); }
 }
+  document.addEventListener("DOMContentLoaded", fetchPurchaseLogFromSheet);
+
 
 
   // [7] 토큰 잔액 로드
