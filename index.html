@@ -1234,10 +1234,13 @@ async function fetchPurchaseLogFromSheet(){
     nft:      new ethers.Contract('0xdff65b17…4faF', nftAbi, provider)
   };
 
-  // — 버튼 클릭 시 연결
-  const btn     = document.getElementById('connectWalletBtn');
-  const display = document.getElementById('walletDisplay');
-  btn.addEventListener('click', async () => {
+ let isConnecting = false;  // 추가: 연결 중복 방지 변수
+
+btn.addEventListener('click', async () => {
+  if (isConnecting) return; // 이미 연결중이면 클릭 무시
+  isConnecting = true;       // 연결 시작
+
+  try {
     await web3Modal.openModal();
     window.signer = await wagmiClient.getSigner();
     const address = await window.signer.getAddress();
@@ -1250,7 +1253,13 @@ async function fetchPurchaseLogFromSheet(){
     // 연결 후 balance, lockup 정보 자동 로드
     loadSTCTBalance();
     loadClaimableLockup();
-  });
+  } catch (e) {
+    console.error(e);
+  } finally {
+    isConnecting = false;  // 연결 완료되거나 실패해도 다시 풀어줌
+  }
+});
+
 
   // — Claimable & Claim 구현
   window.loadClaimableLockup = async () => {
