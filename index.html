@@ -1065,8 +1065,11 @@ async function fetchPurchaseLogFromSheet(){
     const tbody= document.getElementById("purchaseTableBody");
     tbody.innerHTML = "";
 
+    let totalBnb = 0;
+   
     json.records.slice(0,5).reverse().forEach(log => {
       const bnb = parseFloat(log.bnb);
+      totalBnb += bnb; // ⭐ 합계 누적
       const medalImg = getMedalImage(bnb);
       const medalText = getMedalText(bnb);
 
@@ -1081,8 +1084,12 @@ async function fetchPurchaseLogFromSheet(){
            </td>
          </tr>`;
     });
+   totalPresale = totalBnb;
+   updatePresaleUI();
+
   } catch(e){ console.error(e); }
 }
+
   document.addEventListener("DOMContentLoaded", fetchPurchaseLogFromSheet);
 
 
