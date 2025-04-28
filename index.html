@@ -189,13 +189,15 @@ transition: color 0.2s ease; }
   display: block;
 }
     .swap-box, .buy-box {
-      background: #1c1c1c;
-      margin: 30px auto;
-      padding: 20px;
-      width: 90%; max-width: 400px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(255, 215, 0, 0.1);
-    }
+  background: rgba(28, 28, 28, 0.7); /* ← 진한 회색을 살짝 투명하게 */
+  margin: 10px auto; /* ← 위/아래 여백을 10px로 줄임 */
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.1);
+  border: 2px solid #ffd700; /* 기존 유지 */
+}
     .swap-box h3, .buy-box h3 { color: #ffd700; margin-bottom: 15px; }
     .swap-box input, .buy-box input {
       width: 100%; padding: 8px 10px;
@@ -289,17 +291,9 @@ transition: color 0.2s ease; }
       .swap-box, .buy-box { width: 90%; max-width: 90%; box-sizing: border-box; }
       .navbar { flex-direction: column; gap: 12px; }
       .slogan { font-size: 16px; }
-      .swap-box input, .buy-box input { padding: 6px 8px; font-size: 13px; height: 32px; }
-    .swap-box, .buy-box {
-  background: rgba(28, 28, 28, 0.7); /* ← 진한 회색을 살짝 투명하게 */
-  margin: 10px auto; /* ← 위/아래 여백을 10px로 줄임 */
-  padding: 20px;
-  width: 90%;
-  max-width: 400px;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(255, 215, 0, 0.1);
-  border: 2px solid #ffd700; /* 기존 유지 */
-}
+     
+   
+   
 
      .token-info-box {
   margin: 80px auto;
