@@ -1,36 +1,1239 @@
-<!DOCTYPE html>
-<html lang="en">
+ <!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>STCT Utility</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
   <style>
-    body {
-      background: black;
-      color: white;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 50px;
+    html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden; /* 화면 잘림 방지 */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #fff;
+  background: url("pattern_background3.png") no-repeat center center fixed;
+  background-size: cover;
+  background-color: #000;
+  text-align: center;
+  font-size: 18px;
+  line-height: 1.6;
+  scroll-behavior: smooth;
+  min-height: 100vh; /* height 대신 min-height 사용 */
+}
+ /* Web3Modal 버튼을 기존 스타일에 맞춰 약간 조정 (필요에 따라) */
+    w3m-button#connectWalletBtn {
+      --w3m-accent-color: #4a90e2;  /* 버튼 테마 색상 (예시) */
+      /* margin, font 등 외부에서 추가 스타일 가능 */
     }
-    h1 {
+    #walletAddress, #bnbBalance, #claimableAmount {
+      font-weight: bold;
+    }
+
+   #walletArea {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+  text-align: right;
+}
+   
+h2, h3 {
+  font-size: 1.6rem;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+    
+    .wrapper {
+  max-width: 1600px;   /* 전체 가로폭 늘림 */
+  width: 95%;          /* 반응형 대응 */
+  margin: 0 auto;      /* 가운데 정렬 */
+}
+    
+     #airdrop img {
+    max-width: 90%;       /* 화면 기준으로 90% 크기로 제한 */
+    width: 800px;         /* 기본 크기 */
+    height: auto;         /* 비율 유지 */
+    border-radius: 16px;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+  }
+
+  #airdrop img:hover {
+    filter: brightness(0.9);
+  }
+    
+  .image-row {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+  }
+
+  .image-row img {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;  /* 비율 유지하며 빈 공간 채우기 */
+    border-radius: 12px;
+    background-color: #000;  /* 배경 넣으면 정리된 느낌 */
+    padding: 0px;            /* 여백 추가 시 테두리 안 겹침 */
+    transition: 0.3s;
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.15);
+  }
+
+  .image-row img:hover {
+    filter: brightness(0.85);
+    transform: scale(1.1);
+    cursor: pointer;
+  }
+    .zoomed {
+      transform: scale(2); /* 2배 확대 */
+      cursor: zoom-out;
+      z-index: 10;
+      position: relative;
+      
+    }
+
+    #utilImage {
+    width: 600px;
+    max-width: 90%;
+    height: auto;
+    border-radius: 16px;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.1);
+    transition: transform 0.3s ease, filter 0.3s ease;
+    cursor: default;
+  }
+
+  #utilImage:hover {
+    filter: brightness(0.85); /* 흐려짐 효과 */
+    cursor: pointer;          /* 손가락 커서 */
+  }
+
+  #utilImage.zoomed {
+    transform: scale(2);
+    cursor: zoom-out;
+  }
+    
+  .overlay {
+    background-color: rgba(0, 0, 0, 0.65);  /* 어둡고 투명한 블러 배경 */
+    backdrop-filter: blur(2px);
+    width: 100%;
+    min-height: 100vh;
+  }
+
+  #connectWalletBtn:hover {
+  transform: scale(1.15);
+}
+
+    #preorder-lockup-container {
+    width: 80%; /* 이 값을 조정하여 섹션의 너비를 줄입니다 */
+    margin: 0 auto; /* 콘텐츠를 중앙에 배치 */
+}
+
+    #Pre-sale NFT {
+    width: 80%; /* 이 값을 조정하여 섹션의 너비를 줄입니다 */
+    margin: 0 auto; /* 콘텐츠를 중앙에 배치 */
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #000;
+  z-index: 1000;
+  padding: 12px 16px;
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.1);
+}
+
+    .navbar a { color: #ffd700; font-size: 14px; font-weight: 500; text-decoration: none; #buyBnbAmount,
+transition: color 0.2s ease; }
+    .navbar a:hover { color: #ffffff !important; }
+    .navbar a.active { font-weight: 700; }
+    header { padding: 140px 20px 20px; }
+    .logo { width: 250px; margin-bottom: 20px; transition: transform 0.3s ease; }
+    .logo:hover { transform: scale(1.05); }
+    
+
+
+  .slogan {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2vw;
+  font-weight: 500;
+  line-height: 1.6;
+  color: #ffd700;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+  padding: 0 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  animation: fadeInUp 1.5s ease-out both;
+}
+
+
+    
+    @keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+    
+#buyBnbAmount,
+#preBnbAmount {
+  max-width: 240px;
+  margin: 0 auto 10px;
+  display: block;
+}
+    .swap-box, .buy-box {
+  background: rgba(28, 28, 28, 0.3); /* ← 진한 회색을 살짝 투명하게 */
+  margin: 0px auto; /* ← 위/아래 여백을 10px로 줄임 */
+  padding: 10px;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.1);
+  border: 2px solid #ffd700; /* 기존 유지 */
+}
+    .swap-box h3, .buy-box h3 {
+  color: #ffd700;
+  margin: 5px 0; /* 위 5px, 아래 0px */
+  font-size: 20px; /* (옵션) 글자 크기도 살짝 줄일 수 있어 */
+}
+    .swap-box input, .buy-box input {
+      width: 100%; padding: 8px 10px;
+      margin-bottom: 10px; font-size: 14px;
+      height: 36px; border: none; border-radius: 6px;
+    }
+
+
+
+   .token-info-box {
+  margin: 80px auto;
+  padding: 20px;
+  max-width: 400px; /* 최대 너비를 400px로 설정 */
+  width: 100%; /* 화면에 따라 너비가 100%까지 늘어나도록 설정 */
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 24px;
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.1);
+  backdrop-filter: blur(8px);
+  animation: fadeIn 1s ease-out;
+  text-align: center;
+}
+    .token-card {
+      background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
+      border: 1px solid #333;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
+    }
+    .token-row {
+      display: flex; justify-content: space-between;
+      padding: 12px 0; border-bottom: 1px solid #333;
+    }
+    .token-row:last-child { border-bottom: none; }
+    .label { color: #aaa; font-weight: 500; }
+    .value { color: #fff; font-weight: bold; }
+
+  .presale-banner {
+    margin-top: 100px;
+    text-align: center;
+    padding: 40px 20px;
+  }
+
+  .presale-badge {
+    color: gold;
+    font-weight: 600;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+
+  .presale-headline {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #f0c420;
+  }
+
+  .presale-tagline {
+    font-size: 1rem;
+    color: #ccc;
+    margin-bottom: 20px;
+  }
+
+  .presale-countdown {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #00ffc8;
+    background-color: #222;
+    padding: 10px 20px;
+    border-radius: 10px;
+    display: inline-block;
+    margin-top: 10px;
+  }
+
+   {
+    .presale-headline { font-size: 1.8rem; }
+    .presale-countdown { font-size: 1.2rem; }
+  }
+
+    @media (max-width: 768px)
+{
+    .presale-headline { font-size: 1.8rem; }
+    .presale-countdown { font-size: 1.2rem; }
+  }
+ {
+      header { padding-top: 180px; }
+        
+      .slogan { font-size: 15px; }
+      h3 { font-size: 16px; }
+      .navbar a { font-size: 13px; }
+      .swap-box, .buy-box { width: 90%; max-width: 90%; box-sizing: border-box; }
+      .navbar { flex-direction: column; gap: 12px; }
+      .slogan { font-size: 16px; }
+     
+   
+   
+
+     .token-info-box {
+  margin: 80px auto;
+  padding: 20px;
+  max-width: 640px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 24px;
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.1);
+  backdrop-filter: blur(8px);
+  animation: fadeIn 1s ease-out;
+  text-align: left;
+}
+
+.token-info-box h2 {
+  color: #ffd700;
+  font-size: 28px;
+  margin-bottom: 20px;
+  text-align: center;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+}
+
+.token-card {
+  background: linear-gradient(135deg, #121212, #1a1a1a);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
+}
+
+.token-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid #333;
+}
+
+.token-row:last-child {
+  border-bottom: none;
+}
+
+.label {
+  color: #aaa;
+  font-weight: 500;
+}
+
+.value {
+  color: #fff;
+  font-weight: bold;
+}
+
+.unit {
+  font-size: 14px;
+  color: #ffd700;
+  margin-left: 6px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+    }
+    #preBuyButton {
+  background: linear-gradient(145deg, #ffd700, #ffb700);
+  color: #000;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+#preBuyButton:hover {
+  background: linear-gradient(145deg, #ffcc00, #ffaa00);
+  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
+  transform: scale(1.05);
+}
+
+    .stylish-button {
+  background: linear-gradient(145deg, #ffd700, #ffb700);
+  color: #000;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.stylish-button:hover {
+  background: linear-gradient(145deg, #ffcc00, #ffaa00);
+  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
+  transform: scale(1.05);
+}
+    .token-row .label {
+  font-weight: 600;
+  color: #ffd700;
+}
+    .token-row.highlight {
+  background: rgba(255, 215, 0, 0.08);
+  border-left: 4px solid #ffd700;
+  padding-left: 10px;
+}
+
+    .roadmap-timeline {
+  margin: 60px auto;
+  padding: 20px;
+  max-width: 600px;
+  border-left: 3px solid #ffd700;
+  position: relative;
+}
+
+.timeline-item {
+  padding: 12px 20px;
+  position: relative;
+}
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  left: -9px;
+  width: 14px;
+  height: 14px;
+  background: #ffd700;
+  border-radius: 50%;
+  border: 2px solid #111;
+  box-shadow: 0 0 6px rgba(255, 215, 0, 0.5);
+}
+
+.timeline-date {
+  font-weight: bold;
+  color: #ffd700;
+  margin-bottom: 6px;
+}
+
+.timeline-content {
+  color: #fff;
+  font-size: 15px;
+}
+    .timeline-item::before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  left: -9px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid #111;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.1);
+}
+
+.timeline-item[data-status="done"]::before {
+  background: #4CAF50;
+  box-shadow: 0 0 6px rgba(76, 175, 80, 0.6);
+}
+
+.timeline-item[data-status="current"]::before {
+  background: #FFD700;
+  box-shadow: 0 0 6px rgba(255, 215, 0, 0.8);
+}
+
+.timeline-item[data-status="upcoming"]::before {
+  background: #555555;
+  box-shadow: 0 0 6px rgba(100, 100, 100, 0.3);
+}
+
+.nft-box {
+  background-color: #333; /* 기본 배경색 */
+  padding: 15px;
+  border-radius: 5px;
+  width: 150px;
+  text-align: center;
+}
+
+#bronze {
+  background-color: #cd7f32; /* Bronze 배경색 */
+}
+
+#silver {
+  background-color: #c0c0c0; /* Silver 배경색 */
+}
+
+#gold {
+  background-color: #ffd700; /* Gold 배경색 */
+}
+
+  
+
+.nav-menu {
+  display: flex;
+  flex-wrap: wrap;              /* 여러 줄 가능 */
+  justify-content: center;      /* ← 핵심: 가운데 정렬 */
+  align-items: center;
+  list-style: none;
+  margin: 0 auto;               /* ← 가운데 정렬 보조 */
+  padding: 10px 10px;
+  gap: 16px;                    /* 항목 사이 간격 */
+}
+
+
+    .nav-menu li a {
       color: gold;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 15px;
+      letter-spacing: 1px;
+      position: relative;
+      transition: color 0.3s ease-in-out;
     }
-    .utility-item {
-      border: 1px solid gold;
-      padding: 20px;
-      margin: 20px auto;
-      max-width: 600px;
-      border-radius: 12px;
-      background-color: #1a1a1a;
+
+    .nav-menu li a::after {
+      content: '';
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      background: gold;
+      left: 0;
+      bottom: -5px;
+      transition: 0.3s ease;
     }
+
+    .nav-menu li a:hover {
+      color: #ffd700;
+    }
+
+    .nav-menu li a:hover::after {
+      width: 100%;
+    }
+
+    .hamburger {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  font-size: 26px;
+  color: gold;
+  cursor: pointer;
+  z-index: 11000;
+  transition: transform 0.3s ease;
+}
+
+.hamburger:hover {
+  transform: scale(1.2);
+}
+
+/* 사이드 메뉴 */
+.side-menu {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  width: 250px;
+  height: 100vh;
+  background-color: #000;
+  box-shadow: 2px 0 12px rgba(255, 215, 0, 0.15);
+  transition: left 0.3s ease;
+  z-index: 10000;
+  padding-top: 60px;
+}
+
+/* 메뉴 펼침 시 */
+.side-menu.active {
+  left: 0;
+}
+
+/* 메뉴 항목 */
+.side-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.side-nav li {
+  border-bottom: 1px solid #222;
+}
+
+.side-nav li a {
+  display: block;
+  padding: 15px 20px;
+  color: gold;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.side-nav li a:hover {
+  background-color: #111;
+  color: #fff;
+}
+
+  @media screen and (max-width: 100%) {
+  .nav-menu {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 12px 0;
+  }
+}
   </style>
+
+
 </head>
+
 <body>
-  <h1>STCT Utility</h1>
-  <div class="utility-item">✅ Attendance Rewards System</div>
-  <div class="utility-item">✅ Labor Contribution Evaluation</div>
-  <div class="utility-item">✅ Partnership Shopping Mall Usage</div>
-  <div class="utility-item">✅ Staking with Interest Rewards</div>
-  <div class="utility-item">✅ NFT Certification + Airdrops</div>
-  <div class="utility-item">✅ Donation & Community Funding</div>
+
+<div class="container" id="walletArea" >
+
+      <!-- Connect Wallet 버튼: Web3Modal v2 제공 <w3m-button> 사용 -->
+      <w3m-button id="connectWalletBtn"></w3m-button>
+  
+ </div>
+ 
+<!-- 사이드 메뉴 햄버거 -->
+<div id="hamburgerBtn" class="hamburger">☰</div>  
+
+<div id="sideMenu" class="side-menu">
+  <ul class="side-nav">
+    <li><a href="#presale">PRESALE</a></li>
+    <li><a href="#token">TOKEN INFO</a></li>
+    <li><a href="#roadmap">ROADMAP</a></li>
+    <li><a href="utility.html">UTILITY</a></li>
+    <li><a href="#airdrop">AIRDROP</a></li>
+    <li><a href="#nft">NFT</a></li>
+    <li><a href="#community">COMMUNITY</a></li>
+    <li><a href="#dev">DEVELOPER INFO</a></li>
+    <li><a href="#contact">CONTACT</a></li>
+  </ul>
+</div>
+
+
+
+
+<header>
+  <img class="logo" src="logo_1.png" alt="STCT Logo">
+  <p class="slogan">
+    <strong style="color: #ffcc00;">"Together, our sweat forms a sea. That sea will become a reality."</strong>
+  </p>
+</header>
+
+<div class="buy-box">
+  <h3>[Listing on a DEX]</h3>
+  <h3>[1BNB]=20,000,000</h3>
+  <input type="number" id="buyBnbAmount" placeholder="Enter BNB amount to purchase">
+  <div id="buyStctResult">Estimated STCT: 0</div>
+  <button id="buyButton" class="stylish-button">Time left until purchase: Calculating...</button>
+</div>
+
+
+
+<div id="presale" class="presale-banner">
+  <div class="presale-badge">LIMITED PRE-SALE OFFER</div>
+  <div class="presale-headline">1 BNB = 100,000,000 STCT</div>
+  <div class="presale-tagline">Seize the moment. The future of labor value begins <strong>now</strong>.</div>
+  <div class="presale-countdown" id="presaleCountdown">Loading...</div>
+</div>
+
+<div class="buy-box" style="border: 2px solid #ffd700;">
+  <h3>STCT Presale</h3>
+  <p style="font-size: 14px; color: #aaa;">* Please connect to your PC.</p>
+  <p style="font-size: 14px; color: #aaa;">* The total presale amount is limited to 1000 BNB.</p>
+  <p style="font-size: 14px; color: #aaa;">* The maximum purchase per person is 2 BNB.</p>
+  <div id="presaleSummary" style="font-size: 14px; color: #ffd700; margin: 5px 0;">Total Sold: 0 / 1000 BNB</div>
+  <div style="background: #333; border-radius: 8px; height: 10px; width: 100%; margin-bottom: 10px; overflow: hidden;">
+    <div id="presaleBar" style="height: 100%; width: 0%; background: #ffd700;"></div>
+  </div>
+  <input type="number" id="preBnbAmount" placeholder="Enter BNB amount (Max 2)">
+  <div id="preStctResult">Estimated STCT: 0</div>
+
+<div id="walletStatus" style="
+  margin-top: 6px;
+  color: #ff7070;
+  font-size: 0.9rem;
+">
+  🦊 Please connect your MetaMask wallet
+</div>
+
+<button id="preBuyButton" class="stylish-button">
+  Execute Presale Purchase
+</button>
+
+<div id="walletAddressDisplay" style="
+  margin-top: 10px;
+  font-size: 0.95rem;
+  color: gold;
+  background-color: rgba(255,255,255,0.05);
+  padding: 6px 12px;
+  border-radius: 8px;
+  display: inline-block;
+">
+  Wallet Address
+</div>
+</div>
+
+<!-- 기존 메타마스크 버튼 아래에 추가 -->
+<div style="text-align:center; margin-top: 10px;">
+  <div id="balanceDisplay" style="
+    font-size: 1rem;
+    color: #00ffc8;
+    background-color: rgba(255,255,255,0.05);
+    padding: 8px 16px;
+    border-radius: 10px;
+    display: inline-block;
+  ">
+    STCT Balance: Loading...
+  </div>
+</div>
+
+
+<div id="preorder-lockup-container">
+  <h2>Pre-order and lock-up system</h2>
+  <p>After pre-purchase, the purchased STCT tokens will be locked for a certain period of time.</p>
+  <p> After the lock-up period ends, a certain percentage will be automatically released.</p>
+  <div style="display: flex; justify-content: center; gap: 20px;">
+<div style="background: #333; padding: 10px; border-radius: 5px; width: 150px;">
+  <h3>Immediate Payment</h3>
+  <p>30%</p>
+</div>
+<div style="background: #333; padding: 10px; border-radius: 5px; width: 150px;">
+  <h3>After 2 Months</h3>
+  <p>20%</p>
+</div>
+<div style="background: #333; padding: 10px; border-radius: 5px; width: 150px;">
+  <h3>After 4 Months</h3>
+  <p>20%</p>
+</div>
+<div style="background: #333; padding: 10px; border-radius: 5px; width: 150px;">
+  <h3>After 6 Months</h3>
+  <p>30%</p>
+</div>
+  </div>
+</div>
+  
+<div class="buy-box" style="margin-top: 40px;">
+  <h3>🔒 STCT Lock-up & Claim</h3>
+  <button onclick="loadClaimableLockup()" class="stylish-button" style="margin-top: 12px;">
+    🔍 Check Lock-up Amount
+  </button>
+  <div id="claimableInfo" style="margin-top: 10px; color: #00ffc8;">
+    Loading your lock-up data...
+  </div>
+  <button onclick="claimLockedTokens()" class="stylish-button" style="margin-top: 16px;">
+    💸 Claim STCT
+  </button>
+</div>
+
+ 
+  
+<div style="max-width: 700px; width: 90%; margin: 0 auto; margin-top: 40px;">
+
+  <h3 style="color: gold; text-align: center;">Recent Purchasers (Latest 5)</h3>
+
+  <table style="width: 100%; color: white; font-size: 14px; border-collapse: collapse;">
+    <thead>
+       <tr style="color: gold; border-bottom: 1px solid #444;">
+  <th style="text-align: center;">Address</th>
+  <th style="text-align: center;">BNB</th>
+  <th style="text-align: center;">STCT</th>
+  <th style="text-align: center;">Time</th>
+  <th style="text-align: center;">NFT</th> <!-- 추가된 부분 -->
+</tr>
+    </thead>
+  <tbody id="purchaseTableBody">
+    <!-- JavaScript로 자동 표시 -->
+  </tbody>
+</table>
+
+  <div id="Pre-sale NFT">
+  <h2>Pre-sale NFT Distribution Event</h2>
+  <p>Special NFTs can be received based on cumulative purchases. Check the criteria below and receive higher-tier NFTs!</p>
+  
+ <div style="display: flex; justify-content: center; gap: 20px;">
+  <div id="nft" class="nft-box" id="bronze">
+    <h3>Bronze NFT</h3>
+    <p>Purchase between 0.3 BNB ~ 0.8 BNB</p>
+    <p>[Staking Interest 0.3%]</p>
+  </div>
+  <div class="nft-box" id="silver">
+    <h3>Silver NFT</h3>
+    <p>Purchase between 0.81 BNB ~ 1.5 BNB</p>
+    <p>[Staking Interest 1%]</p>
+  </div>
+  <div class="nft-box" id="gold">
+    <h3>Gold NFT</h3>
+    <p>Purchase between 1.51 BNB ~ 2 BNB</p>
+    <p>[Staking Interest 1.5%]</p>
+  </div>
+</div>
+  <div style="text-align: center; margin-top: 20px;">
+    <button class="stylish-button" id="burnBtn" style="background-color: #ffd700; color: black; padding: 10px 20px; border-radius: 8px;">Burn NFT</button>
+    <button class="stylish-button" id="upgradeBtn" style="background-color: #ffd700; color: black; padding: 10px 20px; border-radius: 8px;">Upgrade NFT</button>
+  
+
+  </div>
+</div>
+
+  <div class="nft-introduction">
+  <h2>PRE-ORDER NFT-GOLD</h2>
+  <p>[Staking Interest 1.5%]</p>
+  <img src="gold.png" alt="NFT image" style="max-width: 300px; height: auto; border-radius: 10px; margin-top: 5px;">
+    <h2>PRE-ORDER NFT-SILVER</h2>
+<p>[Staking Interest 1%]</p>
+    <img src="silver.png" alt="NFT image" style="max-width: 300px; height: auto; border-radius: 10px; margin-top: 5px;">
+     <h2>PRE-ORDER NFT-BRONZE</h2>
+    <p>[Staking Interest 0.3%]</p>
+<img src="bronze.png" alt="NFT image" style="max-width: 300px; height: auto; border-radius: 10px; margin-top: 5px;">
+</div>
+  </div>
+  
+</div>
+  
+  <!-- 💰 사전판매금액 분배 구조 인포그래픽 -->
+<div style="text-align:center; margin-top: 40px;">
+  <img src="presale_allocation2.png" alt="Presale Fund Allocation"
+       style="width: 480px; max-width: 90%; height: auto; border-radius: 16px; box-shadow: 0 0 30px rgba(255, 215, 0, 0.1);">
+</div>
+
+<div id="token" class="token-info-box">
+  <h2>TOKEN INFORMATION</h2>
+  <div class="token-card">
+    <div class="token-row">
+      <span class="label">Total Supply</span>
+      <span class="value">1,000,000,000,000,000 <span class="unit"></span></span>
+    </div>
+    <div class="token-row">
+      <span class="label">Symbol</span>
+      <span class="value">STCT</span>
+    </div>
+    <div class="token-row">
+      <span class="label">Features</span>
+      <span class="value">🔥 Burn, 📥 Staking, 🔒 Lock-up, 🎁 Airdrop</span>
+    </div>
+    <div class="token-row">
+      <span class="label">Network</span>
+      <span class="value">🌐 Binance Smart Chain (BSC)</span>
+    </div>
+  </div>
+</div>
+</div>
+<div class="token-info-box" id="roadmap">
+  <h2>ROADMAP</h2>
+
+<div class="roadmap-timeline">
+  <div class="timeline-item" data-status="done">
+    <div class="timeline-date">Q1 2025</div>
+    <div class="timeline-content">Team Formation and Token Planning</div>
+  </div>
+  <div class="timeline-item" data-status="done">
+    <div class="timeline-date">Q2 2025</div>
+    <div class="timeline-content">Website Launch, Wallet Integration</div>
+  </div>
+  <div class="timeline-item" data-status="current">
+    <div class="timeline-date">Q3 2025</div>
+    <div class="timeline-content">Presale, DEX Listing, Lock-up System Implementation, Airdrop Recruitment</div>
+  </div>
+  <div class="timeline-item" data-status="upcoming">
+    <div class="timeline-date">Q4 2025</div>
+    <div class="timeline-content">First Token Burn, Global Partnerships & Community Expansion, Airdrop</div>
+  </div>
+  <div class="timeline-item" data-status="upcoming">
+    <div class="timeline-date">Q1 2026</div>
+    <div class="timeline-content">Mobile App Launch, User Expansion, Corporate Consultant Execution</div>
+  </div>
+  <div class="timeline-item" data-status="upcoming">
+    <div class="timeline-date">Q2 2026</div>
+    <div class="timeline-content">CEX Listing, Platform Integration, Global Expansion</div>
+  </div>
+  <div class="timeline-item" data-status="upcoming">
+    <div class="timeline-date">Q3 2026</div>
+    <div class="timeline-content">Additional Burn & Content Development</div>
+  </div>
+</div>
+
+   <h2>UTILITY</h2>
+<div id="utility" style="text-align:center; margin-top: 40px;">
+  <img id="utilImage" src="util.jpg" alt="util" onclick="toggleZoom(this)">
+</div>
+
+
+ <h2 style="text-align: center; color: gold;">COMMUNITY</h2>
+<div id="community" class="image-row">
+  <a href="https://x.com/SWEATCOST" target="_blank">
+    <img src="tw_logo2.png" alt="Twitter">
+  </a>
+  <a href="https://t.me/+o1PRGaGJNhQyZDRl" target="_blank">
+    <img src="tel_logo.png" alt="Telegram">
+  </a>
+  <a href="https://discord.gg/hkNzTruTQH" target="_blank">
+    <img src="dis_logo.png" alt="Discord">
+  </a>
+</div>
+
+<h2>AIRDROP</h2>
+<div id="airdrop" style="text-align:center; margin-top: 40px;">
+  <img src="airdrop.png" alt="airdrop" onclick="toggleZoom(this)" />
+  <img src="airdrop2.png" alt="airdrop2" onclick="toggleZoom(this)" />
+</div>
+
+<h2 id="dev" style="color: gold; margin-top: 80px;">DEVELOPER INFO</h2>
+<div id="dev" style="text-align:center; margin-top: 40px;">
+  <img src="choksu.png" alt="dev" onclick="toggleZoom(this)" />
+
+<div id="contact" style="background: rgba(0, 0, 0, 0.5); padding: 30px; border-radius: 20px; max-width: 900px; margin: 0 auto; box-shadow: 0 0 20px rgba(255, 215, 0, 0.1); color: white;">
+
+  <h3 style="color: #ffd700;">🔧 Contract Addresses</h3>
+  <p>
+    <strong>STCT Token:</strong>  
+    <a href="https://bscscan.com/token/0x338a59DBFe304a05370164c23015F203B0a8b8A2" target="_blank" style="color: #00ffc8;">0x338a59DBFe30...b8A2</a><br>
+    <strong>NFT Contract:</strong>  
+    <a href="https://bscscan.com/address/0xdff65b1718d9527f24A59ACBc7524420Bf814faF" target="_blank" style="color: #00ffc8;">0xdff65b1718d9...4faF</a>
+  </p>
+
+  <h3 style="color: #ffd700;">🔒 Security Status</h3>
+  <p>Smart contracts verified on BscScan<br>
+  External audit in progress (May 2025 target)<br>
+  Proxy & Upgradeable pattern applied for future updates</p>
+
+  <h3 style="color: #ffd700;">📬 Contact</h3>
+  <p>Email: support@sweatcostcompany.com<br>
+  GitHub: <a href="https://github.com/sweatcost" target="_blank" style="color: #00ffc8;">github.com/sweatcost</a></p>
+</div>
+    </div>
+
+ <script>
+  // 토글 줌, 카운트다운, 구매 예측, Google Sheet fetch 등
+  function toggleZoom(img) {
+    if (img.classList.contains("zoomed")) {
+      img.classList.remove("zoomed");
+      img.style.transform = "scale(1)";
+    } else {
+      img.classList.add("zoomed");
+      img.style.transform = "scale(2)";
+    }
+  }
+
+  let totalPresale = 0;
+  let prePurchased = 0;
+  const maxPresaleTotal = 1000;
+
+  // [1] 구매 예측 (buyBnbAmount → buyStctResult)
+  const buyInput  = document.getElementById('buyBnbAmount');
+  const buyOutput = document.getElementById('buyStctResult');
+  buyInput.addEventListener('input', () => {
+    const bnb = parseFloat(buyInput.value) || 0;
+    buyOutput.textContent = `Estimated STCT: ${(bnb * 20000000).toLocaleString()} STCT`;
+  });
+
+  // [2] 토큰 구매 카운트다운
+  const buyButton = document.getElementById('buyButton');
+  const swapTarget = new Date();
+  swapTarget.setDate(swapTarget.getDate() + 30);
+  function updateCountdown() {
+    const diff = swapTarget - Date.now();
+    if (diff <= 0) {
+      buyButton.textContent = 'Token Purchase';
+      return;
+    }
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor(diff / 3600000 % 24);
+    const m = Math.floor(diff / 60000 % 60);
+    const s = Math.floor(diff / 1000 % 60);
+    buyButton.textContent = `Token Purchase starts in: ${d}d ${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  }
+  setInterval(updateCountdown, 1000);
+  buyButton.addEventListener('click', () => {
+    if (swapTarget - Date.now() <= 0) {
+      alert('Token purchase feature will be integrated soon.');
+    } else {
+      alert('Purchasing is currently unavailable.');
+    }
+  });
+
+  // [3] Presale UI 업데이트
+  const preInput   = document.getElementById('preBnbAmount');
+  const preOutput  = document.getElementById('preStctResult');
+  const preButton  = document.getElementById('preBuyButton');
+  function updatePresaleUI() {
+    const percent = totalPresale / maxPresaleTotal * 100;
+    document.getElementById("presaleSummary").textContent = `Total Sold: ${totalPresale.toFixed(6)} / ${maxPresaleTotal} BNB`;
+    document.getElementById("presaleBar").style.width = `${Math.min(percent,100)}%`;
+  }
+  preInput.addEventListener('input', () => {
+    const bnb = parseFloat(preInput.value) || 0;
+    const avail = maxPresaleTotal - totalPresale;
+    if (bnb > 2 || bnb > avail) {
+      preOutput.textContent = `Exceeded limit. Remain: ${avail.toFixed(6)} BNB`;
+      preButton.disabled = true;
+      return;
+    }
+    preOutput.textContent = `Estimated STCT: ${(bnb * 100000000).toLocaleString()} STCT`;
+    preButton.disabled = false;
+  });
+  preButton.addEventListener('click', async () => {
+    // 지갑 연결 확인
+    if (!currentAccount) { alert("지갑을 먼저 연결하세요."); return; }
+    const bnb = parseFloat(preInput.value)||0;
+    // validation 생략...
+    try {
+      // on-chain 전송
+      const tx = await window.ethereum.request({
+        method: 'eth_sendTransaction',
+        params: [{ from: currentAccount, to: '0xD39…E173', value: '0x'+(bnb*1e18).toString(16) }]
+      });
+      alert(`TX: ${tx}`);
+      // Google Sheet 기록
+      const totalStct = bnb * 100000000;
+      const lockup = {
+        immediate: Math.floor(totalStct*0.3),
+        after2m:   Math.floor(totalStct*0.2),
+        after4m:   Math.floor(totalStct*0.2),
+        after6m:   totalStct - Math.floor(totalStct*0.3) - 2*Math.floor(totalStct*0.2)
+      };
+      await fetch("https://my-proxy-app-murex.vercel.app/api/send", {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({ address: currentAccount, bnb, stct: totalStct, ...lockup, timestamp: new Date().toLocaleString() })
+      });
+      prePurchased += bnb;
+      totalPresale += bnb;
+      updatePresaleUI();
+    } catch(e) {
+      console.error(e);
+      alert("실패 또는 취소됨");
+    }
+  });
+
+  // [4] Presale 카운트다운
+  (function presaleCountdown(){
+    const el = document.getElementById("presaleCountdown");
+    const end = new Date("2025-05-24T00:00:00Z").getTime();
+    function tick() {
+      const diff = end - Date.now();
+      if (diff<=0) { el.innerText="SALE ENDED"; return; }
+      const d = Math.floor(diff/86400000);
+      const h = Math.floor(diff/3600000%24);
+      const m = Math.floor(diff/60000%60);
+      const s = Math.floor(diff/1000%60);
+      el.innerText = `${d} days ${h} hours ${m} minutes ${s} seconds`;
+    }
+    setInterval(tick,1000);
+    tick();
+  })();
+
+  // NFT 메달 표시
+
+function getMedalImage(bnb) {
+  if (bnb >= 1.51) return 'gold.png';
+  if (bnb >= 0.81) return 'silver.png';
+  if (bnb >= 0.3) return 'bronze.png';
+  return null;
+}
+
+function getMedalText(bnb) {
+  if (bnb >= 1.51) return 'Gold';
+  if (bnb >= 0.81) return 'Silver';
+  if (bnb >= 0.3) return 'Bronze';
+  return '';
+}
+
+async function fetchPurchaseLogFromSheet(){
+  try {
+    const res  = await fetch("https://my-proxy-app-murex.vercel.app/api/send");
+    const json = await res.json();
+    const tbody= document.getElementById("purchaseTableBody");
+    tbody.innerHTML = "";
+
+    json.records.slice(0,5).reverse().forEach(log => {
+      const bnb = parseFloat(log.bnb);
+      const medalImg = getMedalImage(bnb);
+      const medalText = getMedalText(bnb);
+
+      tbody.innerHTML +=
+        `<tr>
+           <td style="text-align:center;">${log.address.slice(0,6)}…${log.address.slice(-4)}</td>
+           <td style="text-align:right;">${bnb.toFixed(2)}</td>
+           <td style="text-align:right;">${parseInt(log.stct).toLocaleString()}</td>
+           <td style="text-align:right;">${log.timestamp.split(' ')[0]}</td>
+           <td style="text-align:center;">
+             ${medalImg ? `<img src="${medalImg}" style="width:24px; vertical-align:middle;"> <span style="margin-left:5px;">${medalText}</span>` : ''}
+           </td>
+         </tr>`;
+    });
+  } catch(e){ console.error(e); }
+}
+  document.addEventListener("DOMContentLoaded", fetchPurchaseLogFromSheet);
+
+
+
+  // [7] 토큰 잔액 로드
+  async function loadSTCTBalance(){
+    if (!window.ethereum||!currentAccount) return;
+    const contract = new ethers.Contract("0x338a59D…b8A2", STCT_ABI, new ethers.providers.Web3Provider(window.ethereum));
+    try {
+      const raw = await contract.balanceOf(currentAccount);
+      const dec = await contract.decimals();
+      const bal = ethers.utils.formatUnits(raw,dec);
+      document.getElementById("balanceDisplay").innerText = `STCT Balance: ${parseFloat(bal).toLocaleString()} STCT`;
+    } catch(e){ console.error(e); }
+  }
+  window.loadSTCTBalance = loadSTCTBalance;
+  window.loadClaimableLockup = loadClaimableLockup; // 아래 DApp 모듈에서 구현
+  window.claimLockedTokens   = claimLockedTokens;
+  window.burnNFT = burnNFT;
+  window.upgradeNFT = upgradeNFT;
+</script>
+
+ 
+ <script type="module">
+
+ import { createWeb3Modal, defaultWagmiConfig } from "https://esm.sh/@web3modal/wagmi@5.0.10?bundle";
+  import { bsc } from "https://esm.sh/@wagmi/core@2.12.2/chains?bundle&target=es2020&exports=bsc";
+  import { watchAccount, reconnect } from "https://esm.sh/@wagmi/core@2.12.2?bundle&target=es2020&exports=watchAccount,reconnect";
+
+  const projectId = 'b443e684791b762596a5fd2ab87605b7';  // 👉 여기에 네 WalletConnect 프로젝트 ID를 넣어야 함
+  const chains = [bsc];
+  const metadata = {
+    name: "My DApp",
+    description: "My DApp for presale, claim, NFT",
+    url: "https://mydapp.example",
+    icons: []
+  };
+
+  // wagmi 설정
+  const wagmiConfig = defaultWagmiConfig({
+    projectId,
+    chains,
+    metadata
+  });
+  reconnect(wagmiConfig); // 자동 재연결
+
+  // Web3Modal 생성
+  const web3Modal = createWeb3Modal({
+    projectId,
+    wagmiConfig
+  });
+
+  // 계정 상태 변화 감지
+  watchAccount(wagmiConfig, (account) => {
+    if (account.isConnected) {
+      console.log("✅ 연결됨:", account.address);
+      // 연결되었을 때 추가 동작을 여기 넣을 수 있음
+    } else {
+      console.log("❌ 연결 끊김");
+    }
+  });
+
+  // — 글로벌 변수 할당
+  window.currentAccount = null;
+  window.provider       = provider;        // wagmi provider
+  window.signer         = null;            // signer 는 아래에서 설정
+  window.contracts      = {
+    presale:  new ethers.Contract('0xD39a…E173', SALE_AND_LOCK_ABI, provider),
+    stct:     new ethers.Contract('0x338a59D…b8A2', STCT_ABI, provider),
+    nft:      new ethers.Contract('0xdff65b17…4faF', nftAbi, provider)
+  };
+
+  // — 버튼 클릭 시 연결
+  const btn     = document.getElementById('connectWalletBtn');
+  const display = document.getElementById('walletDisplay');
+  btn.addEventListener('click', async () => {
+    await web3Modal.openModal();
+    window.signer = await wagmiClient.getSigner();
+    const address = await window.signer.getAddress();
+    window.currentAccount = address;
+    const short = address.slice(0,6)+'…'+address.slice(-4);
+    display.innerText = 'Connected: '+short;
+    btn.style.background = '#00ffc8';
+    btn.style.color      = '#000';
+
+    // 연결 후 balance, lockup 정보 자동 로드
+    loadSTCTBalance();
+    loadClaimableLockup();
+  });
+
+  // — Claimable & Claim 구현
+  window.loadClaimableLockup = async () => {
+    if (!window.signer) return alert("지갑을 연결하세요.");
+    const contract = window.contracts.presale.connect(window.signer);
+    const [amount,next,remain] = await contract.getClaimable(window.currentAccount);
+    const c = parseFloat(ethers.utils.formatUnits(amount,18)).toFixed(2);
+    const r = parseFloat(ethers.utils.formatUnits(remain,18)).toFixed(2);
+    document.getElementById("claimableInfo").innerHTML =
+      `✅ Claimable: ${c} STCT<br>⏰ Next Unlock: ${new Date(next*1000).toLocaleString()}<br>🧾 Remaining: ${r} STCT`;
+  };
+  window.claimLockedTokens = async () => {
+    if (!window.signer) return alert("지갑을 연결하세요.");
+    const tx = await window.contracts.presale.connect(window.signer).claim();
+    await tx.wait();
+    alert("✅ Claim 성공!");
+    loadClaimableLockup();
+  };
+
+  // — NFT burn/upgrade
+  window.burnNFT = async () => {
+    const nft = window.contracts.nft.connect(window.signer);
+    const bal = await nft.balanceOf(window.currentAccount);
+    if (bal.eq(0)) return alert("NFT 없음");
+    const tokenId = await nft.tokenOfOwnerByIndex(window.currentAccount,0);
+    const tx = await nft.burn(tokenId);
+    await tx.wait();
+    alert("✅ 소각 완료");
+  };
+  window.upgradeNFT = async () => {
+    const nft = window.contracts.nft.connect(window.signer);
+    const tx  = await nft.upgrade();
+    await tx.wait();
+    alert("✅ 업그레이드 완료");
+  };
+ 
+</script>
+
+ <script>
+document.addEventListener("DOMContentLoaded", function() {
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const sideMenu = document.getElementById('sideMenu');
+
+  // 햄버거 버튼 클릭 시 메뉴 열고 닫기
+  hamburgerBtn.addEventListener('click', function() {
+    sideMenu.classList.toggle('active');
+  });
+
+  // 화면 다른 곳 클릭 시 메뉴 닫기
+  document.addEventListener('click', function(event) {
+    if (!sideMenu.contains(event.target) && !hamburgerBtn.contains(event.target)) {
+      sideMenu.classList.remove('active');
+    }
+  });
+});
+
+</script>
+ 
 </body>
 </html>
+
+<footer style="text-align: center; color: #888; font-size: 13px; margin-top: 60px; padding: 20px 0;">
+  &copy; 2025 SweatCost Company. All rights reserved.<br>
+  This website provides official information regarding SweatCostToken (STCT).
+</footer>
