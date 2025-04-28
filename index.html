@@ -590,6 +590,59 @@ transition: color 0.2s ease; }
   color: #fff;
 }
 
+   .scrolling-banner {
+  overflow: hidden;
+  white-space: nowrap;
+  background: #000;
+  height: 120px;
+  position: relative;
+}
+
+.scrolling-track {
+  display: inline-block;
+  white-space: nowrap;
+  animation: scrollLeft 30s linear infinite;
+  animation-play-state: running; /* 기본은 실행 중 */
+}
+
+/* 커서 올리면 멈춤 */
+.scrolling-banner:hover .scrolling-track {
+  animation-play-state: paused; /* hover하면 애니메이션 멈춤 */
+}
+
+a {
+  display: inline-block;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.scrolling-image {
+  height: 100px;
+  margin: 0 40px;
+  transition: transform 0.3s ease;
+}
+
+.scrolling-image:hover {
+  transform: scale(1.1);
+}
+
+.scrolling-image:active {
+  transform: scale(0.95);
+}
+
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+   .scrolling-banner:hover .scrolling-track {
+  animation-play-state: paused;
+}
+
+
   @media screen and (max-width: 100%) {
   .nav-menu {
     justify-content: center;
@@ -646,6 +699,18 @@ transition: color 0.2s ease; }
   <button id="buyButton" class="stylish-button">Time left until purchase: Calculating...</button>
 </div>
 
+<div class="scrolling-banner">
+  <div class="scrolling-track">
+    <a href="https://site1.com" target="_blank">
+      <img src="image1.jpg" alt="Image 1" class="scrolling-image">
+    </a>
+    <a href="https://site2.com" target="_blank">
+      <img src="image2.jpg" alt="Image 2" class="scrolling-image">
+    </a>
+
+   
+  </div>
+</div>
 
 
 <div id="presale" class="presale-banner">
