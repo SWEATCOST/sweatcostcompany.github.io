@@ -1187,6 +1187,7 @@ async function fetchPurchaseLogFromSheet(){
 
  
  <script type="module">
+import { getConnectorClient } from "https://esm.sh/@wagmi/core@2.12.2?bundle&target=es2020";
 
  import { createWeb3Modal, defaultWagmiConfig } from "https://esm.sh/@web3modal/wagmi@5.0.10?bundle";
   import { bsc } from "https://esm.sh/@wagmi/core@2.12.2/chains?bundle&target=es2020&exports=bsc";
@@ -1245,13 +1246,16 @@ btn.addEventListener('click', async () => {
 
   try {
     await web3Modal.openModal();
-    window.signer = await wagmiClient.getSigner();
+   const client = await getConnectorClient();
+    window.signer = client.account.signer;
+    
     const address = await window.signer.getAddress();
     window.currentAccount = address;
-    const short = address.slice(0,6)+'…'+address.slice(-4);
-    display.innerText = 'Connected: '+short;
+    
+    const short = address.slice(0, 6) + '…' + address.slice(-4);
+    display.innerText = 'Connected: ' + short;
     btn.style.background = '#00ffc8';
-    btn.style.color      = '#000';
+    btn.style.color = '#000';
 
     // 연결 후 balance, lockup 정보 자동 로드
     loadSTCTBalance();
