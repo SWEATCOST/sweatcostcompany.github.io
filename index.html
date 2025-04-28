@@ -754,11 +754,11 @@ transition: color 0.2s ease; }
   <table style="width: 100%; color: white; font-size: 14px; border-collapse: collapse;">
     <thead>
        <tr style="color: gold; border-bottom: 1px solid #444;">
-  <th style="text-align: left;">Address</th>
-  <th style="text-align: left;">BNB</th>
-  <th style="text-align: left;">STCT</th>
-  <th style="text-align: left;">Time</th>
-  <th style="text-align: left;">NFT</th> <!-- 추가된 부분 -->
+  <th style="text-align: center;">Address</th>
+  <th style="text-align: center;">BNB</th>
+  <th style="text-align: center;">STCT</th>
+  <th style="text-align: center;">Time</th>
+  <th style="text-align: center;">NFT</th> <!-- 추가된 부분 -->
 </tr>
     </thead>
   <tbody id="purchaseTableBody">
@@ -1086,10 +1086,10 @@ async function fetchPurchaseLogFromSheet(){
       tbody.innerHTML +=
         `<tr>
            <td style="text-align:center;">${log.address.slice(0,6)}…${log.address.slice(-4)}</td>
-           <td style="text-align:right;">${bnb.toFixed(2)}</td>
-           <td style="text-align:left;">${formatNumber(parseInt(log.stct))}</td>
-           <td style="text-align:right;">${log.timestamp.split(' ')[0]}</td>
-           <td style="text-align:center;">
+           <td style="text-align:center;">${bnb.toFixed(2)}</td>
+           <td style="text-align:center;">${formatNumber(parseInt(log.stct))}</td>
+           <td style="text-align:center;">${log.timestamp.split(' ')[0]}</td>
+           <td style="text-align:left;">
              ${medalImg ? `<img src="${medalImg}" style="width:24px; vertical-align:middle;"> <span style="margin-left:5px;">${medalText}</span>` : ''}
            </td>
          </tr>`;
