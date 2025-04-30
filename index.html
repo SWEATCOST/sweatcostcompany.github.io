@@ -1187,26 +1187,40 @@ import { getConnectorClient } from "https://esm.sh/@wagmi/core@2.12.2?bundle&tar
   const btn = document.getElementById('connectWalletBtn');
   
   // 계정 상태 변화 감지
- watchAccount(wagmiConfig, async (account) => {
+watchAccount(wagmiConfig, async (account) => {
+  const walletStatus = document.getElementById("walletStatus"); // 이 줄 추가!
+
   if (account.isConnected) {
     console.log("✅ 연결됨:", account.address);
-    window.currentAccount = account.address; // ✨ 이거 추가
-    const client = await getConnectorClient(); // ✨ 여기서 signer 가져옴
+    window.currentAccount = account.address;
+
+    const client = await getConnectorClient();
     window.signer = client.account.signer;
+
     const short = account.address.slice(0, 6) + '…' + account.address.slice(-4);
     display.innerText = 'Connected: ' + short;
     btn.style.background = '#00ffc8';
     btn.style.color = '#000';
+
+    // 👇 추가: 연결된 상태 표시
+    walletStatus.innerText = "✅ Wallet connected";
+    walletStatus.style.color = "#00ffc8";
+
     await loadSTCTBalance();
     await loadClaimableLockup();
   } else {
     console.log("❌ 연결 끊김");
     window.currentAccount = null;
-    display.innerText = "Wallet Address"; // 초기화
+    display.innerText = "Wallet Address";
     btn.style.background = '';
     btn.style.color = '';
+
+    // 👇 추가: 연결 끊김 상태 표시
+    walletStatus.innerText = "🦊 Please connect your MetaMask wallet";
+    walletStatus.style.color = "#ff7070";
   }
 });
+
   
   // — 글로벌 변수 할당
   window.currentAccount = null;
