@@ -1136,16 +1136,26 @@ async function fetchPurchaseLogFromSheet(){
 
 
   // [7] 토큰 잔액 로드
-  async function loadSTCTBalance(){
-    if (!window.ethereum||!currentAccount) return;
-    const contract = new ethers.Contract("0x338a59D…b8A2", STCT_ABI, new ethers.providers.Web3Provider(window.ethereum));
-    try {
-      const raw = await contract.balanceOf(currentAccount);
-      const dec = await contract.decimals();
-      const bal = ethers.utils.formatUnits(raw,dec);
-      document.getElementById("balanceDisplay").innerText = `STCT Balance: ${parseFloat(bal).toLocaleString()} STCT`;
-    } catch(e){ console.error(e); }
+async function loadSTCTBalance() {
+  try {
+    if (!window.signer || !window.currentAccount) {
+      console.warn("❗ signer 또는 currentAccount 없음");
+      return;
+    }
+
+    const stctContract = window.contracts.stct.connect(window.signer);
+    const raw = await stctContract.balanceOf(window.currentAccount);
+    const decimals = await stctContract.decimals();
+    const balance = ethers.utils.formatUnits(raw, decimals);
+
+    document.getElementById("balanceDisplay").innerText =
+      `STCT Balance: ${parseFloat(balance).toLocaleString()} STCT`;
+  } catch (err) {
+    console.error("💥 STCT 잔액 불러오기 실패:", err);
+    document.getElementById("balanceDisplay").innerText = `STCT Balance: Error`;
   }
+}
+
   window.loadSTCTBalance = loadSTCTBalance;
   window.loadClaimableLockup = loadClaimableLockup; // 아래 DApp 모듈에서 구현
   window.claimLockedTokens   = claimLockedTokens;
@@ -1206,8 +1216,7 @@ watchAccount(wagmiConfig, async (account) => {
     walletStatus.innerText = "✅ Wallet connected";
     walletStatus.style.color = "#00ffc8";
 
-    await loadSTCTBalance();
-    await loadClaimableLockup();
+    
   } else {
     console.log("❌ 연결 끊김");
     window.currentAccount = null;
@@ -1218,6 +1227,8 @@ watchAccount(wagmiConfig, async (account) => {
     // 👇 추가: 연결 끊김 상태 표시
     walletStatus.innerText = "🦊 Please connect your MetaMask wallet";
     walletStatus.style.color = "#ff7070";
+   await loadSTCTBalance();
+    await loadClaimableLockup();
   }
 });
 
