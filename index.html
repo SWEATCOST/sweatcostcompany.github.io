@@ -1054,39 +1054,7 @@ a {
     preOutput.textContent = `Estimated STCT: ${(bnb * 100000000).toLocaleString()} STCT`;
     preButton.disabled = false;
   });
-  preButton.addEventListener('click', async () => {
-    // 지갑 연결 확인
-    if (!window.currentAccount) { alert("지갑을 먼저 연결하세요."); return; }
-    const bnb = parseFloat(preInput.value)||0;
-    // validation 생략...
-    try {
-      // on-chain 전송
-      const tx = await window.ethereum.request({
-        method: 'eth_sendTransaction',
-        params: [{ from: currentAccount, to: '0xD39a97353dCab50bEF1bDD02d9d50b73A3A3E173', value: '0x'+(bnb*1e18).toString(16) }]
-      });
-      alert(`TX: ${tx}`);
-      // Google Sheet 기록
-      const totalStct = bnb * 100000000;
-      const lockup = {
-        immediate: Math.floor(totalStct*0.3),
-        after2m:   Math.floor(totalStct*0.2),
-        after4m:   Math.floor(totalStct*0.2),
-        after6m:   totalStct - Math.floor(totalStct*0.3) - 2*Math.floor(totalStct*0.2)
-      };
-      await fetch("https://my-proxy-app-murex.vercel.app/api/send", {
-        method: "POST",
-        headers: {"Content-Type":"application/json"},
-        body: JSON.stringify({ address: currentAccount, bnb, stct: totalStct, ...lockup, timestamp: new Date().toLocaleString() })
-      });
-      prePurchased += bnb;
-      totalPresale += bnb;
-      updatePresaleUI();
-    } catch(e) {
-      console.error(e);
-      alert("실패 또는 취소됨");
-    }
-  });
+
 
   // [4] Presale 카운트다운
   (function presaleCountdown(){
@@ -1322,6 +1290,41 @@ btn.addEventListener('click', async () => {
 
  <script>
 document.addEventListener("DOMContentLoaded", function() {
+ 
+  preButton.addEventListener('click', async () => {
+    // 지갑 연결 확인
+    if (!window.currentAccount) { alert("지갑을 먼저 연결하세요."); return; }
+    const bnb = parseFloat(preInput.value)||0;
+    // validation 생략...
+    try {
+      // on-chain 전송
+      const tx = await window.ethereum.request({
+        method: 'eth_sendTransaction',
+        params: [{ from: currentAccount, to: '0xD39a97353dCab50bEF1bDD02d9d50b73A3A3E173', value: '0x'+(bnb*1e18).toString(16) }]
+      });
+      alert(`TX: ${tx}`);
+      // Google Sheet 기록
+      const totalStct = bnb * 100000000;
+      const lockup = {
+        immediate: Math.floor(totalStct*0.3),
+        after2m:   Math.floor(totalStct*0.2),
+        after4m:   Math.floor(totalStct*0.2),
+        after6m:   totalStct - Math.floor(totalStct*0.3) - 2*Math.floor(totalStct*0.2)
+      };
+      await fetch("https://my-proxy-app-murex.vercel.app/api/send", {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({ address: currentAccount, bnb, stct: totalStct, ...lockup, timestamp: new Date().toLocaleString() })
+      });
+      prePurchased += bnb;
+      totalPresale += bnb;
+      updatePresaleUI();
+    } catch(e) {
+      console.error(e);
+      alert("실패 또는 취소됨");
+    }
+  });
+ 
   const hamburgerBtn = document.getElementById('hamburgerBtn');
   const sideMenu = document.getElementById('sideMenu');
 
