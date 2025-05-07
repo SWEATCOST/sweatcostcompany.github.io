@@ -1245,24 +1245,30 @@ watchAccount(wagmiConfig, async (account) => {
     nft:      new ethers.Contract('0xdff65b17…4faF', nftAbi, provider)
   };
 
- let isConnecting = false;  // 추가: 연결 중복 방지 변수
+let isConnecting = false;
 const display = document.getElementById('walletAddressDisplay');
 
 btn.addEventListener('click', async () => {
   if (isConnecting) return;
-  if (window.currentAccount && window.signer) {  // ✨ 이미 연결되어 있으면 다시 연결하지 않음
+  if (window.currentAccount && window.signer) {
     console.log("이미 연결되어 있음");
     return;
   }
+
   isConnecting = true;
   try {
     await web3Modal.openModal();
+
+    // ✨ 연결 완료될 때까지 기다리기 (account watch 대기)
+    const accountReady = await waitForAccountConnection();
+    if (!accountReady) throw new Error("지갑 연결 실패");
+
     const client = await getConnectorClient();
     window.signer = client.account.signer;
-    
+
     const address = await window.signer.getAddress();
     window.currentAccount = address;
-    
+
     const short = address.slice(0, 6) + '…' + address.slice(-4);
     display.innerText = 'Connected: ' + short;
     btn.style.background = '#00ffc8';
@@ -1271,11 +1277,28 @@ btn.addEventListener('click', async () => {
     await loadSTCTBalance();
     await loadClaimableLockup();
   } catch (e) {
-    console.error(e);
+    console.error("❌ 연결 중 오류 발생:", e);
   } finally {
     isConnecting = false;
   }
 });
+
+// 🕓 지갑 연결 상태를 기다리는 함수
+async function waitForAccountConnection(timeout = 15000) {
+  return new Promise((resolve) => {
+    let isConnected = false;
+    const timeoutId = setTimeout(() => resolve(false), timeout);
+
+    const unwatch = watchAccount(wagmiConfig, (account) => {
+      if (account.isConnected) {
+        clearTimeout(timeoutId);
+        unwatch();
+        resolve(true);
+      }
+    });
+  });
+}
+
 
 
   // — Claimable & Claim 구현
