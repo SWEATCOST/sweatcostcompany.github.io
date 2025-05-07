@@ -671,6 +671,10 @@ a {
       <w3m-button id="connectWalletBtn"></w3m-button>
   
  </div>
+<button id="connectWalletBtn" style="position:fixed; top:20px; right:20px; z-index:1000; padding:10px 20px; font-size:16px; cursor:pointer;">
+  🦊 Connect Wallet
+</button>
+ 
  
 <!-- 사이드 메뉴 햄버거 -->
 <div id="hamburgerBtn" class="hamburger">☰</div>  
@@ -1201,7 +1205,7 @@ async function loadSTCTBalance() {
     chains,
     themeMode: "dark",
   });
-
+  
   const btn = document.getElementById('connectWalletBtn');
   
   // 계정 상태 변화 감지
