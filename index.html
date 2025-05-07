@@ -1165,14 +1165,16 @@ async function loadSTCTBalance() {
 
  
  <script type="module">
-import { getConnectorClient } from "https://esm.sh/@wagmi/core@2.12.2?bundle&target=es2020";
+  import { createWeb3Modal } from "https://esm.sh/@web3modal/wagmi@5.0.10?bundle";
+  import { configureChains, createConfig } from "https://esm.sh/@wagmi/core@2.12.2?bundle&exports=configureChains,createConfig";
+  import { bsc } from "https://esm.sh/@wagmi/core@2.12.2/chains?bundle&exports=bsc";
+  import { injected } from "https://esm.sh/@wagmi/connectors@2.4.5?bundle&exports=injected";
+  import { walletConnect } from "https://esm.sh/@wagmi/connectors@2.4.5?bundle&exports=walletConnect";
+  import { reconnect, watchAccount } from "https://esm.sh/@wagmi/core@2.12.2?bundle&exports=watchAccount,reconnect";
 
- import { createWeb3Modal, defaultWagmiConfig } from "https://esm.sh/@web3modal/wagmi@5.0.10?bundle";
-  import { bsc } from "https://esm.sh/@wagmi/core@2.12.2/chains?bundle&target=es2020&exports=bsc";
-  import { watchAccount, reconnect } from "https://esm.sh/@wagmi/core@2.12.2?bundle&target=es2020&exports=watchAccount,reconnect";
-
-  const projectId = 'b443e684791b762596a5fd2ab87605b7';  // 👉 여기에 네 WalletConnect 프로젝트 ID를 넣어야 함
+  const projectId = 'b443e684791b762596a5fd2ab87605b7';
   const chains = [bsc];
+
   const metadata = {
     name: "My DApp",
     description: "My DApp for presale, claim, NFT",
@@ -1180,18 +1182,24 @@ import { getConnectorClient } from "https://esm.sh/@wagmi/core@2.12.2?bundle&tar
     icons: []
   };
 
-  // wagmi 설정
-  const wagmiConfig = defaultWagmiConfig({
-    projectId,
-    chains,
-    metadata
+  // 🔧 wagmiConfig 수동 구성
+  const wagmiConfig = createConfig({
+    autoConnect: true,
+    connectors: [
+      injected({ chains }), // ✅ MetaMask 브라우저 확장
+      walletConnect({ projectId, chains, metadata }) // ✅ QR 방식 (모바일)
+    ],
+    publicClient: configureChains(chains, [])[0].publicClient
   });
+
   reconnect(wagmiConfig); // 자동 재연결
 
-  // Web3Modal 생성
-  const web3Modal = createWeb3Modal({
+  // 🌐 Web3Modal 생성
+  createWeb3Modal({
     projectId,
-    wagmiConfig
+    wagmiConfig,
+    chains,
+    themeMode: "dark",
   });
 
   const btn = document.getElementById('connectWalletBtn');
